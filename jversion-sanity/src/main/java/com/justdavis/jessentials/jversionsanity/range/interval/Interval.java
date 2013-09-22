@@ -1,4 +1,4 @@
-package com.justdavis.jessentials.jversionsanity.util;
+package com.justdavis.jessentials.jversionsanity.range.interval;
 
 import com.justdavis.jessentials.jversionsanity.Version;
 
@@ -13,7 +13,7 @@ import com.justdavis.jessentials.jversionsanity.Version;
  *            which will typically either be a {@link String} representation of
  *            a version or an actual {@link Version} implementation
  */
-public final class Interval<V extends Object> {
+final class Interval<V extends Object> {
 	private final IntervalBoundaryType typeLower;
 	private final V versionLower;
 	private final V versionUpper;

@@ -1,6 +1,6 @@
-package com.justdavis.jessentials.jversionsanity.util;
+package com.justdavis.jessentials.jversionsanity.range.interval;
 
-import com.justdavis.jessentials.jversionsanity.VersionRange;
+import com.justdavis.jessentials.jversionsanity.range.VersionRange;
 
 /**
  * Enumerates the various bounding types for <a href=

@@ -1,11 +1,9 @@
-package com.justdavis.jessentials.jversionsanity.bareint.util;
+package com.justdavis.jessentials.jversionsanity.range.interval;
 
 import org.junit.Assert;
 import org.junit.Test;
 
-import com.justdavis.jessentials.jversionsanity.util.Interval;
-import com.justdavis.jessentials.jversionsanity.util.IntervalBoundaryType;
-import com.justdavis.jessentials.jversionsanity.util.IntervalParser;
+import com.justdavis.jessentials.jversionsanity.range.VersionRangeParseException;
 
 /**
  * Unit tests for {@link IntervalParser}.
@@ -150,7 +148,7 @@ public final class IntervalParserTest {
 	 * a range with mismatched boundaries (one boundary present and another
 	 * omitted).
 	 */
-	@Test(expected = IllegalArgumentException.class)
+	@Test(expected = VersionRangeParseException.class)
 	public void parseRange_unbalancedBoundaries() {
 		IntervalParser parser = new IntervalParser();
 		parser.parseVersionRange("(1");
@@ -160,7 +158,7 @@ public final class IntervalParserTest {
 	 * Tests {@link IntervalParser#parseVersionRange(String, Class)} when passed
 	 * a range with extra boundary characters.
 	 */
-	@Test(expected = IllegalArgumentException.class)
+	@Test(expected = VersionRangeParseException.class)
 	public void parseRange_extraBoundaries() {
 		IntervalParser parser = new IntervalParser();
 		parser.parseVersionRange("[1.2)3.4]");

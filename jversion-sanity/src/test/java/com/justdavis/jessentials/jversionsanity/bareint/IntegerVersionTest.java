@@ -15,7 +15,7 @@ public final class IntegerVersionTest extends
 	 * @see com.justdavis.jessentials.jversionsanity.AbstractVersionTest#getParser()
 	 */
 	@Override
-	protected VersionParser<IntegerVersion, ?> getParser() {
+	protected VersionParser<IntegerVersion> getParser() {
 		return new IntegerVersionParser();
 	}
 

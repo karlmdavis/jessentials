@@ -29,7 +29,7 @@ public abstract class AbstractVersionTest<V extends Version> {
 	 * @return the {@link VersionParser} for the {@link Version} implementation
 	 *         being tested
 	 */
-	protected abstract VersionParser<V, ?> getParser();
+	protected abstract VersionParser<V> getParser();
 
 	/**
 	 * Generates a sample instance of the {@link Version} implementation being

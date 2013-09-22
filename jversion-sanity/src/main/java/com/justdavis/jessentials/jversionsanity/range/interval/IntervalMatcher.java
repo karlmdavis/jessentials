@@ -1,4 +1,4 @@
-package com.justdavis.jessentials.jversionsanity.util;
+package com.justdavis.jessentials.jversionsanity.range.interval;
 
 import org.hamcrest.BaseMatcher;
 import org.hamcrest.CoreMatchers;
@@ -6,14 +6,14 @@ import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 
 import com.justdavis.jessentials.jversionsanity.Version;
-import com.justdavis.jessentials.jversionsanity.VersionRange;
+import com.justdavis.jessentials.jversionsanity.range.VersionRange;
 
 /**
  * A {@link Matcher} that determines whether or not specific {@link Version}s
  * match a given {@link VersionRange}, according to the logic described in the
  * class JavaDoc for {@link Interval}.
  */
-public final class IntervalMatcher<V extends Version> extends BaseMatcher<V> {
+final class IntervalMatcher<V extends Version> extends BaseMatcher<V> {
 	private final Interval<V> range;
 
 	/**

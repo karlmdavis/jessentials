@@ -1,4 +1,4 @@
-package com.justdavis.jessentials.jversionsanity.util;
+package com.justdavis.jessentials.jversionsanity.range.interval;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -8,36 +8,15 @@ import org.hamcrest.CoreMatchers;
 import org.hamcrest.Description;
 
 import com.justdavis.jessentials.jversionsanity.Version;
+import com.justdavis.jessentials.jversionsanity.range.VersionRangeParseException;
 
 /**
  * <p>
  * A utility class that is used to parse {@link Interval}s represented in <a
  * href=
  * "http://en.wikipedia.org/wiki/Interval_%28mathematics%29#Notations_for_intervals"
- * >interval notation</a>, e.g. the following (where <code>a</code> and
- * <code>b</code> are actual versions):
+ * >interval notation</a>.
  * </p>
- * <ul>
- * <li><code>[a]</code>: will only match versions that are exactly
- * <code>a</code></li>
- * <li><code>[a,a]</code>: (same as above)</li>
- * <li><code>(a)</code>: will not match any versions</li>
- * <li><code>(a,a]</code>: (same as above)</li>
- * <li><code>[a,a)</code>: (same as above)</li>
- * <li><code>[a,b]</code>: will only match versions <code>v</code> where
- * <code>a &lt;= v &lt;= b</code></li>
- * <li><code>(a,b)</code>: will only match versions <code>v</code> where
- * <code>a &lt; v &lt; b</code></li>
- * <li><code>[a,b)</code>: will only match versions <code>v</code> where
- * <code>a &lt;= v &lt; b</code></li>
- * <li><code>(a,b]</code>: will only match versions <code>v</code> where
- * <code>a &lt; v &lt;= b</code></li>
- * <li><code>[a,]</code>: will only match versions <code>v</code> where
- * <code>v &gt;= a</code></li>
- * <li><code>[,b)</code>: will only match versions <code>v</code> where
- * <code>v &lt; b</code></li>
- * <li><code>a</code>: equivalent to <code>[a,]</code></li>
- * </ul>
  * <p>
  * Some notes on how this parser functions:
  * </p>
@@ -51,9 +30,9 @@ import com.justdavis.jessentials.jversionsanity.Version;
  * </ul>
  * 
  * @see Interval
- * @see IntervalMatcher
+ * @see IntervalVersionRange
  */
-public final class IntervalParser {
+final class IntervalParser {
 	private static final String WHITESPACE = "\\s*";
 	private static final String VERSION_STRING = "([^\\[\\(\\]\\),]+)?";
 	private static final String BOUNDARY_LEFT = "([\\(\\[])?";
@@ -88,15 +67,15 @@ public final class IntervalParser {
 	 *            the version range {@link String} representation to be parsed
 	 * @return an {@link Interval} model object that breaks out the range's
 	 *         components to make it easier to interpret it
-	 * @throws IllegalArgumentException
+	 * @throws VersionRangeParseException
 	 *             An {@link IllegalArgumentException} will be thrown if the
 	 *             version range {@link String} could not be properly parsed.
 	 */
 	public Interval<String> parseVersionRange(String versionRangeString)
-			throws IllegalArgumentException {
+			throws VersionRangeParseException {
 		Matcher rangeMatcher = INTERVAL_REGEX.matcher(versionRangeString);
 		if (!rangeMatcher.matches())
-			throw new IllegalArgumentException("range does not match pattern");
+			throw new VersionRangeParseException("Invalid range format.");
 
 		// Pull apart the regular expression match
 		String boundaryLeftString = rangeMatcher.group(1);
@@ -115,21 +94,26 @@ public final class IntervalParser {
 
 		// Sanity check: either 0 or 2 boundary symbols must be present
 		if ((boundaryLeft != IntervalBoundaryType.OMITTED) != (boundaryRight != IntervalBoundaryType.OMITTED))
-			throw new IllegalArgumentException("unbalanced boundary symbols");
+			throw new VersionRangeParseException("unbalanced boundary symbols");
 
 		// Sanity check: if boundary symbols aren't present, there must not be a
 		// comma
 		if (boundaryLeft == IntervalBoundaryType.OMITTED && commaString != null)
-			throw new IllegalArgumentException("comma should not be present");
+			throw new VersionRangeParseException("comma should not be present");
 
 		// Construct the interval, being sure to use the single-valued or
 		// non-single-valued constructor, as appropriate.
-		if (commaString != null || boundaryLeft == IntervalBoundaryType.OMITTED)
-			return new Interval<String>(boundaryLeft, versionLowerString,
-					versionUpperString, boundaryRight);
-		else
-			return new Interval<String>(boundaryLeft, versionLowerString,
-					boundaryRight);
+		try {
+			if (commaString != null
+					|| boundaryLeft == IntervalBoundaryType.OMITTED)
+				return new Interval<String>(boundaryLeft, versionLowerString,
+						versionUpperString, boundaryRight);
+			else
+				return new Interval<String>(boundaryLeft, versionLowerString,
+						boundaryRight);
+		} catch (IllegalArgumentException e) {
+			throw new VersionRangeParseException("Invalid version range.", e);
+		}
 	}
 
 	/**
