@@ -15,13 +15,21 @@ import org.junit.Test;
  * <em>subset</em> of the tests required to verify that an implementation
  * behaves correctly. In other words: write more tests.
  * </p>
+ * <p>
+ * Some test coverage is also provided for the {@link VersionParser}
+ * implementation associated with the {@link Version} implementation. Again
+ * though, more coverage is likely needed.
+ * </p>
+ * 
+ * @param <V>
+ *            the {@link Version} implementation that is being tested
  */
-public abstract class AbstractVersionTest {
+public abstract class AbstractVersionTest<V extends Version> {
 	/**
-	 * @return the {@link VersioningScheme} of the {@link Version}
-	 *         implementation being tested
+	 * @return the {@link VersionParser} for the {@link Version} implementation
+	 *         being tested
 	 */
-	protected abstract VersioningScheme getVersioningScheme();
+	protected abstract VersionParser<V, ?> getParser();
 
 	/**
 	 * Generates a sample instance of the {@link Version} implementation being
@@ -33,7 +41,7 @@ public abstract class AbstractVersionTest {
 	 * @return a sample instance of the {@link Version} implementation being
 	 *         tested
 	 */
-	protected abstract Version getSample1();
+	protected abstract V getSample1();
 
 	/**
 	 * @return a {@link String} representation equivalent to the {@link Version}
@@ -51,13 +59,13 @@ public abstract class AbstractVersionTest {
 	 * @return a sample instance of the {@link Version} implementation being
 	 *         tested
 	 */
-	protected abstract Version getSample2();
+	protected abstract V getSample2();
 
 	/**
 	 * @return the {@link Version} implementation being tested
 	 */
-	protected final Class<? extends Version> getVersionImplementation() {
-		return getVersioningScheme().getVersionImpl();
+	protected final Class<?> getVersionImplementation() {
+		return getSample1().getClass();
 	}
 
 	/**
@@ -106,10 +114,8 @@ public abstract class AbstractVersionTest {
 	@Test
 	public final void canParseSuccessfully() {
 		String versionString = getSample1String();
-		VersionParser parser = new VersionParser();
 
-		Version parsedVersion = parser.parseVersion(getVersioningScheme(),
-				versionString);
+		Version parsedVersion = getParser().parseVersion(versionString);
 		Assert.assertNotNull(parsedVersion);
 		Assert.assertEquals(getSample1(), parsedVersion);
 	}
@@ -121,8 +127,7 @@ public abstract class AbstractVersionTest {
 	 */
 	@Test
 	public final void toStringWorksCorrectly() {
-		Version sample1 = new VersionParser().parseVersion(
-				getVersioningScheme(), getSample1String());
+		Version sample1 = getParser().parseVersion(getSample1String());
 
 		Assert.assertEquals(getSample1String(), sample1.toString());
 		Assert.assertNotEquals(sample1.toString(), getSample2().toString());

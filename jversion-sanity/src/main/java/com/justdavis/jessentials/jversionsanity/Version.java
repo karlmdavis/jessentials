@@ -14,9 +14,7 @@ import com.justdavis.jessentials.jversionsanity.bareint.IntegerVersion;
  * <li>A constructor that accepts a single {@link String} parameter as an
  * argument, from which the represented version will be parsed. Any parsing
  * failures will result in a {@link VersionParseException}.</li>
- * <li>Support for parsing from a {@link String} representation of the version
- * into an instance of the {@link Version} subtype/implementation via
- * {@link VersionParser#parseVersion(VersioningScheme, String)}.</li>
+ * <li>A corresponding {@link VersionParser} implementation.</li>
  * <li>Use of {@link #toString()} such that {@link Version} instances can be
  * "round tripped" to/from a {@link String} with no change to the {@link String}
  * .</li>
@@ -46,9 +44,9 @@ public interface Version extends Comparable<Version> {
 	 * The {@link #toString()} method will be implemented as follows:
 	 * </p>
 	 * <ul>
-	 * <li>If this {@link Version} instance was constructed via a {@link String}
-	 * passed to a {@link VersionParser}, this method will return a
-	 * {@link String} exactly equal to that original {@link String}.</li>
+	 * <li>If this {@link Version} instance was constructed by parsing a
+	 * {@link String} representation, this method will return a {@link String}
+	 * exactly equal to that original {@link String}.</li>
 	 * <li>If this {@link Version} instance was constructed some other way (e.g.
 	 * via a constructor that takes something other than just a {@link String}),
 	 * this method will return a {@link String} that represents this

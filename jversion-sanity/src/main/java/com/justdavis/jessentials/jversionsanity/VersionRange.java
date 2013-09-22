@@ -15,9 +15,6 @@ package com.justdavis.jessentials.jversionsanity;
  * <li>A constructor that accepts a single {@link String} parameter as an
  * argument, from which the represented version range will be parsed. Any
  * parsing failures will result in a {@link VersionRangeParseException}.</li>
- * <li>Support for parsing from a {@link String} representation of the version
- * into an instance of the {@link VersionRange} subtype/implementation via
- * {@link VersionParser#parseRange(VersioningScheme, String)}.</li>
  * <li>Use of {@link #toString()} such that {@link VersionRange} instances can
  * be "round tripped" to/from a {@link String} with no change to the
  * {@link String} .</li>

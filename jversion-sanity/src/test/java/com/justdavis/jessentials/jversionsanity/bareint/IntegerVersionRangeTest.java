@@ -4,22 +4,21 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import com.justdavis.jessentials.jversionsanity.AbstractVersionRangeTest;
-import com.justdavis.jessentials.jversionsanity.StandardVersioningSchemes;
+import com.justdavis.jessentials.jversionsanity.VersionParser;
 import com.justdavis.jessentials.jversionsanity.VersionRangeParseException;
-import com.justdavis.jessentials.jversionsanity.VersioningScheme;
 import com.justdavis.jessentials.jversionsanity.util.IntervalBoundaryType;
 
 /**
  * Unit tests for {@link IntegerVersionRange}.
  */
 public final class IntegerVersionRangeTest extends
-		AbstractVersionRangeTest<IntegerVersion> {
+		AbstractVersionRangeTest<IntegerVersion, IntegerVersionRange> {
 	/**
-	 * @see com.justdavis.jessentials.jversionsanity.AbstractVersionTest#getVersioningScheme()
+	 * @see com.justdavis.jessentials.jversionsanity.AbstractVersionRangeTest#getParser()
 	 */
 	@Override
-	protected VersioningScheme getVersioningScheme() {
-		return StandardVersioningSchemes.INTEGER.getVersioningScheme();
+	protected VersionParser<IntegerVersion, IntegerVersionRange> getParser() {
+		return new IntegerVersionParser();
 	}
 
 	/**

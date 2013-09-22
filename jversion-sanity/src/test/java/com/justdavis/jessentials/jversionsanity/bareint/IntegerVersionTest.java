@@ -3,21 +3,20 @@ package com.justdavis.jessentials.jversionsanity.bareint;
 import org.junit.Test;
 
 import com.justdavis.jessentials.jversionsanity.AbstractVersionTest;
-import com.justdavis.jessentials.jversionsanity.StandardVersioningSchemes;
-import com.justdavis.jessentials.jversionsanity.Version;
 import com.justdavis.jessentials.jversionsanity.VersionParseException;
-import com.justdavis.jessentials.jversionsanity.VersioningScheme;
+import com.justdavis.jessentials.jversionsanity.VersionParser;
 
 /**
  * Unit tests for {@link IntegerVersion}.
  */
-public final class IntegerVersionTest extends AbstractVersionTest {
+public final class IntegerVersionTest extends
+		AbstractVersionTest<IntegerVersion> {
 	/**
-	 * @see com.justdavis.jessentials.jversionsanity.AbstractVersionTest#getVersioningScheme()
+	 * @see com.justdavis.jessentials.jversionsanity.AbstractVersionTest#getParser()
 	 */
 	@Override
-	protected VersioningScheme getVersioningScheme() {
-		return StandardVersioningSchemes.INTEGER.getVersioningScheme();
+	protected VersionParser<IntegerVersion, ?> getParser() {
+		return new IntegerVersionParser();
 	}
 
 	/**
@@ -40,7 +39,7 @@ public final class IntegerVersionTest extends AbstractVersionTest {
 	 * @see com.justdavis.jessentials.jversionsanity.AbstractVersionTest#getSample2()
 	 */
 	@Override
-	protected Version getSample2() {
+	protected IntegerVersion getSample2() {
 		return new IntegerVersion(42);
 	}
 

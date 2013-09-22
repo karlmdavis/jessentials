@@ -19,13 +19,15 @@ import org.junit.Test;
  * @param <V>
  *            the {@link Version} implementation that the {@link VersionRange}
  *            implementation being tested is associated with
+ * @param <R>
+ *            the {@link VersionRange} implementation being tested
  */
-public abstract class AbstractVersionRangeTest<V extends Version> {
+public abstract class AbstractVersionRangeTest<V extends Version, R extends VersionRange<V>> {
 	/**
-	 * @return the {@link VersioningScheme} of the {@link VersionRange}
+	 * @return the {@link VersionParser} for the {@link VersionRange}
 	 *         implementation being tested
 	 */
-	protected abstract VersioningScheme getVersioningScheme();
+	protected abstract VersionParser<V, R> getParser();
 
 	/**
 	 * Generates a sample instance of the {@link VersionRange} implementation
@@ -68,8 +70,8 @@ public abstract class AbstractVersionRangeTest<V extends Version> {
 	/**
 	 * @return the {@link VersionRange} implementation being tested
 	 */
-	protected final Class<? extends VersionRange<?>> getRangeImplementation() {
-		return getVersioningScheme().getRangeImpl();
+	protected final Class<?> getRangeImplementation() {
+		return getSample1().getClass();
 	}
 
 	/**
@@ -117,10 +119,8 @@ public abstract class AbstractVersionRangeTest<V extends Version> {
 	 */
 	@Test
 	public final void canParseSuccessfully() {
-		VersionParser parser = new VersionParser();
-
-		VersionRange<?> parsedRange = parser.parseRange(getVersioningScheme(),
-				getSample1String());
+		VersionRange<?> parsedRange = getParser()
+				.parseRange(getSample1String());
 		Assert.assertNotNull(parsedRange);
 		Assert.assertEquals(getSample1(), parsedRange);
 	}
@@ -132,8 +132,7 @@ public abstract class AbstractVersionRangeTest<V extends Version> {
 	 */
 	@Test
 	public final void toStringWorksCorrectly() {
-		VersionRange<?> sample1 = new VersionParser().parseRange(
-				getVersioningScheme(), getSample1String());
+		VersionRange<?> sample1 = getParser().parseRange(getSample1String());
 
 		Assert.assertEquals(getSample1String(), sample1.toString());
 		Assert.assertNotEquals(sample1.toString(), getSample2().toString());
