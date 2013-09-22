@@ -75,55 +75,27 @@ public final class IntervalMatcher<V extends Version> extends BaseMatcher<V> {
 		 */
 		@Override
 		public boolean matches(Object item) {
-			if (!(item instanceof Version))
-				throw new IllegalArgumentException();
-			Version version = (Version) item;
-
 			/*
-			 * Design note: This logic could also be broken up further into
-			 * predicate clauses. I think that the logic at this level is
-			 * clearer when expressed imperatively, though.
+			 * This will store the "greater than" and (possibly) "equal to"
+			 * comparisons.
 			 */
+			Matcher<V> equalityMatcher;
 
+			// We always need to perform a "greater than" comparison.
+			equalityMatcher = new GreaterThanMatcher<V>(range.getVersionLower());
+
+			// Is an "equal to" comparison needed?
 			if (range.getTypeLower() == IntervalBoundaryType.OMITTED
 					|| range.getTypeLower() == IntervalBoundaryType.INCLUSIVE) {
 				/*
-				 * Note: An OMITTED lower bound is equivalent to an INCLUSIVE
-				 * one.
+				 * Note: An OMITTED bound is equivalent to an INCLUSIVE one.
 				 */
 
-				/*
-				 * If no upper bound is specified it's effectively
-				 * "version >= -infinity".
-				 */
-				if (range.getVersionLower() == null)
-					return true;
-
-				/*
-				 * Otherwise, compare the version to the interval's lower bound.
-				 */
-				return version.compareTo(range.getVersionLower()) >= 0;
-			} else if (range.getTypeLower() == IntervalBoundaryType.EXCLUSIVE) {
-				/*
-				 * If no upper bound is specified it's effectively
-				 * "version > -infinity".
-				 */
-				if (range.getVersionLower() == null)
-					return true;
-
-				/*
-				 * Otherwise, compare the version to the interval's lower bound.
-				 */
-				return version.compareTo(range.getVersionLower()) > 0;
-			} else {
-				/*
-				 * Library author error: this will only occur if a new boundary
-				 * type has been added
-				 */
-				throw new IllegalStateException(String.format(
-						"Unsupported %s constant: %s.",
-						IntervalBoundaryType.class, range.getTypeLower()));
+				equalityMatcher = CoreMatchers.either(equalityMatcher).or(
+						new EqualToMatcher<V>(range.getVersionLower()));
 			}
+
+			return equalityMatcher.matches(item);
 		}
 
 		/**
@@ -162,55 +134,168 @@ public final class IntervalMatcher<V extends Version> extends BaseMatcher<V> {
 		 */
 		@Override
 		public boolean matches(Object item) {
+			/*
+			 * This will store the "less than" and (possibly) "equal to"
+			 * comparisons.
+			 */
+			Matcher<V> equalityMatcher;
+
+			// We always need to perform a "greater than" comparison.
+			equalityMatcher = new LessThanMatcher<V>(range.getVersionUpper());
+
+			// Is an "equal to" comparison needed?
+			if (range.getTypeUpper() == IntervalBoundaryType.OMITTED
+					|| range.getTypeUpper() == IntervalBoundaryType.INCLUSIVE) {
+				/*
+				 * Note: An OMITTED bound is equivalent to an INCLUSIVE one.
+				 */
+
+				equalityMatcher = CoreMatchers.either(equalityMatcher).or(
+						new EqualToMatcher<V>(range.getVersionUpper()));
+			}
+
+			return equalityMatcher.matches(item);
+		}
+
+		/**
+		 * @see org.hamcrest.SelfDescribing#describeTo(org.hamcrest.Description)
+		 */
+		@Override
+		public void describeTo(Description description) {
+			throw new UnsupportedOperationException();
+		}
+	}
+
+	/**
+	 * This {@link org.hamcrest.Matcher} verifies that one {@link Version} is
+	 * equal/equivalent to another.
+	 * 
+	 * @param <V>
+	 *            the {@link Version} implementation that will be checked
+	 */
+	private static final class EqualToMatcher<V extends Version> extends
+			BaseMatcher<V> {
+		private final V boundingVersion;
+
+		/**
+		 * Constructor.
+		 * 
+		 * @param boundingVersion
+		 *            the bounding {@link Version} that other {@link Version}s
+		 *            will be compared against, or <code>null</code> to
+		 *            represent "any version"
+		 */
+		public EqualToMatcher(V boundingVersion) {
+			this.boundingVersion = boundingVersion;
+		}
+
+		/**
+		 * @see org.hamcrest.Matcher#matches(java.lang.Object)
+		 */
+		@Override
+		public boolean matches(Object item) {
 			if (!(item instanceof Version))
 				throw new IllegalArgumentException();
 			Version version = (Version) item;
 
-			/*
-			 * Design note: This logic could also be broken up further into
-			 * predicate clauses. I think that the logic at this level is
-			 * clearer when expressed imperatively, though.
-			 */
+			if (boundingVersion != null)
+				return version.compareTo(boundingVersion) == 0;
+			else
+				return true;
+		}
 
-			if (range.getTypeUpper() == IntervalBoundaryType.OMITTED
-					|| range.getTypeUpper() == IntervalBoundaryType.INCLUSIVE) {
-				/*
-				 * Note: An OMITTED upper bound is functionally equivalent to
-				 * either an INCLUSIVE or an EXCLUSIVE one.
-				 */
+		/**
+		 * @see org.hamcrest.SelfDescribing#describeTo(org.hamcrest.Description)
+		 */
+		@Override
+		public void describeTo(Description description) {
+			throw new UnsupportedOperationException();
+		}
+	}
 
-				/*
-				 * If no upper bound is specified it's effectively
-				 * "version <= -infinity".
-				 */
-				if (range.getVersionUpper() == null)
-					return true;
+	/**
+	 * This {@link org.hamcrest.Matcher} verifies that one {@link Version} is
+	 * less/lower than another.
+	 * 
+	 * @param <V>
+	 *            the {@link Version} implementation that will be checked
+	 */
+	private static final class LessThanMatcher<V extends Version> extends
+			BaseMatcher<V> {
+		private final V boundingVersion;
 
-				/*
-				 * Otherwise, compare the version to the interval's upper bound.
-				 */
-				return version.compareTo(range.getVersionUpper()) <= 0;
-			} else if (range.getTypeUpper() == IntervalBoundaryType.EXCLUSIVE) {
-				/*
-				 * If no upper bound is specified it's effectively
-				 * "version < -infinity".
-				 */
-				if (range.getVersionUpper() == null)
-					return true;
+		/**
+		 * Constructor.
+		 * 
+		 * @param boundingVersion
+		 *            the bounding {@link Version} that other {@link Version}s
+		 *            will be compared against, or <code>null</code> to
+		 *            represent "any version"
+		 */
+		public LessThanMatcher(V boundingVersion) {
+			this.boundingVersion = boundingVersion;
+		}
 
-				/*
-				 * Otherwise, compare the version to the interval's upper bound.
-				 */
-				return version.compareTo(range.getVersionUpper()) < 0;
-			} else {
-				/*
-				 * Library author error: this will only occur if a new boundary
-				 * type has been added
-				 */
-				throw new IllegalStateException(String.format(
-						"Unsupported %s constant: %s.",
-						IntervalBoundaryType.class, range.getTypeLower()));
-			}
+		/**
+		 * @see org.hamcrest.Matcher#matches(java.lang.Object)
+		 */
+		@Override
+		public boolean matches(Object item) {
+			if (!(item instanceof Version))
+				throw new IllegalArgumentException();
+			Version version = (Version) item;
+
+			if (boundingVersion != null)
+				return version.compareTo(boundingVersion) < 0;
+			else
+				return true;
+		}
+
+		/**
+		 * @see org.hamcrest.SelfDescribing#describeTo(org.hamcrest.Description)
+		 */
+		@Override
+		public void describeTo(Description description) {
+			throw new UnsupportedOperationException();
+		}
+	}
+
+	/**
+	 * This {@link org.hamcrest.Matcher} verifies that one {@link Version} is
+	 * greater/higher than another.
+	 * 
+	 * @param <V>
+	 *            the {@link Version} implementation that will be checked
+	 */
+	private static final class GreaterThanMatcher<V extends Version> extends
+			BaseMatcher<V> {
+		private final V boundingVersion;
+
+		/**
+		 * Constructor.
+		 * 
+		 * @param boundingVersion
+		 *            the bounding {@link Version} that other {@link Version}s
+		 *            will be compared against, or <code>null</code> to
+		 *            represent "any version"
+		 */
+		public GreaterThanMatcher(V boundingVersion) {
+			this.boundingVersion = boundingVersion;
+		}
+
+		/**
+		 * @see org.hamcrest.Matcher#matches(java.lang.Object)
+		 */
+		@Override
+		public boolean matches(Object item) {
+			if (!(item instanceof Version))
+				throw new IllegalArgumentException();
+			Version version = (Version) item;
+
+			if (boundingVersion != null)
+				return version.compareTo(boundingVersion) > 0;
+			else
+				return true;
 		}
 
 		/**
