@@ -43,6 +43,13 @@ import com.justdavis.jessentials.jversionsanity.range.VersionRangeParseException
  */
 public final class IntervalVersionRange<V extends Version> implements
 		VersionRange<V> {
+	/*
+	 * TODO Consider implementing multi-sets and "1.0 as recommended" per
+	 * http://
+	 * docs.codehaus.org/display/MAVEN/Dependency+Mediation+and+Conflict+Resolution
+	 * #DependencyMediationandConflictResolution-DependencyVersionRanges
+	 */
+
 	/**
 	 * Stores the {@link String} that this {@link IntervalVersionRange} instance
 	 * was parsed from, or <code>null</code> if it was constructed manually.
