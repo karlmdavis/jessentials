@@ -1,0 +1,295 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<prerequisites>
+		<maven>3.0</maven>
+	</prerequisites>
+
+	<groupId>com.justdavis.jessentials</groupId>
+	<artifactId>jessentials-parent</artifactId>
+	<version>0.1.0-SNAPSHOT</version>
+	<packaging>pom</packaging>
+
+	<name>jessentials-parent</name>
+	<description>
+		A parent POM for this library collection, which helps to standardize 
+		the plugins, libraries, and build settings used in the various modules.
+	</description>
+	<url>https://github.com/karlmdavis/jessentials</url>
+	<organization>
+		<name>Karl M. Davis</name>
+	</organization>
+	<licenses>
+		<license>
+			<name>Apache License 2.0</name>
+			<url>http://spdx.org/licenses/Apache-2.0</url>
+		</license>
+	</licenses>
+
+	<issueManagement>
+		<!-- There doesn't seem to be any tooling support for this yet, but it 
+			doesn't hurt to include it. -->
+		<system>GitHub Issues</system>
+		<url>https://github.com/karlmdavis/jessentials/issues</url>
+	</issueManagement>
+
+	<ciManagement>
+		<!-- TODO per http://stackoverflow.com/questions/14754372/whats-the-purpose-of-the-maven-3-cimanagement-configuration#comment20752353_14762245, 
+			Sonar (at least) can use this information. -->
+	</ciManagement>
+
+	<distributionManagement>
+		<repository>
+			<id>nexus-justdavis-releases-opensource</id>
+			<url>https://justdavis.com/nexus/content/repositories/releases-opensource</url>
+		</repository>
+		<snapshotRepository>
+			<id>nexus-justdavis-snapshots-opensource</id>
+			<url>https://justdavis.com/nexus/content/repositories/snapshots-opensource</url>
+		</snapshotRepository>
+	</distributionManagement>
+
+	<scm>
+		<!-- URL format taken from http://www.sonatype.com/people/2009/09/maven-tips-and-tricks-using-github/ -->
+		<connection>scm:git:git@github.com:karlmdavis/jessentials.git</connection>
+		<developerConnection>scm:git:git@github.com:karlmdavis/jessentials.git</developerConnection>
+		<url>scm:git:git@github.com:karlmdavis/jessentials.git</url>
+		<tag>HEAD</tag>
+	</scm>
+
+	<properties>
+		<!-- As specified in http://docs.codehaus.org/display/MAVENUSER/POM+Element+for+Source+File+Encoding, 
+			this property is used by many different plugins to. -->
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+		<!-- The version of Java that we'll set our plugins to use. Android does 
+			not currently support anything later than Java 6, so that's used as the default. -->
+		<javaSourceVersion>1.6</javaSourceVersion>
+
+		<!-- The version of the slf4j libraries to be used. -->
+		<dependency.slf4j.version>1.7.5</dependency.slf4j.version>
+
+		<!-- The version of the Spring Framework libraries to be used. -->
+		<dependency.springframework.version>3.2.3.RELEASE</dependency.springframework.version>
+	</properties>
+
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<!-- Provides a standard dependency injection API. -->
+				<groupId>javax.inject</groupId>
+				<artifactId>javax.inject</artifactId>
+				<version>1</version>
+			</dependency>
+
+			<dependency>
+				<!-- SLF4J is used to make the Java logging dependency mess somewhat 
+					sane. Its APIs should be used by all of the application suite for logging, 
+					rather than the java.util logging, log4j, or whatever else. -->
+				<groupId>org.slf4j</groupId>
+				<artifactId>slf4j-api</artifactId>
+				<version>${dependency.slf4j.version}</version>
+			</dependency>
+			<dependency>
+				<!-- This dependency can be included rather than log4j itself. It implements 
+					all of log4j's APIs (or almost all), routing them to whatever back-end is 
+					configured for slf4j. -->
+				<groupId>org.slf4j</groupId>
+				<artifactId>log4j-over-slf4j</artifactId>
+				<version>${dependency.slf4j.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>junit</groupId>
+				<artifactId>junit</artifactId>
+				<version>4.11</version>
+				<scope>test</scope>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+
+	<build>
+		<pluginManagement>
+			<plugins>
+				<!-- It adds a lot of noise to this file, but we specify the version 
+					of all plugins used in the module builds here to help ensure that the builds 
+					are always reproducible. This is actually enforced down below by the maven-enforcer-plugin 
+					execution. -->
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-enforcer-plugin</artifactId>
+					<version>1.2</version>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-clean-plugin</artifactId>
+					<version>2.5</version>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-resources-plugin</artifactId>
+					<version>2.6</version>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-compiler-plugin</artifactId>
+					<version>3.0</version>
+					<configuration>
+						<!-- Set the Java source version used by the compiler. -->
+						<source>${javaSourceVersion}</source>
+						<target>${javaSourceVersion}</target>
+					</configuration>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-surefire-plugin</artifactId>
+					<version>2.14</version>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-jar-plugin</artifactId>
+					<version>2.4</version>
+					<configuration>
+						<!-- Add some extra information to the JAR manifests. Helpful for folks 
+							looking at a JAR, trying to figure out what it is. -->
+					    <archive>
+							<manifest>
+								<addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+								<addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
+							</manifest>
+						</archive>
+					</configuration>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-jarsigner-plugin</artifactId>
+					<version>1.2</version>
+				</plugin>
+				<plugin>
+					<groupId>org.codehaus.mojo</groupId>
+					<artifactId>build-helper-maven-plugin</artifactId>
+					<version>1.8</version>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-javadoc-plugin</artifactId>
+					<version>2.9</version>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-source-plugin</artifactId>
+					<version>2.2.1</version>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-install-plugin</artifactId>
+					<version>2.4</version>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-deploy-plugin</artifactId>
+					<version>2.7</version>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-site-plugin</artifactId>
+					<version>3.2</version>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-release-plugin</artifactId>
+					<version>2.4.1</version>
+				</plugin>
+				<plugin>
+					<!-- Necessary to ensure that release:perform works correctly, per http://stackoverflow.com/questions/5558785/maven-release-plugin-git-and-the-poms-not-at-the-top. -->
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-release-plugin</artifactId>
+					<executions>
+						<execution>
+							<id>default</id>
+							<goals>
+								<goal>perform</goal>
+							</goals>
+							<configuration>
+								<pomFileName>${project.artifactId}/pom.xml</pomFileName>
+							</configuration>
+						</execution>
+					</executions>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-enforcer-plugin</artifactId>
+				<executions>
+					<execution>
+						<!-- Use the enforcer plugin to help ensure that builds are always 
+							reproducible. -->
+						<id>enforce-plugin-versions</id>
+						<inherited>true</inherited>
+						<goals>
+							<goal>enforce</goal>
+						</goals>
+						<configuration>
+							<rules>
+								<requirePluginVersions>
+									<message>Undefined plugin versions can lead to un-reproducible
+										builds.</message>
+									<banTimestamps>false</banTimestamps>
+								</requirePluginVersions>
+							</rules>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+
+	<profiles>
+		<profile>
+			<!-- This profile will only be active for builds inside of Eclipse (managed 
+				by m2e). It's primarily used to manage the execution of plugins in that environment. -->
+			<id>m2e-manage-executions</id>
+			<activation>
+				<property>
+					<name>m2e.version</name>
+				</property>
+			</activation>
+			<build>
+				<pluginManagement>
+					<plugins>
+						<plugin>
+							<groupId>org.eclipse.m2e</groupId>
+							<artifactId>lifecycle-mapping</artifactId>
+							<version>1.0.0</version>
+							<configuration>
+								<lifecycleMappingMetadata>
+									<pluginExecutions>
+										<pluginExecution>
+											<pluginExecutionFilter>
+												<groupId>org.apache.maven.plugins</groupId>
+												<artifactId>maven-enforcer-plugin</artifactId>
+												<versionRange>[1.0.0,)</versionRange>
+												<goals>
+													<goal>enforce</goal>
+												</goals>
+											</pluginExecutionFilter>
+											<action>
+												<!-- Don't run this plugin inside m2e; necessary to disable a 
+													POM warning in Eclipse. -->
+												<ignore />
+											</action>
+										</pluginExecution>
+									</pluginExecutions>
+								</lifecycleMappingMetadata>
+							</configuration>
+						</plugin>
+					</plugins>
+				</pluginManagement>
+			</build>
+		</profile>
+	</profiles>
+
+</project>
