@@ -6,6 +6,7 @@
 		<groupId>com.justdavis.jessentials</groupId>
 		<artifactId>jessentials-parent</artifactId>
 		<version>0.1.0-SNAPSHOT</version>
+		<relativePath>../jessentials-parent/pom.xml</relativePath>
 	</parent>
 
 	<artifactId>jessentials-misc</artifactId>
