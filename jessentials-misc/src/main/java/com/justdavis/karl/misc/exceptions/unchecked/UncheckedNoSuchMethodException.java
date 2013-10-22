@@ -1,4 +1,4 @@
-package com.justdavis.jessentials.exceptions;
+package com.justdavis.karl.misc.exceptions.unchecked;
 
 /**
  * Wraps {@link NoSuchMethodException}s in an unchecked exception.
