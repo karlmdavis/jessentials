@@ -40,11 +40,11 @@
 
 	<distributionManagement>
 		<repository>
-			<id>nexus-justdavis-releases-opensource</id>
+			<id>justdavis.com-nexus</id>
 			<url>https://justdavis.com/nexus/content/repositories/releases-opensource</url>
 		</repository>
 		<snapshotRepository>
-			<id>nexus-justdavis-snapshots-opensource</id>
+			<id>justdavis.com-nexus</id>
 			<url>https://justdavis.com/nexus/content/repositories/snapshots-opensource</url>
 		</snapshotRepository>
 	</distributionManagement>
