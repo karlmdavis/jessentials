@@ -7,10 +7,9 @@
 	</prerequisites>
 
 	<parent>
-		<groupId>com.justdavis.jessentials</groupId>
+		<groupId>com.justdavis.karl.jessentials</groupId>
 		<artifactId>jessentials-parent</artifactId>
-		<version>1.0.1</version>
-		<relativePath>../jessentials-parent/pom.xml</relativePath>
+		<version>2.0.0</version>
 	</parent>
 
 	<artifactId>jversion-sanity</artifactId>
