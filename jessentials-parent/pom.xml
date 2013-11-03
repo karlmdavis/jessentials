@@ -1,4 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
 	<prerequisites>
@@ -55,6 +56,29 @@
 		<developerConnection>scm:git:git@github.com:karlmdavis/jessentials.git</developerConnection>
 		<url>https://github.com/karlmdavis/jessentials</url>
 	</scm>
+
+	<repositories>
+		<repository>
+			<id>justdavis.com-nexus-opensource-releases</id>
+			<url>https://justdavis.com/nexus/content/repositories/releases-opensource/</url>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+		</repository>
+		<repository>
+			<id>justdavis.com-nexus-opensource-snapshots</id>
+			<url>https://justdavis.com/nexus/content/repositories/snapshots-opensource/</url>
+			<releases>
+				<enabled>false</enabled>
+			</releases>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</repository>
+	</repositories>
 
 	<properties>
 		<!-- As specified in http://docs.codehaus.org/display/MAVENUSER/POM+Element+for+Source+File+Encoding, 
@@ -151,7 +175,7 @@
 					<configuration>
 						<!-- Add some extra information to the JAR manifests. Helpful for folks 
 							looking at a JAR, trying to figure out what it is. -->
-					    <archive>
+						<archive>
 							<manifest>
 								<addDefaultImplementationEntries>true</addDefaultImplementationEntries>
 								<addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
