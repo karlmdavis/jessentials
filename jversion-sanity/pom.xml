@@ -27,8 +27,7 @@
 		<!-- Needs to be repeated here, due to the flat module layout being used. -->
 		<connection>scm:git:git@github.com:karlmdavis/jessentials.git</connection>
 		<developerConnection>scm:git:git@github.com:karlmdavis/jessentials.git</developerConnection>
-		<url>scm:git:git@github.com:karlmdavis/jessentials.git</url>
-		<tag>HEAD</tag>
+		<url>https://github.com/karlmdavis/jessentials</url>
 	</scm>
 	
 	<dependencies>

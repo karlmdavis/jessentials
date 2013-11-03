@@ -53,8 +53,7 @@
 		<!-- URL format taken from http://www.sonatype.com/people/2009/09/maven-tips-and-tricks-using-github/ -->
 		<connection>scm:git:git@github.com:karlmdavis/jessentials.git</connection>
 		<developerConnection>scm:git:git@github.com:karlmdavis/jessentials.git</developerConnection>
-		<url>scm:git:git@github.com:karlmdavis/jessentials.git</url>
-		<tag>HEAD</tag>
+		<url>https://github.com/karlmdavis/jessentials</url>
 	</scm>
 
 	<properties>
