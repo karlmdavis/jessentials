@@ -18,6 +18,15 @@
 		Miscellaneous utility types.
 	</description>
 
+	<scm>
+		<!-- URL format taken from http://www.sonatype.com/people/2009/09/maven-tips-and-tricks-using-github/ -->
+		<!-- Needs to be repeated here, due to the flat module layout being used. -->
+		<connection>scm:git:git@github.com:karlmdavis/jessentials.git</connection>
+		<developerConnection>scm:git:git@github.com:karlmdavis/jessentials.git</developerConnection>
+		<url>scm:git:git@github.com:karlmdavis/jessentials.git</url>
+		<tag>HEAD</tag>
+	</scm>
+
 	<dependencies>
 		<dependency>
 			<groupId>junit</groupId>
