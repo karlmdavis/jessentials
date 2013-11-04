@@ -8,7 +8,7 @@
 	</parent>
 
 	<artifactId>jessentials-misc</artifactId>
-	<version>2.0.0</version>
+	<version>2.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
 	<name>jEssentials Miscellanany</name>
@@ -22,7 +22,7 @@
 		<connection>scm:git:git@github.com:karlmdavis/jessentials.git</connection>
 		<developerConnection>scm:git:git@github.com:karlmdavis/jessentials.git</developerConnection>
 		<url>https://github.com/karlmdavis/jessentials</url>
-	  <tag>jessentials-misc-2.0.0</tag>
+	  <tag>HEAD</tag>
   </scm>
 
 	<dependencies>
