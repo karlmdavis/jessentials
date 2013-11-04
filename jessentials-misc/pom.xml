@@ -28,6 +28,29 @@
 		<tag>HEAD</tag>
 	</scm>
 
+	<repositories>
+		<repository>
+			<id>justdavis.com-nexus-opensource-releases</id>
+			<url>https://justdavis.com/nexus/content/repositories/releases-opensource/</url>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+		</repository>
+		<repository>
+			<id>justdavis.com-nexus-opensource-snapshots</id>
+			<url>https://justdavis.com/nexus/content/repositories/snapshots-opensource/</url>
+			<releases>
+				<enabled>false</enabled>
+			</releases>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</repository>
+	</repositories>
+
 	<dependencies>
 		<dependency>
 			<groupId>junit</groupId>
