@@ -10,6 +10,8 @@
 		<groupId>com.justdavis.karl.jessentials</groupId>
 		<artifactId>jessentials-parent</artifactId>
 		<version>2.0.0</version>
+		<!-- Disabling filesystem resolution, per http://maven.apache.org/ref/3.0.3/maven-model/maven.html#class_parent. -->
+		<relativePath></relativePath>
 	</parent>
 
 	<artifactId>jversion-sanity</artifactId>
@@ -28,7 +30,7 @@
 		<developerConnection>scm:git:git@github.com:karlmdavis/jessentials.git</developerConnection>
 		<url>https://github.com/karlmdavis/jessentials</url>
 	</scm>
-	
+
 	<dependencies>
 		<dependency>
 			<!-- Provides an API for predicate logic, used in version range matching. -->
