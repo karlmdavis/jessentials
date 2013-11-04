@@ -31,6 +31,31 @@
 		<url>https://github.com/karlmdavis/jessentials</url>
 	</scm>
 
+	<repositories>
+		<!-- Because we're using a flat, non-standard module layout the repositories 
+			have to be included here as well. -->
+		<repository>
+			<id>justdavis.com-nexus-opensource-releases</id>
+			<url>https://justdavis.com/nexus/content/repositories/releases-opensource/</url>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+		</repository>
+		<repository>
+			<id>justdavis.com-nexus-opensource-snapshots</id>
+			<url>https://justdavis.com/nexus/content/repositories/snapshots-opensource/</url>
+			<releases>
+				<enabled>false</enabled>
+			</releases>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</repository>
+	</repositories>
+
 	<dependencies>
 		<dependency>
 			<!-- Provides an API for predicate logic, used in version range matching. -->

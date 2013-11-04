@@ -29,6 +29,8 @@
 	</scm>
 
 	<repositories>
+		<!-- Because we're using a flat, non-standard module layout the repositories 
+			have to be included here as well. -->
 		<repository>
 			<id>justdavis.com-nexus-opensource-releases</id>
 			<url>https://justdavis.com/nexus/content/repositories/releases-opensource/</url>
