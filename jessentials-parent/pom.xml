@@ -86,6 +86,7 @@
 		<!-- As specified in http://docs.codehaus.org/display/MAVENUSER/POM+Element+for+Source+File+Encoding, 
 			this property is used by many different plugins to. -->
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>${project.build.sourceEncoding}</project.reporting.outputEncoding>
 
 		<!-- The version of Java that we'll set our plugins to use. Android does 
 			not currently support anything later than Java 6, so that's used as the default. -->
