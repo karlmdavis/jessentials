@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<jed:hsqlCoordinates xmlns:jed="http://justdavis.com/karl/jessentials/datasources">
+	<jed:url>jdbc:hsqldb:mem:foo</jed:url>
+</jed:hsqlCoordinates>

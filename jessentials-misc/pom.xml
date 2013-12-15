@@ -55,6 +55,27 @@
 
 	<dependencies>
 		<dependency>
+			<!-- A dependency injection provider. The only thing used from here are 
+				the Spring annotations, to enable classpath scanning for other projects that 
+				use Spring. It's set as an optional dependency. -->
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context</artifactId>
+			<version>3.2.5.RELEASE</version>
+			<optional>true</optional>
+		</dependency>
+
+		<dependency>
+			<!-- An in-memory embedded SQL DB. Often used just for unit/integration 
+				tests, due to its speed and easy setup. -->
+			<!-- This dependency is marked optional. It's only needed if the com.justdavis.karl.misc.datasources.hsql 
+				API is being used. -->
+			<groupId>org.hsqldb</groupId>
+			<artifactId>hsqldb</artifactId>
+			<version>2.3.1</version>
+			<optional>true</optional>
+		</dependency>
+
+		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 			<scope>test</scope>
