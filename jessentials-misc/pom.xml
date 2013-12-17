@@ -55,6 +55,11 @@
 
 	<dependencies>
 		<dependency>
+			<!-- Provides annotations that specify dependency injection points. -->
+			<groupId>javax.inject</groupId>
+			<artifactId>javax.inject</artifactId>
+		</dependency>
+		<dependency>
 			<!-- A dependency injection provider. The only thing used from here are 
 				the Spring annotations, to enable classpath scanning for other projects that 
 				use Spring. It's set as an optional dependency. -->
