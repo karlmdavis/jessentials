@@ -46,7 +46,8 @@ public final class HsqlCoordinates extends IDataSourceCoordinates {
 
 	/**
 	 * @return the value that will be passed to
-	 *         {@link JDBCDataSource#setUrl(String)}
+	 *         {@link JDBCDataSource#setUrl(String)}, e.g. "
+	 *         <code>jdbc:hsqldb:mem:foo</code>"
 	 */
 	public String getUrl() {
 		return url;
