@@ -5,6 +5,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Map;
 
 import javax.sql.DataSource;
 import javax.xml.bind.JAXBContext;
@@ -17,10 +18,12 @@ import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
 
+import org.hsqldb.jdbc.JDBCDriver;
 import org.junit.Assert;
 import org.junit.Test;
 import org.w3c.dom.Node;
 
+import com.justdavis.karl.misc.datasources.IDataSourceConnector;
 import com.justdavis.karl.misc.datasources.XmlNamespace;
 import com.justdavis.karl.misc.xml.SimpleNamespaceContext;
 
@@ -127,5 +130,23 @@ public final class HsqlConnectorTest {
 			if (hsqlConnection != null)
 				hsqlConnection.close();
 		}
+	}
+
+	/**
+	 * Tests {@link HsqlConnector#convertToJpaProperties(HsqlCoordinates)}.
+	 */
+	@Test
+	public void convertToJpaProperties() {
+		HsqlCoordinates coords = new HsqlCoordinates(
+				"jdbc:hsqldb:mem:foo;shutdown=true");
+
+		Map<String, Object> jpaCoords = new HsqlConnector()
+				.convertToJpaProperties(coords);
+		Assert.assertNotNull(jpaCoords);
+		Assert.assertEquals(2, jpaCoords.size());
+		Assert.assertEquals(JDBCDriver.class.getName(),
+				jpaCoords.get(IDataSourceConnector.JPA_JDBC_DRIVER));
+		Assert.assertEquals(coords.getUrl(),
+				jpaCoords.get(IDataSourceConnector.JPA_JDBC_URL));
 	}
 }

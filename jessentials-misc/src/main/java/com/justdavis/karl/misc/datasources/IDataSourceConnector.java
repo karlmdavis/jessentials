@@ -1,6 +1,7 @@
 package com.justdavis.karl.misc.datasources;
 
 import java.sql.SQLException;
+import java.util.Map;
 
 import javax.sql.DataSource;
 
@@ -33,6 +34,11 @@ import com.justdavis.karl.misc.exceptions.unchecked.UncheckedSqlException;
  *            {@link IDataSourceConnector} implementation is paired with
  */
 public interface IDataSourceConnector<C extends IDataSourceCoordinates> {
+	public static final String JPA_JDBC_DRIVER = "javax.persistence.jdbc.driver";
+	public static final String JPA_JDBC_URL = "javax.persistence.jdbc.url";
+	public static final String JPA_JDBC_USER = "javax.persistence.jdbc.user";
+	public static final String JPA_JDBC_PASSWORD = "javax.persistence.jdbc.password";
+
 	/**
 	 * @return the {@link IDataSourceCoordinates} type that this
 	 *         {@link IDataSourceConnector} is paired with
@@ -59,4 +65,30 @@ public interface IDataSourceConnector<C extends IDataSourceCoordinates> {
 	 *             creating the {@link DataSource} instance.
 	 */
 	DataSource createDataSource(C coords) throws UncheckedSqlException;
+
+	/**
+	 * <p>
+	 * This method allows {@link IDataSourceCoordinates} instances to also be
+	 * used with JPA, by converting the coordinates into a properties
+	 * {@link Map}. This {@link Map} will contain the following JPA properties,
+	 * or a subset of them:
+	 * </p>
+	 * <ul>
+	 * <li>{@value #JPA_JDBC_DRIVER}</li>
+	 * <li>{@value #JPA_JDBC_URL}</li>
+	 * <li>{@value #JPA_JDBC_USER}</li>
+	 * <li>{@value #JPA_JDBC_PASSWORD}</li>
+	 * </ul>
+	 * 
+	 * @param coords
+	 *            an {@link IDataSourceCoordinates} instance that provides the
+	 *            data/settings needed to identify a database that JPA can use
+	 * @return a {@link Map} of the database-specific properties that can be
+	 *         passed to JPA when creating
+	 *         {@link javax.persistence.EntityManagerFactory}s (or other related
+	 *         operations)
+	 * @see javax.persistence.Persistence#createEntityManagerFactory(String,
+	 *      Map)
+	 */
+	Map<String, Object> convertToJpaProperties(C coords);
 }
