@@ -55,6 +55,15 @@
 
 	<dependencies>
 		<dependency>
+			<!-- A backport of Java 8's JSR-310 date & time library. https://github.com/ThreeTen/threetenbp. 
+				This was added here as it's so useful/basic, that it really ought to be used 
+				in every project (that isn't already on Java 8). -->
+			<groupId>org.threeten</groupId>
+			<artifactId>threetenbp</artifactId>
+			<version>0.8.1</version>
+		</dependency>
+
+		<dependency>
 			<!-- Provides annotations that specify dependency injection points. -->
 			<groupId>javax.inject</groupId>
 			<artifactId>javax.inject</artifactId>
