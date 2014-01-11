@@ -1,4 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
 	<prerequisites>
@@ -135,6 +136,15 @@
 	</dependencyManagement>
 
 	<build>
+		<testResources>
+			<testResource>
+				<!-- Enable Maven's resource filtering for test files in 'src/test/resources/'. 
+					This will replace properties in text files with their values, e.g. "${project.groupId}" 
+					will be replaced with "com.justdavis.karl.jessentials". -->
+				<directory>src/test/resources</directory>
+				<filtering>true</filtering>
+			</testResource>
+		</testResources>
 		<pluginManagement>
 			<plugins>
 				<!-- It adds a lot of noise to this file, but we specify the version 
