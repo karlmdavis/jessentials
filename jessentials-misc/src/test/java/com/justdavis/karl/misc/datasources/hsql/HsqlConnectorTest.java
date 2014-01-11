@@ -91,8 +91,6 @@ public final class HsqlConnectorTest {
 
 		// Verify the results.
 		Assert.assertNotNull(parsedCoords);
-
-		// Ensure that the auth token is null (should never be included in XML).
 		Assert.assertEquals("jdbc:hsqldb:mem:foo", parsedCoords.getUrl());
 	}
 
