@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<jed:postgreSqlCoordinates
+	xmlns:jed="http://justdavis.com/karl/jessentials/datasources">
+	<jed:url>jdbc:postgresql://localhost/test?user=fred&amp;password=secret&amp;ssl=true</jed:url>
+</jed:postgreSqlCoordinates>
