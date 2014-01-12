@@ -40,6 +40,7 @@ public final class PostgreSqlConnector implements
 		PGSimpleDataSource dataSource = new PGSimpleDataSource();
 		try {
 			dataSource.setUrl(coords.getUrl());
+			dataSource.setServerName(null);
 			if (coords.getUser() != null)
 				dataSource.setUser(coords.getUser());
 			if (coords.getPassword() != null)

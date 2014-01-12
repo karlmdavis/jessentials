@@ -93,6 +93,42 @@ public final class PostgreSqlCoordinatesTest {
 	}
 
 	/**
+	 * Ensures that {@link PostgreSqlCoordinates} instances can be unmarshalled
+	 * correctly when the XML document contains unfiltered Maven properties.
+	 * 
+	 * @throws JAXBException
+	 *             (shouldn't be thrown if things are working)
+	 * @throws XPathExpressionException
+	 *             (shouldn't be thrown if things are working)
+	 */
+	@Test
+	public void jaxbUnmarshallingWithUnfilteredProperties()
+			throws JAXBException, XPathExpressionException {
+		// Create the Unmarshaller needed.
+		JAXBContext jaxbContext = JAXBContext
+				.newInstance(PostgreSqlCoordinates.class);
+		Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
+
+		// Get the XML to be converted.
+		URL sourceXmlUrl = Thread.currentThread().getContextClassLoader()
+				.getResource("sample-xml/coords-postgresql-2.xml");
+
+		// Parse the XML to an object.
+		PostgreSqlCoordinates parsedCoords = (PostgreSqlCoordinates) unmarshaller
+				.unmarshal(sourceXmlUrl);
+
+		// Verify the results.
+		Assert.assertNotNull(parsedCoords);
+
+		// Ensure that the auth token is null (should never be included in XML).
+		Assert.assertEquals(
+				"jdbc:postgresql://localhost/test?user=fred&password=secret&ssl=true",
+				parsedCoords.getUrl());
+		Assert.assertNull(parsedCoords.getUser());
+		Assert.assertNull(parsedCoords.getPassword());
+	}
+
+	/**
 	 * Tests
 	 * {@link PostgreSqlCoordinates#PostgreSqlCoordinates(PostgreSqlCoordinates, String)}
 	 * .

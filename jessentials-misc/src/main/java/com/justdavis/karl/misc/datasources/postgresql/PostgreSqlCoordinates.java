@@ -5,6 +5,8 @@ import java.util.regex.Pattern;
 
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.adapters.XmlAdapter;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import org.postgresql.ds.PGSimpleDataSource;
 
@@ -41,9 +43,11 @@ public final class PostgreSqlCoordinates extends IDataSourceCoordinates {
 	private final String url;
 
 	@XmlElement
+	@XmlJavaTypeAdapter(FilterableStringAdapter.class)
 	private final String user;
 
 	@XmlElement
+	@XmlJavaTypeAdapter(FilterableStringAdapter.class)
 	private final String password;
 
 	/**
@@ -143,5 +147,39 @@ public final class PostgreSqlCoordinates extends IDataSourceCoordinates {
 	 */
 	public String getPassword() {
 		return password;
+	}
+
+	/**
+	 * This JAX-B {@link XmlAdapter} should be used for any XML elements whose
+	 * text contents might be supplied as Maven properties. During unmarshalling
+	 * (converting from XML to Java objects), if the contents of the elements
+	 * "look like" an unfiltered Maven property, e.g.
+	 * <code>&lt;someElement&gt;${someMavenProperty}&lt;/someElement&gt;</code>,
+	 * the value being read in will be replaced with <code>null</code> instead,
+	 * to prevent bogus data from being read in.
+	 */
+	private static final class FilterableStringAdapter extends
+			XmlAdapter<String, String> {
+		private static final Pattern MAVEN_PROP_VALUE_REGEX = Pattern
+				.compile("^\\$\\{.*\\}$");
+
+		/**
+		 * @see javax.xml.bind.annotation.adapters.XmlAdapter#unmarshal(java.lang.Object)
+		 */
+		@Override
+		public String unmarshal(String v) throws Exception {
+			if (MAVEN_PROP_VALUE_REGEX.matcher(v).matches())
+				return null;
+
+			return v;
+		}
+
+		/**
+		 * @see javax.xml.bind.annotation.adapters.XmlAdapter#marshal(java.lang.Object)
+		 */
+		@Override
+		public String marshal(String v) throws Exception {
+			return v;
+		}
 	}
 }
