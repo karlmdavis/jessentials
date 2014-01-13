@@ -3,6 +3,7 @@ package com.justdavis.karl.misc.datasources;
 import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 import javax.inject.Inject;
@@ -95,12 +96,59 @@ public final class DataSourceConnectorsManager {
 	@SuppressWarnings("unchecked")
 	public DataSource createDataSource(IDataSourceCoordinates coords)
 			throws UncheckedSqlException, IllegalArgumentException {
+		@SuppressWarnings("rawtypes")
+		IDataSourceConnector matchingConnector = findMatchingConnector(coords);
+		return matchingConnector.createDataSource(coords);
+	}
+
+	/**
+	 * This method will select the {@link IDataSourceConnector} implementation
+	 * that supports the specified {@link IDataSourceCoordinates} instance and
+	 * return the results of
+	 * {@link IDataSourceConnector#convertToJpaProperties(IDataSourceCoordinates)}
+	 * for it.
+	 * 
+	 * @param coords
+	 *            an {@link IDataSourceCoordinates} instance that provides the
+	 *            data/settings needed to create the JPA properties
+	 * @return a {@link Map} of the database-specific properties that can be
+	 *         passed to JPA when creating
+	 *         {@link javax.persistence.EntityManagerFactory}s (or other related
+	 *         operations)
+	 * @throws IllegalArgumentException
+	 *             an {@link IllegalArgumentException} will be thrown if no
+	 *             matching {@link IDataSourceConnector} can be found for the
+	 *             specified {@link IDataSourceCoordinates}.
+	 * @see javax.persistence.Persistence#createEntityManagerFactory(String,
+	 *      Map)
+	 */
+	@SuppressWarnings("unchecked")
+	public Map<String, Object> convertToJpaProperties(
+			IDataSourceCoordinates coords) throws IllegalArgumentException {
+		@SuppressWarnings("rawtypes")
+		IDataSourceConnector matchingConnector = findMatchingConnector(coords);
+		return matchingConnector.convertToJpaProperties(coords);
+	}
+
+	/**
+	 * @param coords
+	 *            the {@link IDataSourceCoordinates} to find a matching
+	 *            {@link IDataSourceConnector} for
+	 * @return the {@link IDataSourceConnector} that supports the specified
+	 *         {@link IDataSourceCoordinates} instance
+	 * @throws IllegalArgumentException
+	 *             an {@link IllegalArgumentException} will be thrown if no
+	 *             matching {@link IDataSourceConnector} can be found for the
+	 *             specified {@link IDataSourceCoordinates}.
+	 */
+	@SuppressWarnings("rawtypes")
+	private IDataSourceConnector findMatchingConnector(
+			IDataSourceCoordinates coords) throws IllegalArgumentException {
 		// Sanity check: null coords?
 		if (coords == null)
 			throw new IllegalArgumentException();
 
 		// Find the IDataSourceConnector that supports the coords.
-		@SuppressWarnings("rawtypes")
 		IDataSourceConnector matchingConnector = null;
 		for (IDataSourceConnector<? extends IDataSourceCoordinates> connector : dataSourceConnectors)
 			if (connector.getCoordinatesType().isAssignableFrom(
@@ -113,7 +161,6 @@ public final class DataSourceConnectorsManager {
 					"No matching %s found for the coordinates of type '%s'.",
 					IDataSourceConnector.class.getSimpleName(),
 					coords.getClass()));
-
-		return matchingConnector.createDataSource(coords);
+		return matchingConnector;
 	}
 }

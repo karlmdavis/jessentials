@@ -2,6 +2,7 @@ package com.justdavis.karl.misc.datasources;
 
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.Map;
 
 import javax.sql.DataSource;
 
@@ -46,5 +47,22 @@ public final class DataSourceConnectorsManagerTest {
 				.createDataSource(new HsqlCoordinates(
 						"jdbc:hsqldb:mem:foo;shutdown=true"));
 		Assert.assertTrue(dataSource instanceof JDBCDataSource);
+	}
+
+	/**
+	 * Ensures that
+	 * {@link DataSourceConnectorsManager#convertToJpaProperties(IDataSourceCoordinates)}
+	 * works as expected.
+	 */
+	@Test
+	public void convertToJpaProperties() {
+		DataSourceConnectorsManager connectorsManager = new DataSourceConnectorsManager(
+				new HashSet<IDataSourceConnector<? extends IDataSourceCoordinates>>(
+						Arrays.asList(new HsqlConnector())));
+
+		Map<String, Object> jpaProperties = connectorsManager
+				.convertToJpaProperties(new HsqlCoordinates(
+						"jdbc:hsqldb:mem:foo;shutdown=true"));
+		Assert.assertNotNull(jpaProperties);
 	}
 }
