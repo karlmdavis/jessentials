@@ -4,6 +4,10 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.inject.Inject;
+
+import org.springframework.stereotype.Component;
+
 import com.justdavis.karl.misc.datasources.IDataSourceCoordinates;
 
 /**
@@ -17,6 +21,7 @@ import com.justdavis.karl.misc.datasources.IDataSourceCoordinates;
  * @see IProvisioningTargetsProvider
  * @see XmlProvisioningTargetsProvider
  */
+@Component
 public final class DataSourceProvisionersManager {
 	private final Set<IDataSourceProvisioner<? extends IDataSourceCoordinates, ? extends IProvisioningTarget, ? extends IProvisioningRequest>> provisioners;
 
@@ -26,6 +31,7 @@ public final class DataSourceProvisionersManager {
 	 * @param provisioners
 	 *            the available {@link IDataSourceProvisioner}s
 	 */
+	@Inject
 	public DataSourceProvisionersManager(
 			Set<IDataSourceProvisioner<? extends IDataSourceCoordinates, ? extends IProvisioningTarget, ? extends IProvisioningRequest>> provisioners) {
 		if (provisioners == null)
