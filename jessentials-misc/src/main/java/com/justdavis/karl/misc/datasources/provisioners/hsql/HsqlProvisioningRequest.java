@@ -31,4 +31,12 @@ public final class HsqlProvisioningRequest implements IProvisioningRequest {
 	public String getDatabaseName() {
 		return databaseName;
 	}
+
+	/**
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "HsqlProvisioningRequest [databaseName=" + databaseName + "]";
+	}
 }
