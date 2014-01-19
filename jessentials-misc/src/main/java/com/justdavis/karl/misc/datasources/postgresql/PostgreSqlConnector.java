@@ -1,10 +1,15 @@
 package com.justdavis.karl.misc.datasources.postgresql;
 
+import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 
 import javax.sql.DataSource;
+
+import liquibase.database.Database;
+import liquibase.database.core.PostgresDatabase;
+import liquibase.database.jvm.JdbcConnection;
 
 import org.postgresql.Driver;
 import org.postgresql.ds.PGSimpleDataSource;
@@ -65,5 +70,25 @@ public final class PostgreSqlConnector implements
 		if (coords.getPassword() != null)
 			jpaCoords.put(JPA_JDBC_PASSWORD, coords.getPassword());
 		return jpaCoords;
+	}
+
+	/**
+	 * @see com.justdavis.karl.misc.datasources.IDataSourceConnector#convertToLiquibaseConnection(com.justdavis.karl.misc.datasources.IDataSourceCoordinates)
+	 */
+	@Override
+	public Database convertToLiquibaseConnection(PostgreSqlCoordinates coords) {
+		DataSource jdbcDataSource = createDataSource(coords);
+		Connection jdbcConnection;
+		try {
+			jdbcConnection = jdbcDataSource.getConnection();
+		} catch (SQLException e) {
+			throw new UncheckedSqlException(e);
+		}
+
+		PostgresDatabase liquibaseDb = new PostgresDatabase();
+		JdbcConnection liquibaseConnection = new JdbcConnection(jdbcConnection);
+		liquibaseDb.setConnection(liquibaseConnection);
+
+		return liquibaseDb;
 	}
 }

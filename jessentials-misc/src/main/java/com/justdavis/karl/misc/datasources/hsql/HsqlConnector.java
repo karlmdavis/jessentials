@@ -1,9 +1,15 @@
 package com.justdavis.karl.misc.datasources.hsql;
 
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 
 import javax.sql.DataSource;
+
+import liquibase.database.Database;
+import liquibase.database.core.HsqlDatabase;
+import liquibase.database.jvm.HsqlConnection;
 
 import org.hsqldb.jdbc.JDBCDataSource;
 import org.hsqldb.jdbc.JDBCDriver;
@@ -50,5 +56,25 @@ public final class HsqlConnector implements
 		jpaCoords.put(JPA_JDBC_DRIVER, JDBCDriver.class.getName());
 		jpaCoords.put(JPA_JDBC_URL, coords.getUrl());
 		return jpaCoords;
+	}
+
+	/**
+	 * @see com.justdavis.karl.misc.datasources.IDataSourceConnector#convertToLiquibaseConnection(com.justdavis.karl.misc.datasources.IDataSourceCoordinates)
+	 */
+	@Override
+	public Database convertToLiquibaseConnection(HsqlCoordinates coords) {
+		DataSource jdbcDataSource = createDataSource(coords);
+		Connection jdbcConnection;
+		try {
+			jdbcConnection = jdbcDataSource.getConnection();
+		} catch (SQLException e) {
+			throw new UncheckedSqlException(e);
+		}
+
+		HsqlDatabase liquibaseDb = new HsqlDatabase();
+		HsqlConnection liquibaseConnection = new HsqlConnection(jdbcConnection);
+		liquibaseDb.setConnection(liquibaseConnection);
+
+		return liquibaseDb;
 	}
 }

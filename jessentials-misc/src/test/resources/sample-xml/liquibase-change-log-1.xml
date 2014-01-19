@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.0.xsd
+        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd"
+	objectQuotingStrategy="QUOTE_ALL_OBJECTS">
+
+	<changeSet id="1" author="karlmdavis">
+		<createTable tableName="Test">
+			<column name="id" type="int" autoIncrement="true">
+				<constraints primaryKey="true" nullable="false" />
+			</column>
+		</createTable>
+		<createTable tableName="Test2">
+			<column name="ref" type="int">
+				<constraints nullable="false" foreignKeyName="Test2ToTest" referencedTableName="Test"/>
+			</column>
+		</createTable>
+	</changeSet>
+
+</databaseChangeLog>

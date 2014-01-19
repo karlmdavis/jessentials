@@ -9,6 +9,8 @@ import java.util.Set;
 import javax.inject.Inject;
 import javax.sql.DataSource;
 
+import liquibase.database.Database;
+
 import org.springframework.stereotype.Component;
 
 import com.justdavis.karl.misc.exceptions.BadCodeMonkeyException;
@@ -89,7 +91,7 @@ public final class DataSourceConnectorsManager {
 	 *             {@link SQLException}s or similar errors are encountered while
 	 *             creating the {@link DataSource} instance.
 	 * @throws IllegalArgumentException
-	 *             an {@link IllegalArgumentException} will be thrown if no
+	 *             An {@link IllegalArgumentException} will be thrown if no
 	 *             matching {@link IDataSourceConnector} can be found for the
 	 *             specified {@link IDataSourceCoordinates}.
 	 */
@@ -116,7 +118,7 @@ public final class DataSourceConnectorsManager {
 	 *         {@link javax.persistence.EntityManagerFactory}s (or other related
 	 *         operations)
 	 * @throws IllegalArgumentException
-	 *             an {@link IllegalArgumentException} will be thrown if no
+	 *             An {@link IllegalArgumentException} will be thrown if no
 	 *             matching {@link IDataSourceConnector} can be found for the
 	 *             specified {@link IDataSourceCoordinates}.
 	 * @see javax.persistence.Persistence#createEntityManagerFactory(String,
@@ -128,6 +130,26 @@ public final class DataSourceConnectorsManager {
 		@SuppressWarnings("rawtypes")
 		IDataSourceConnector matchingConnector = findMatchingConnector(coords);
 		return matchingConnector.convertToJpaProperties(coords);
+	}
+
+	/**
+	 * This method will select the {@link IDataSourceConnector} implementation
+	 * that supports the specified {@link IDataSourceCoordinates} instance and
+	 * return the results of
+	 * {@link IDataSourceConnector#convertToLiquibaseConnection(IDataSourceCoordinates)}
+	 * for it.
+	 * 
+	 * @return a (Liquibase-specific) {@link Database} instance
+	 * @throws IllegalArgumentException
+	 *             An {@link IllegalArgumentException} will be thrown if no
+	 *             matching {@link IDataSourceConnector} can be found for the
+	 *             specified {@link IDataSourceCoordinates}.
+	 */
+	@SuppressWarnings("unchecked")
+	public Database convertToLiquibaseConnection(IDataSourceCoordinates coords) {
+		@SuppressWarnings("rawtypes")
+		IDataSourceConnector matchingConnector = findMatchingConnector(coords);
+		return matchingConnector.convertToLiquibaseConnection(coords);
 	}
 
 	/**

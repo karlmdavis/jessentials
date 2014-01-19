@@ -55,6 +55,13 @@
 
 	<dependencies>
 		<dependency>
+			<!-- SLF4J is really the only way to make the Java logging dependency 
+				mess somewhat sane. Its APIs should be used by everything for logging, rather 
+				than the java.util logging, log4j, or whatever else. -->
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+		</dependency>
+		<dependency>
 			<!-- A backport of Java 8's JSR-310 date & time library. https://github.com/ThreeTen/threetenbp. 
 				This was added here as it's so useful/basic, that it really ought to be used 
 				in every project (that isn't already on Java 8). -->
@@ -100,8 +107,31 @@
 		</dependency>
 
 		<dependency>
+			<!-- Provides a database schema population/upgrade mechanism. See the 
+				com.justdavis.karl.misc.datasources.schema package. -->
+			<groupId>org.liquibase</groupId>
+			<artifactId>liquibase-core</artifactId>
+			<version>3.1.2-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<!-- Liquibase uses it's own pluggable logging framework. This dependency 
+				re-routes the logging events in it to SLF4J. -->
+			<groupId>com.mattbertolini</groupId>
+			<artifactId>liquibase-slf4j</artifactId>
+			<version>1.2.1</version>
+		</dependency>
+
+		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<!-- Logback is used as the logging target/backend for SLF4J in tests: 
+				all logging events will be sent to it. -->
+			<groupId>ch.qos.logback</groupId>
+			<artifactId>logback-classic</artifactId>
+			<version>1.0.13</version>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>

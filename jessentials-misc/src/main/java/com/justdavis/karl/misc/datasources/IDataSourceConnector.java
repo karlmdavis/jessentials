@@ -1,9 +1,12 @@
 package com.justdavis.karl.misc.datasources;
 
+import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Map;
 
 import javax.sql.DataSource;
+
+import liquibase.database.Database;
 
 import com.justdavis.karl.misc.exceptions.unchecked.UncheckedSqlException;
 
@@ -91,4 +94,27 @@ public interface IDataSourceConnector<C extends IDataSourceCoordinates> {
 	 *      Map)
 	 */
 	Map<String, Object> convertToJpaProperties(C coords);
+
+	/**
+	 * <p>
+	 * This method allows {@link IDataSourceCoordinates} instances to also be
+	 * used with <a href="http://www.liquibase.org/">Liquibase</a>, by
+	 * converting the coordinates into a (Liquibase-specific) {@link Database}
+	 * instance.
+	 * </p>
+	 * <p>
+	 * This method will open a JDBC {@link Connection} to the specified data
+	 * source repository. It, however, will not be able to close that
+	 * {@link Connection} when it's no longer needed; the code calling this
+	 * method assumes ownership of it and must properly clean things up after
+	 * the fact.
+	 * </p>
+	 * 
+	 * @param coords
+	 *            an {@link IDataSourceCoordinates} instance that provides the
+	 *            data/settings needed to identify a database that Liquibase can
+	 *            use
+	 * @return a (Liquibase-specific) {@link Database} instance
+	 */
+	Database convertToLiquibaseConnection(C coords);
 }
