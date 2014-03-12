@@ -136,6 +136,34 @@
 			<version>1.0.13</version>
 			<scope>test</scope>
 		</dependency>
+
+		<dependency>
+			<!-- Jetty is an embedded web server that can be used to test applications. -->
+			<!-- This dependency is marked optional. It is only needed if the com.justdavis.karl.misc.jetty.EmbeddedServer 
+				class is being used. -->
+			<groupId>org.eclipse.jetty</groupId>
+			<artifactId>jetty-webapp</artifactId>
+			<version>9.0.6.v20130930</version>
+			<optional>true</optional>
+		</dependency>
+		<dependency>
+			<!-- This is required for how we're using Jetty. -->
+			<!-- This dependency is marked optional. It is only needed if the com.justdavis.karl.misc.jetty.EmbeddedServer 
+				class is being used. -->
+			<groupId>org.eclipse.jetty</groupId>
+			<artifactId>jetty-annotations</artifactId>
+			<version>9.0.6.v20130930</version>
+			<optional>true</optional>
+		</dependency>
+		<dependency>
+			<!-- Used to generate the SSL cert that is used by Jetty. -->
+			<!-- This dependency is marked optional. It is only needed if the com.justdavis.karl.misc.jetty.EmbeddedServer 
+				class is being used. -->
+			<groupId>org.bouncycastle</groupId>
+			<artifactId>bcpkix-jdk15on</artifactId>
+			<version>1.49</version>
+			<optional>true</optional>
+		</dependency>
 	</dependencies>
 
 	<build>
