@@ -118,11 +118,28 @@
 				<version>${dependency.slf4j.version}</version>
 			</dependency>
 			<dependency>
+				<!-- This library can be used to re-route java.util.logging calls to 
+					whatever back-end is configured for slf4j. -->
+				<!-- See http://www.slf4j.org/api/org/slf4j/bridge/SLF4JBridgeHandler.html 
+					for details on how to activate this re-routing within an application. -->
+				<groupId>org.slf4j</groupId>
+				<artifactId>jul-to-slf4j</artifactId>
+				<version>${dependency.slf4j.version}</version>
+			</dependency>
+			<dependency>
 				<!-- This dependency can be included rather than log4j itself. It implements 
-					all of log4j's APIs (or almost all), routing them to whatever back-end is 
+					enough of that library's APIs to route usage of it to whatever back-end is 
 					configured for slf4j. -->
 				<groupId>org.slf4j</groupId>
 				<artifactId>log4j-over-slf4j</artifactId>
+				<version>${dependency.slf4j.version}</version>
+			</dependency>
+			<dependency>
+				<!-- This dependency can be included rather than commons-logging itself. 
+					It implements enough of that library's APIs to route usage of it to whatever 
+					back-end is configured for slf4j. -->
+				<groupId>org.slf4j</groupId>
+				<artifactId>jcl-over-slf4j</artifactId>
 				<version>${dependency.slf4j.version}</version>
 			</dependency>
 
