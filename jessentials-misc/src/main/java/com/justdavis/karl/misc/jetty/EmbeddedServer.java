@@ -30,6 +30,7 @@ import org.bouncycastle.operator.OperatorCreationException;
 import org.bouncycastle.operator.jcajce.JcaContentSignerBuilder;
 import org.eclipse.jetty.annotations.AnnotationConfiguration;
 import org.eclipse.jetty.http.HttpVersion;
+import org.eclipse.jetty.server.AbstractNetworkConnector;
 import org.eclipse.jetty.server.Connector;
 import org.eclipse.jetty.server.HttpConfiguration;
 import org.eclipse.jetty.server.HttpConnectionFactory;
@@ -78,6 +79,13 @@ public final class EmbeddedServer {
 	 * The default port that Jetty will run on.
 	 */
 	public static final int DEFAULT_PORT = 8087;
+
+	/**
+	 * If this port is specified during construction of an
+	 * {@link EmbeddedServer}, Jetty will select a random available port while
+	 * starting up.
+	 */
+	public static final int RANDOM_PORT = 0;
 
 	/**
 	 * The alias of the self-signed cert that will be created by
@@ -333,6 +341,26 @@ public final class EmbeddedServer {
 	}
 
 	/**
+	 * <p>
+	 * Returns the port that Jetty is serving from. This is particularly useful
+	 * if the port specified during construction was <code>0</code>, which tells
+	 * Jetty to select a random available port.
+	 * </p>
+	 * <p>
+	 * The results of this method will only be valid after
+	 * {@link #startServer()} has been called, and before {@link #stopServer()}
+	 * is called.
+	 * </p>
+	 * 
+	 * @return the port that Jetty is serving from
+	 */
+	public int getServerPort() {
+		AbstractNetworkConnector connector = (AbstractNetworkConnector) server
+				.getConnectors()[0];
+		return connector.getLocalPort();
+	}
+
+	/**
 	 * @return the base address that Jetty will be serving from (does not
 	 *         include any context paths).
 	 */
@@ -340,7 +368,7 @@ public final class EmbeddedServer {
 		try {
 			String protocol = enableSsl ? "https" : "http";
 			URI baseAddress = new URI(String.format("%s://localhost:%d/",
-					protocol, port));
+					protocol, getServerPort()));
 			return baseAddress;
 		} catch (URISyntaxException e) {
 			throw new BadCodeMonkeyException();
