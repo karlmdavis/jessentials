@@ -95,6 +95,7 @@
 		<!-- Configure Sonar such that projects evaluated by it against it will 
 			use JaCoCo to compute the code coverage of any unit and integration tests. -->
 		<sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
+		<sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
 		<sonar.jacoco.reportPath>target/jacoco.exec</sonar.jacoco.reportPath>
 		<sonar.jacoco.itReportPath>target/jacoco-it.exec</sonar.jacoco.itReportPath>
 
