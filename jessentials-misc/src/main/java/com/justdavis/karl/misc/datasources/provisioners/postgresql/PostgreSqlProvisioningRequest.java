@@ -1,5 +1,7 @@
 package com.justdavis.karl.misc.datasources.provisioners.postgresql;
 
+import java.util.Random;
+
 import com.justdavis.karl.misc.datasources.provisioners.IProvisioningRequest;
 
 /**
@@ -31,6 +33,25 @@ public final class PostgreSqlProvisioningRequest implements
 			throw new IllegalArgumentException();
 
 		this.databaseName = databaseName;
+	}
+
+	/**
+	 * Constructs a new {@link PostgreSqlProvisioningRequest} instance for a
+	 * database with a semi-random name.
+	 * 
+	 * @param databaseNamePrefix
+	 *            the prefix value to use for {@link #getDatabaseName()}
+	 */
+	public static PostgreSqlProvisioningRequest requestForRandomDatabase(
+			String databaseNamePrefix) {
+		if (databaseNamePrefix == null)
+			throw new IllegalArgumentException();
+		if (databaseNamePrefix.isEmpty())
+			throw new IllegalArgumentException();
+
+		int randomSuffix = new Random().nextInt(1000000);
+		return new PostgreSqlProvisioningRequest(databaseNamePrefix + "_"
+				+ randomSuffix);
 	}
 
 	/**

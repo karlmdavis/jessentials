@@ -52,4 +52,12 @@ public final class HsqlCoordinates extends IDataSourceCoordinates {
 	public String getUrl() {
 		return url;
 	}
+
+	/**
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "HsqlCoordinates [url=" + url + "]";
+	}
 }

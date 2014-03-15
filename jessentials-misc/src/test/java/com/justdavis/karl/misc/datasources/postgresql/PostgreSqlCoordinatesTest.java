@@ -158,4 +158,16 @@ public final class PostgreSqlCoordinatesTest {
 				new PostgreSqlCoordinates(coordsWithHostAndParams1, "bar")
 						.getUrl());
 	}
+
+	/**
+	 * Tests {@link PostgreSqlCoordinates#toString()} to ensure that it doesn't
+	 * include clear-text passwords. This would be a huge security risk, if it
+	 * did.
+	 */
+	@Test
+	public void toStringSecurity() {
+		PostgreSqlCoordinates coordsWithJustDb = new PostgreSqlCoordinates(
+				"jdbc:postgresql:foo", "fred", "secret");
+		Assert.assertFalse(coordsWithJustDb.toString().contains("secret"));
+	}
 }

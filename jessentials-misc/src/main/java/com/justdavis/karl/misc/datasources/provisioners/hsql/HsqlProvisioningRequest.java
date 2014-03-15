@@ -1,5 +1,7 @@
 package com.justdavis.karl.misc.datasources.provisioners.hsql;
 
+import java.util.Random;
+
 import com.justdavis.karl.misc.datasources.provisioners.IProvisioningRequest;
 
 /**
@@ -23,6 +25,25 @@ public final class HsqlProvisioningRequest implements IProvisioningRequest {
 			throw new IllegalArgumentException();
 
 		this.databaseName = databaseName;
+	}
+
+	/**
+	 * Constructs a new {@link HsqlProvisioningRequest} instance for a database
+	 * with a semi-random name.
+	 * 
+	 * @param databaseNamePrefix
+	 *            the prefix value to use for {@link #getDatabaseName()}
+	 */
+	public static HsqlProvisioningRequest requestForRandomDatabase(
+			String databaseNamePrefix) {
+		if (databaseNamePrefix == null)
+			throw new IllegalArgumentException();
+		if (databaseNamePrefix.isEmpty())
+			throw new IllegalArgumentException();
+
+		int randomSuffix = new Random().nextInt(1000000);
+		return new HsqlProvisioningRequest(databaseNamePrefix + "_"
+				+ randomSuffix);
 	}
 
 	/**

@@ -7,6 +7,8 @@ import java.sql.SQLException;
 
 import javax.sql.DataSource;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import com.justdavis.karl.misc.datasources.hsql.HsqlConnector;
@@ -28,6 +30,9 @@ import com.justdavis.karl.misc.exceptions.unchecked.UncheckedSqlException;
 public final class HsqlProvisioner
 		implements
 		IDataSourceProvisioner<HsqlCoordinates, HsqlProvisioningTarget, HsqlProvisioningRequest> {
+	private static final Logger LOGGER = LoggerFactory
+			.getLogger(HsqlProvisioner.class);
+
 	/**
 	 * @see com.justdavis.karl.misc.datasources.provisioners.IDataSourceProvisioner#getTargetType()
 	 */
@@ -91,6 +96,7 @@ public final class HsqlProvisioner
 			}
 		}
 
+		LOGGER.info("Provisioned HSQL database: {}", coords);
 		return coords;
 	}
 
@@ -118,6 +124,8 @@ public final class HsqlProvisioner
 			PreparedStatement statement = connection
 					.prepareStatement("SHUTDOWN");
 			statement.execute();
+
+			LOGGER.info("Deleted HSQL database: {}", coords);
 		} catch (SQLException e) {
 			throw new UncheckedSqlException(e);
 		} finally {

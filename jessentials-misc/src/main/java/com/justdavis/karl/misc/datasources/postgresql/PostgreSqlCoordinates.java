@@ -150,6 +150,15 @@ public final class PostgreSqlCoordinates extends IDataSourceCoordinates {
 	}
 
 	/**
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "PostgreSqlCoordinates [url=" + url + ", user=" + user
+				+ ", password=***]";
+	}
+
+	/**
 	 * This JAX-B {@link XmlAdapter} should be used for any XML elements whose
 	 * text contents might be supplied as Maven properties. During unmarshalling
 	 * (converting from XML to Java objects), if the contents of the elements
