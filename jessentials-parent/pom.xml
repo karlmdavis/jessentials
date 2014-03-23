@@ -161,6 +161,15 @@
 	</dependencyManagement>
 
 	<build>
+		<resources>
+			<resource>
+				<!-- Enable Maven's resource filtering for test files in 'src/main/resources/'. 
+					This will replace properties in text files with their values, e.g. "${project.groupId}" 
+					will be replaced with "com.justdavis.karl.jessentials". -->
+				<directory>src/main/resources</directory>
+				<filtering>true</filtering>
+			</resource>
+		</resources>
 		<testResources>
 			<testResource>
 				<!-- Enable Maven's resource filtering for test files in 'src/test/resources/'. 
