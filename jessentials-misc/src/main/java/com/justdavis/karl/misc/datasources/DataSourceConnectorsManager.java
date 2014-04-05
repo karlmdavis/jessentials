@@ -54,6 +54,7 @@ public final class DataSourceConnectorsManager {
 	 * @param dataSourceConnectors
 	 *            the {@link IDataSourceConnector}s available to the application
 	 */
+	@SafeVarargs
 	public DataSourceConnectorsManager(
 			IDataSourceConnector<? extends IDataSourceCoordinates>... dataSourceConnectors) {
 		this(
