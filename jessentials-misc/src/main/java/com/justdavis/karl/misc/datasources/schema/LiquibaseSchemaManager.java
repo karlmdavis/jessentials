@@ -80,4 +80,39 @@ public final class LiquibaseSchemaManager implements IDataSourceSchemaManager {
 		}
 		LOGGER.info("Liquibase schema create/upgrade: complete.");
 	}
+
+	/**
+	 * @see com.justdavis.karl.misc.datasources.schema.IDataSourceSchemaManager#wipeSchema(com.justdavis.karl.misc.datasources.IDataSourceCoordinates)
+	 */
+	@Override
+	public void wipeSchema(IDataSourceCoordinates coords) {
+		LOGGER.info("Liquibase schema wipe: running...");
+		ResourceAccessor resourceAccessor = new CompositeResourceAccessor(
+				new ClassLoaderResourceAccessor(),
+				new FileSystemResourceAccessor("."));
+
+		Database database = connectorsManager
+				.convertToLiquibaseConnection(coords);
+		try {
+			Liquibase liquibase = new Liquibase(liquibaseChangeLogPath,
+					resourceAccessor, database);
+			liquibase.dropAll();
+		} catch (LiquibaseException e) {
+			throw new UncheckedLiquibaseException(e);
+		} finally {
+			/*
+			 * Every Liquibase 'Database' instance has an open JDBC 'Connection'
+			 * instance that was created in the
+			 * 'convertToLiquibaseConnection(...)' call above. Need to ensure
+			 * that's cleaned up.
+			 */
+			try {
+				database.getConnection().close();
+				LOGGER.info("Database connection released.");
+			} catch (DatabaseException e) {
+				throw new UncheckedLiquibaseException(e);
+			}
+		}
+		LOGGER.info("Liquibase schema wipe: complete.");
+	}
 }

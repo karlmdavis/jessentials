@@ -18,4 +18,14 @@ public interface IDataSourceSchemaManager {
 	 *            schema should be populated in
 	 */
 	void createOrUpgradeSchema(IDataSourceCoordinates coords);
+
+	/**
+	 * Wipes the schema of the specified data source by dropping all tables,
+	 * etc.
+	 * 
+	 * @param coords
+	 *            the {@link IDataSourceCoordinates} to the data source for the
+	 *            schema to be wiped
+	 */
+	void wipeSchema(IDataSourceCoordinates coords);
 }

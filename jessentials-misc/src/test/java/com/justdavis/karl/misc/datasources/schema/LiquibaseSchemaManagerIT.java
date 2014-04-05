@@ -90,7 +90,6 @@ public final class LiquibaseSchemaManagerIT {
 
 		try {
 			// Create the LiquibaseSchemaManager.
-			@SuppressWarnings("unchecked")
 			DataSourceConnectorsManager connectorsManager = new DataSourceConnectorsManager(
 					new HsqlConnector(), new PostgreSqlConnector());
 			LiquibaseSchemaManager schemaManager = new LiquibaseSchemaManager(
@@ -114,6 +113,57 @@ public final class LiquibaseSchemaManagerIT {
 				Assert.assertEquals(Types.INTEGER, columns.getInt("DATA_TYPE"));
 				Assert.assertFalse(columns.next());
 				columns.close();
+			} finally {
+				if (connection != null)
+					connection.close();
+			}
+		} finally {
+			provisionersManager.delete(provisioningResult);
+		}
+	}
+
+	/**
+	 * Tests {@link LiquibaseSchemaManager#wipeSchema(IDataSourceCoordinates)}.
+	 * 
+	 * @throws SQLException
+	 *             (might indicate a test failure)
+	 */
+	@Test
+	public void wipeSchema() throws SQLException {
+		// Provision the DB to run against.
+		@SuppressWarnings("unchecked")
+		DataSourceProvisionersManager provisionersManager = new DataSourceProvisionersManager(
+				new HsqlProvisioner(), new PostgreSqlProvisioner());
+		IProvisioningTargetsProvider targetsProvider = new XmlProvisioningTargetsProvider(
+				provisionersManager, Thread.currentThread()
+						.getContextClassLoader()
+						.getResource("datasource-provisioning-targets.xml"));
+		ProvisioningResult provisioningResult = provisionersManager.provision(
+				targetsProvider, provisioningRequest);
+
+		try {
+			// Create the LiquibaseSchemaManager.
+			DataSourceConnectorsManager connectorsManager = new DataSourceConnectorsManager(
+					new HsqlConnector(), new PostgreSqlConnector());
+			LiquibaseSchemaManager schemaManager = new LiquibaseSchemaManager(
+					connectorsManager, "sample-xml/liquibase-change-log-1.xml");
+
+			// Run the schema manager: create and then wipe the schema.
+			schemaManager.createOrUpgradeSchema(provisioningResult.getCoords());
+			schemaManager.wipeSchema(provisioningResult.getCoords());
+
+			/*
+			 * When the schema was created, a "Test" table would have been
+			 * created. Make sure it's not there.
+			 */
+			Connection connection = null;
+			try {
+				connection = connectorsManager.createDataSource(
+						provisioningResult.getCoords()).getConnection();
+				ResultSet tables = connection.getMetaData().getTables(null,
+						null, "Test", null);
+				Assert.assertFalse(tables.next());
+				tables.close();
 			} finally {
 				if (connection != null)
 					connection.close();
