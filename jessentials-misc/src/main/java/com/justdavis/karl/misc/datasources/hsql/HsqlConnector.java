@@ -77,4 +77,18 @@ public final class HsqlConnector implements
 
 		return liquibaseDb;
 	}
+
+	/**
+	 * Note: Just leaving this here for future debugging. Very useful when you
+	 * want to peek at an in-memory HSQL database.
+	 * 
+	 * @param coords
+	 *            the {@link HsqlCoordinates} of the database to launch the
+	 *            manager GUI for
+	 */
+	@SuppressWarnings("unused")
+	private void startHsqlManagerGui(HsqlCoordinates coords) {
+		org.hsqldb.util.DatabaseManagerSwing.main(new String[] { "--url",
+				coords.getUrl(), "--noexit" });
+	}
 }
