@@ -1,5 +1,10 @@
 package com.justdavis.karl.misc.datasources.schema;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
+import java.util.Enumeration;
+
 import liquibase.Contexts;
 import liquibase.Liquibase;
 import liquibase.database.Database;
@@ -53,7 +58,7 @@ public final class LiquibaseSchemaManager implements IDataSourceSchemaManager {
 	public void createOrUpgradeSchema(IDataSourceCoordinates coords) {
 		LOGGER.info("Liquibase schema create/upgrade: running...");
 		ResourceAccessor resourceAccessor = new CompositeResourceAccessor(
-				new ClassLoaderResourceAccessor(),
+				new ClasspathResourceAccessor(),
 				new FileSystemResourceAccessor("."));
 
 		Database database = connectorsManager
@@ -88,7 +93,7 @@ public final class LiquibaseSchemaManager implements IDataSourceSchemaManager {
 	public void wipeSchema(IDataSourceCoordinates coords) {
 		LOGGER.info("Liquibase schema wipe: running...");
 		ResourceAccessor resourceAccessor = new CompositeResourceAccessor(
-				new ClassLoaderResourceAccessor(),
+				new ClasspathResourceAccessor(),
 				new FileSystemResourceAccessor("."));
 
 		Database database = connectorsManager
@@ -114,5 +119,46 @@ public final class LiquibaseSchemaManager implements IDataSourceSchemaManager {
 			}
 		}
 		LOGGER.info("Liquibase schema wipe: complete.");
+	}
+
+	/**
+	 * Similar to Liquibase's built-in {@link ClassLoaderResourceAccessor}, but
+	 * correct.
+	 */
+	private static final class ClasspathResourceAccessor implements
+			ResourceAccessor {
+		private final ClassLoader classLoader;
+
+		/**
+		 * Constructs a new {@link ClasspathResourceAccessor} instance.
+		 */
+		public ClasspathResourceAccessor() {
+			this.classLoader = Thread.currentThread().getContextClassLoader();
+		}
+
+		/**
+		 * @see liquibase.resource.ResourceAccessor#getResourceAsStream(java.lang.String)
+		 */
+		@Override
+		public InputStream getResourceAsStream(String file) throws IOException {
+			return classLoader.getResourceAsStream(file);
+		}
+
+		/**
+		 * @see liquibase.resource.ResourceAccessor#getResources(java.lang.String)
+		 */
+		@Override
+		public Enumeration<URL> getResources(String packageName)
+				throws IOException {
+			throw new UnsupportedOperationException();
+		}
+
+		/**
+		 * @see liquibase.resource.ResourceAccessor#toClassLoader()
+		 */
+		@Override
+		public ClassLoader toClassLoader() {
+			return classLoader;
+		}
 	}
 }
