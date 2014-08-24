@@ -39,6 +39,7 @@ import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.ServerConnector;
 import org.eclipse.jetty.server.SslConnectionFactory;
 import org.eclipse.jetty.server.handler.ContextHandler;
+import org.eclipse.jetty.server.handler.ContextHandlerCollection;
 import org.eclipse.jetty.servlet.DefaultServlet;
 import org.eclipse.jetty.servlet.ServletHolder;
 import org.eclipse.jetty.util.resource.Resource;
@@ -112,7 +113,8 @@ public final class EmbeddedServer {
 	 * server; see {@link #startServer()} for that.
 	 * 
 	 * @param port
-	 *            the port to host Jetty on
+	 *            the port to host Jetty on (specifying <code>0</code> will
+	 *            cause Jetty to assign a random port when started)
 	 * @param <code>true</code> to serve HTTPS (with a randomly generated
 	 *        self-signed cert), <code>false</code> to serve HTTP (just one or
 	 *        the other)
@@ -159,10 +161,14 @@ public final class EmbeddedServer {
 					.entrySet())
 				webapp.setAttribute(attribute.getKey(), attribute.getValue());
 		}
+		configureForMavenWarProject(webapp, new File("."));
 		enableAnnotationConfigs(webapp);
 		enableDefaultServlet(webapp);
 		enableJspServlet(webapp);
-		this.server.setHandler(webapp);
+
+		ContextHandlerCollection contexts = new ContextHandlerCollection();
+		contexts.addHandler(webapp);
+		this.server.setHandler(contexts);
 		/*
 		 * NOTE: the above is not robust enough to handle running things if this
 		 * code is packaged in an unexploded WAR. It would probably need to try
@@ -178,6 +184,27 @@ public final class EmbeddedServer {
 	}
 
 	/**
+	 * Configures the specified {@link WebAppContext} to run a web application
+	 * being built from a Maven
+	 * <code>&lt;packaging&gt;war&lt;/packaging&gt;</code> project.
+	 * 
+	 * @param webapp
+	 *            the {@link WebAppContext} to configure
+	 * @param projectPath
+	 *            the path to the root of the Maven WAR project
+	 */
+	private static void configureForMavenWarProject(WebAppContext webapp,
+			File projectPath) {
+		webapp.setAttribute(
+				"org.eclipse.jetty.server.webapp.ContainerIncludeJarPattern",
+				".*/classes/.*");
+		webapp.getMetaData().addContainerResource(
+				Resource.newResource(new File(projectPath, "target/classes")));
+		webapp.getMetaData().addContainerResource(
+				Resource.newResource(new File(projectPath, "src/main/webapp")));
+	}
+
+	/**
 	 * Configures the specified {@link WebAppContext} to load web applications
 	 * that are identified/specified by annotations, e.g. Spring's
 	 * <code>SpringServletContainerInitializer</code>.
@@ -186,21 +213,8 @@ public final class EmbeddedServer {
 	 *            the {@link WebAppContext} to configure
 	 */
 	private static void enableAnnotationConfigs(WebAppContext webapp) {
-		/*
-		 * NOTE: This config is probably not robust enough to handle running
-		 * things if this code is packaged in an unexploded WAR. I'd probably
-		 * need to alter the patterns to include JARs/WARs.
-		 */
-
-		webapp.setAttribute(
-				"org.eclipse.jetty.server.webapp.ContainerIncludeJarPattern",
-				".*/classes/.*");
 		webapp.setConfigurations(new Configuration[] {
 				new AnnotationConfiguration(), new WebInfConfiguration() });
-		webapp.getMetaData().addContainerResource(
-				Resource.newResource(new File("./target/classes")));
-		webapp.getMetaData().addContainerResource(
-				Resource.newResource(new File("./src/main/webapp")));
 	}
 
 	/**
