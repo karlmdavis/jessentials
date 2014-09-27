@@ -42,7 +42,9 @@ import org.eclipse.jetty.server.handler.ContextHandler;
 import org.eclipse.jetty.server.handler.ContextHandlerCollection;
 import org.eclipse.jetty.servlet.DefaultServlet;
 import org.eclipse.jetty.servlet.ServletHolder;
+import org.eclipse.jetty.util.Jetty;
 import org.eclipse.jetty.util.resource.Resource;
+import org.eclipse.jetty.util.resource.ResourceCollection;
 import org.eclipse.jetty.util.ssl.SslContextFactory;
 import org.eclipse.jetty.webapp.Configuration;
 import org.eclipse.jetty.webapp.WebAppContext;
@@ -51,6 +53,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.justdavis.karl.misc.exceptions.BadCodeMonkeyException;
+import com.justdavis.karl.misc.exceptions.unchecked.UncheckedIoException;
 
 /**
  * <p>
@@ -198,10 +201,48 @@ public final class EmbeddedServer {
 		webapp.setAttribute(
 				"org.eclipse.jetty.server.webapp.ContainerIncludeJarPattern",
 				".*/classes/.*");
-		webapp.getMetaData().addContainerResource(
-				Resource.newResource(new File(projectPath, "target/classes")));
-		webapp.getMetaData().addContainerResource(
-				Resource.newResource(new File(projectPath, "src/main/webapp")));
+		/*
+		 * This setup should more-or-less mirror one produced by m2e-wtp, in a
+		 * WAR project's .settings/org.eclipse.wst.common.component file.
+		 */
+		Resource m2eResource = Resource
+				.newResource(buildJettyResourcePath(new File(projectPath,
+						"target/m2e-wtp/web-resources")));
+		Resource targetClassesResource = Resource
+				.newResource(buildJettyResourcePath(new File(projectPath,
+						"target/classes")));
+		Resource srcWebappResource = Resource
+				.newResource(buildJettyResourcePath(new File(projectPath,
+						"src/main/webapp")));
+		ResourceCollection resources = new ResourceCollection(m2eResource,
+				srcWebappResource, targetClassesResource);
+		webapp.setBaseResource(resources);
+	}
+
+	/**
+	 * <p>
+	 * This method is used to build the {@link File} paths passed into Jetty
+	 * {@link Resource} objects.
+	 * </p>
+	 * <p>
+	 * Some special handling is needed, as Jetty doesn't cope well with
+	 * non-canonical pathnames. Without this method's special handling, I was
+	 * getting some very odd side-effect errors, such as JSP errors from
+	 * unparseable TLD files, that turned out to be caused by Jetty's inability
+	 * to open a stream for the resource.
+	 * </p>
+	 * 
+	 * @param resourcePath
+	 *            the {@link File} path to be used in a {@link Jetty} resource
+	 * @return a {@link File} path tha can be used safely in a Jetty
+	 *         {@link Resource}
+	 */
+	private static File buildJettyResourcePath(File resourcePath) {
+		try {
+			return resourcePath.getCanonicalFile();
+		} catch (IOException e) {
+			throw new UncheckedIoException(e);
+		}
 	}
 
 	/**
