@@ -67,7 +67,7 @@
 				in every project (that isn't already on Java 8). -->
 			<groupId>org.threeten</groupId>
 			<artifactId>threetenbp</artifactId>
-			<version>0.8.1</version>
+			<version>1.0</version>
 		</dependency>
 
 		<dependency>
