@@ -13,7 +13,9 @@ import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Random;
@@ -201,21 +203,30 @@ public final class EmbeddedServer {
 		webapp.setAttribute(
 				"org.eclipse.jetty.server.webapp.ContainerIncludeJarPattern",
 				".*/classes/.*");
+
 		/*
 		 * This setup should more-or-less mirror one produced by m2e-wtp, in a
 		 * WAR project's .settings/org.eclipse.wst.common.component file.
 		 */
-		Resource m2eResource = Resource
-				.newResource(buildJettyResourcePath(new File(projectPath,
-						"target/m2e-wtp/web-resources")));
-		Resource targetClassesResource = Resource
-				.newResource(buildJettyResourcePath(new File(projectPath,
-						"target/classes")));
-		Resource srcWebappResource = Resource
-				.newResource(buildJettyResourcePath(new File(projectPath,
-						"src/main/webapp")));
-		ResourceCollection resources = new ResourceCollection(m2eResource,
-				srcWebappResource, targetClassesResource);
+		List<File> resourcePaths = new ArrayList<>();
+		resourcePaths.add(new File(projectPath, "target/classes"));
+		resourcePaths
+				.add(new File(projectPath, "target/m2e-wtp/web-resources"));
+		resourcePaths.add(new File(projectPath, "src/main/webapp"));
+
+		List<Resource> jettyResources = new ArrayList<Resource>();
+		for (File resourcePath : resourcePaths) {
+			/*
+			 * Not all of those paths will exist in every project, and Jetty
+			 * will go boom if we try to use a directory that doesn't exist.
+			 */
+			if (resourcePath.isDirectory())
+				jettyResources.add(Resource
+						.newResource(buildJettyResourcePath(resourcePath)));
+		}
+
+		ResourceCollection resources = new ResourceCollection(
+				jettyResources.toArray(new Resource[jettyResources.size()]));
 		webapp.setBaseResource(resources);
 	}
 
@@ -234,7 +245,7 @@ public final class EmbeddedServer {
 	 * 
 	 * @param resourcePath
 	 *            the {@link File} path to be used in a {@link Jetty} resource
-	 * @return a {@link File} path tha can be used safely in a Jetty
+	 * @return a {@link File} path that can be used safely in a Jetty
 	 *         {@link Resource}
 	 */
 	private static File buildJettyResourcePath(File resourcePath) {
