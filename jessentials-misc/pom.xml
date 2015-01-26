@@ -111,9 +111,7 @@
 				com.justdavis.karl.misc.datasources.schema package. -->
 			<groupId>org.liquibase</groupId>
 			<artifactId>liquibase-core</artifactId>
-			<!-- Currently set to use a SNAPSHOT built from https://github.com/karlmdavis/liquibase/tree/CORE-1721, 
-				until the fix there is included in a release. -->
-			<version>3.1.2-SNAPSHOT</version>
+			<version>3.3.2</version>
 		</dependency>
 		<dependency>
 			<!-- Liquibase uses it's own pluggable logging framework. This dependency 
