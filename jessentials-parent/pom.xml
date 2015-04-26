@@ -7,7 +7,7 @@
 
 	<groupId>com.justdavis.karl.jessentials</groupId>
 	<artifactId>jessentials-parent</artifactId>
-	<version>3.3.1-SNAPSHOT</version>
+	<version>3.2.2-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
 	<name>jessentials-parent</name>
