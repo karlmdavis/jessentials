@@ -295,7 +295,7 @@
 					<!-- Necessary to ensure that release:perform works correctly, per http://stackoverflow.com/questions/5558785/maven-release-plugin-git-and-the-poms-not-at-the-top. -->
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-release-plugin</artifactId>
-					<version>2.5.1</version>
+					<version>2.5.2</version>
 					<executions>
 						<execution>
 							<id>default</id>
