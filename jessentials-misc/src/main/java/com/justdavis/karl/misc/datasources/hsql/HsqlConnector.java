@@ -86,8 +86,7 @@ public final class HsqlConnector implements
 	 *            the {@link HsqlCoordinates} of the database to launch the
 	 *            manager GUI for
 	 */
-	@SuppressWarnings("unused")
-	private void startHsqlManagerGui(HsqlCoordinates coords) {
+	public void startHsqlManagerGui(HsqlCoordinates coords) {
 		org.hsqldb.util.DatabaseManagerSwing.main(new String[] { "--url",
 				coords.getUrl(), "--noexit" });
 	}
