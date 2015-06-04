@@ -160,7 +160,7 @@
 				class is being used. -->
 			<groupId>org.eclipse.jetty</groupId>
 			<artifactId>jetty-webapp</artifactId>
-			<version>9.0.6.v20130930</version>
+			<version>9.2.11.v20150529</version>
 			<optional>true</optional>
 		</dependency>
 		<dependency>
@@ -169,7 +169,7 @@
 				class is being used. -->
 			<groupId>org.eclipse.jetty</groupId>
 			<artifactId>jetty-annotations</artifactId>
-			<version>9.0.6.v20130930</version>
+			<version>9.2.11.v20150529</version>
 			<optional>true</optional>
 		</dependency>
 		<dependency>
