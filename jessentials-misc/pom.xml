@@ -151,9 +151,13 @@
 		</dependency>
 
 		<dependency>
+			<!-- Marked as 'compile' scope due to its use in JulLoggingToSlf4jBinder. 
+				Marked as optional, as only code using that particular class will depend 
+				on JUnit. -->
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
-			<scope>test</scope>
+			<scope>compile</scope>
+			<optional>true</optional>
 		</dependency>
 		<dependency>
 			<!-- Logback is used as the logging target/backend for SLF4J in tests: 
