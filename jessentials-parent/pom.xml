@@ -244,7 +244,7 @@
 						thus doesn't require class file instrumentation). -->
 					<groupId>org.jacoco</groupId>
 					<artifactId>jacoco-maven-plugin</artifactId>
-					<version>0.6.5.201403032054</version>
+					<version>jacoco-0.7.5.201505241946</version>
 				</plugin>
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
