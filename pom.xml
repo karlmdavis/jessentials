@@ -71,6 +71,7 @@
 	<modules>
 		<module>jessentials-parent</module>
 		<module>jessentials-misc</module>
+		<module>jessentials-tomcat</module>
 		<module>jversion-sanity</module>
 	</modules>
 

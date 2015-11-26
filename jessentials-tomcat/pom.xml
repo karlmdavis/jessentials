@@ -1,0 +1,166 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>com.justdavis.karl.jessentials</groupId>
+		<artifactId>jessentials-parent</artifactId>
+		<version>4.1.1</version>
+		<!-- Disabling filesystem resolution, per http://maven.apache.org/ref/3.0.3/maven-model/maven.html#class_parent. -->
+		<relativePath />
+	</parent>
+
+	<artifactId>jessentials-tomcat</artifactId>
+	<version>1.0-SNAPSHOT</version>
+	<packaging>jar</packaging>
+
+	<name>jEssentials Tomcat</name>
+	<description>
+		Utilities for creating and working with Tomcat instances.
+	</description>
+
+	<scm>
+		<!-- URL format taken from http://www.sonatype.com/people/2009/09/maven-tips-and-tricks-using-github/ -->
+		<!-- Needs to be repeated here, due to the flat module layout being used. -->
+		<connection>scm:git:git@github.com:karlmdavis/jessentials.git</connection>
+		<developerConnection>scm:git:git@github.com:karlmdavis/jessentials.git</developerConnection>
+		<url>https://github.com/karlmdavis/jessentials</url>
+		<tag>HEAD</tag>
+	</scm>
+
+	<repositories>
+		<!-- Because we're using a flat, non-standard module layout the repositories 
+			have to be included here as well. -->
+		<repository>
+			<id>justdavis.com-nexus-opensource-releases</id>
+			<url>https://justdavis.com/nexus/content/repositories/opensource-releases/</url>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+		</repository>
+		<repository>
+			<id>justdavis.com-nexus-opensource-snapshots</id>
+			<url>https://justdavis.com/nexus/content/repositories/opensource-snapshots/</url>
+			<releases>
+				<enabled>false</enabled>
+			</releases>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</repository>
+		<repository>
+			<id>justdavis.com-nexus-opensource-thirdparty-releases</id>
+			<url>https://justdavis.com/nexus/content/repositories/opensource-thirdparty-releases/</url>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+		</repository>
+		<repository>
+			<id>justdavis.com-nexus-opensource-thirdparty-snapshots</id>
+			<url>https://justdavis.com/nexus/content/repositories/opensource-thirdparty-snapshots/</url>
+			<releases>
+				<enabled>false</enabled>
+			</releases>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</repository>
+	</repositories>
+
+	<dependencies>
+		<dependency>
+			<!-- Provides basic utilties and dependencies used here. -->
+			<groupId>com.justdavis.karl.jessentials</groupId>
+			<artifactId>jessentials-misc</artifactId>
+			<version>3.1.1-SNAPSHOT</version>
+		</dependency>
+
+		<dependency>
+			<!-- Provides the API used to install and manage Tomcat. -->
+			<groupId>org.codehaus.cargo</groupId>
+			<artifactId>cargo-core-container-tomcat</artifactId>
+			<version>1.4.16</version>
+		</dependency>
+
+		<dependency>
+			<!-- Needed to run Tomcat in embedded mode. -->
+			<groupId>org.apache.tomcat.embed</groupId>
+			<artifactId>tomcat-embed-core</artifactId>
+			<version>7.0.65</version>
+		</dependency>
+		<dependency>
+			<!-- Needed to run Tomcat in embedded mode. -->
+			<groupId>org.apache.tomcat</groupId>
+			<artifactId>tomcat-util</artifactId>
+			<version>7.0.65</version>
+		</dependency>
+
+		<dependency>
+			<!-- Used for unit and integration tests. -->
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+		</dependency>
+		<dependency>
+			<!-- Logback is used as the logging target/backend for SLF4J in tests: 
+				all logging events will be sent to it. -->
+			<groupId>ch.qos.logback</groupId>
+			<artifactId>logback-classic</artifactId>
+			<version>1.0.13</version>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.jacoco</groupId>
+				<artifactId>jacoco-maven-plugin</artifactId>
+				<executions>
+					<execution>
+						<!-- Will set the 'argline' Maven property to point to the JaCoCo runtime 
+							agent (configured to track information on unit test coverage), such that 
+							it can be passed as a VM argument to the application under test. Surefire 
+							will pick up this property automatically, by default. Sonar can then pick 
+							up the output produced by JaCoCo. -->
+						<id>default-prepare-agent</id>
+						<goals>
+							<goal>prepare-agent</goal>
+						</goals>
+					</execution>
+					<execution>
+						<!-- Will set the 'argline' Maven property to point to the JaCoCo runtime 
+							agent (configured to track information on integration test coverage), such 
+							that it can be passed as a VM argument to the application under test. Failsafe 
+							will pick up this property automatically, by default. Sonar can then pick 
+							up the output produced by JaCoCo. -->
+						<id>default-prepare-agent-integration</id>
+						<goals>
+							<goal>prepare-agent-integration</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<!-- Ensure that this project's integration tests are run as part of 
+					the build. -->
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-failsafe-plugin</artifactId>
+				<executions>
+					<execution>
+						<goals>
+							<goal>integration-test</goal>
+							<goal>verify</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+
+</project>
