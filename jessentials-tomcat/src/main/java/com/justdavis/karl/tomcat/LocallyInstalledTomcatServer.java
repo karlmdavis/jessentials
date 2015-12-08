@@ -2,6 +2,7 @@ package com.justdavis.karl.tomcat;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
+import java.net.ServerSocket;
 import java.net.URL;
 import java.nio.file.FileVisitResult;
 import java.nio.file.Files;
@@ -55,10 +56,22 @@ public final class LocallyInstalledTomcatServer implements ITomcatServer {
 
 		Tomcat7xStandaloneLocalConfiguration configuration = (Tomcat7xStandaloneLocalConfiguration) new DefaultConfigurationFactory()
 				.createConfiguration("tomcat7x", ContainerType.INSTALLED, ConfigurationType.STANDALONE);
+		configuration.setProperty(ServletPropertySet.PORT, "" + selectAvailablePort());
 		Tomcat7xInstalledLocalContainer container = (Tomcat7xInstalledLocalContainer) new DefaultContainerFactory()
 				.createContainer("tomcat7x", ContainerType.INSTALLED, configuration);
 		container.setHome(installPath.toAbsolutePath().toString());
 		this.container = container;
+	}
+
+	/**
+	 * @return a random, available port number
+	 */
+	private static int selectAvailablePort() {
+		try (ServerSocket serverSocket = new ServerSocket(0);) {
+			return serverSocket.getLocalPort();
+		} catch (IOException e) {
+			throw new UncheckedIoException(e);
+		}
 	}
 
 	/**
