@@ -7,10 +7,6 @@ import java.util.Map;
 
 import javax.sql.DataSource;
 
-import liquibase.database.Database;
-import liquibase.database.core.HsqlDatabase;
-import liquibase.database.jvm.HsqlConnection;
-
 import org.hsqldb.jdbc.JDBCDataSource;
 import org.hsqldb.jdbc.JDBCDriver;
 import org.springframework.stereotype.Component;
@@ -18,16 +14,19 @@ import org.springframework.stereotype.Component;
 import com.justdavis.karl.misc.datasources.IDataSourceConnector;
 import com.justdavis.karl.misc.exceptions.unchecked.UncheckedSqlException;
 
+import liquibase.database.Database;
+import liquibase.database.core.HsqlDatabase;
+import liquibase.database.jvm.HsqlConnection;
+
 /**
  * This {@link IDataSourceConnector} implementation converts
- * {@link HsqlCoordinates} instance into JDBC {@link DataSource}s, for <a
- * href="http://hsqldb.org/">HSQL</a> databases.
+ * {@link HsqlCoordinates} instance into JDBC {@link DataSource}s, for
+ * <a href="http://hsqldb.org/">HSQL</a> databases.
  * 
  * @see HsqlCoordinates
  */
 @Component
-public final class HsqlConnector implements
-		IDataSourceConnector<HsqlCoordinates> {
+public final class HsqlConnector implements IDataSourceConnector<HsqlCoordinates> {
 	/**
 	 * @see com.justdavis.karl.misc.datasources.IDataSourceConnector#getCoordinatesType()
 	 */
@@ -40,8 +39,7 @@ public final class HsqlConnector implements
 	 * @see com.justdavis.karl.misc.datasources.IDataSourceConnector#createDataSource(com.justdavis.karl.misc.datasources.IDataSourceCoordinates)
 	 */
 	@Override
-	public DataSource createDataSource(HsqlCoordinates coords)
-			throws UncheckedSqlException {
+	public DataSource createDataSource(HsqlCoordinates coords) throws UncheckedSqlException {
 		JDBCDataSource dataSource = new JDBCDataSource();
 		dataSource.setUrl(coords.getUrl());
 		return dataSource;
@@ -87,7 +85,6 @@ public final class HsqlConnector implements
 	 *            manager GUI for
 	 */
 	public void startHsqlManagerGui(HsqlCoordinates coords) {
-		org.hsqldb.util.DatabaseManagerSwing.main(new String[] { "--url",
-				coords.getUrl(), "--noexit" });
+		org.hsqldb.util.DatabaseManagerSwing.main(new String[] { "--url", coords.getUrl(), "--noexit" });
 	}
 }

@@ -50,13 +50,10 @@ public final class PostgreSqlConnectorTest {
 		PostgreSqlCoordinates coords = new PostgreSqlCoordinates(
 				"jdbc:postgresql://localhost/test?user=fred&password=secret&ssl=true");
 
-		Map<String, Object> jpaCoords = new PostgreSqlConnector()
-				.convertToJpaProperties(coords);
+		Map<String, Object> jpaCoords = new PostgreSqlConnector().convertToJpaProperties(coords);
 		Assert.assertNotNull(jpaCoords);
 		Assert.assertEquals(2, jpaCoords.size());
-		Assert.assertEquals(Driver.class.getName(),
-				jpaCoords.get(IDataSourceConnector.JPA_JDBC_DRIVER));
-		Assert.assertEquals(coords.getUrl(),
-				jpaCoords.get(IDataSourceConnector.JPA_JDBC_URL));
+		Assert.assertEquals(Driver.class.getName(), jpaCoords.get(IDataSourceConnector.JPA_JDBC_DRIVER));
+		Assert.assertEquals(coords.getUrl(), jpaCoords.get(IDataSourceConnector.JPA_JDBC_URL));
 	}
 }

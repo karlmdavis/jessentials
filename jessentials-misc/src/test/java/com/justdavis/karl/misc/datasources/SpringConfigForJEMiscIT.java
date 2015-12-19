@@ -18,8 +18,7 @@ public final class SpringConfigForJEMiscIT {
 	public void springContextCreation() {
 		AnnotationConfigApplicationContext springContext = new AnnotationConfigApplicationContext(
 				SpringConfigForJEMisc.class);
-		Assert.assertNotNull(springContext
-				.getBean(DataSourceConnectorsManager.class));
+		Assert.assertNotNull(springContext.getBean(DataSourceConnectorsManager.class));
 		springContext.close();
 	}
 }

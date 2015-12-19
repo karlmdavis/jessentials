@@ -28,8 +28,7 @@ public final class DataSourceConnectorsManagerTest {
 						Arrays.asList(new HsqlConnector())));
 
 		Assert.assertEquals(1, connectorsManager.getCoordinatesTypes().size());
-		Assert.assertEquals(HsqlCoordinates.class, connectorsManager
-				.getCoordinatesTypes().iterator().next());
+		Assert.assertEquals(HsqlCoordinates.class, connectorsManager.getCoordinatesTypes().iterator().next());
 	}
 
 	/**
@@ -44,8 +43,7 @@ public final class DataSourceConnectorsManagerTest {
 						Arrays.asList(new HsqlConnector())));
 
 		DataSource dataSource = connectorsManager
-				.createDataSource(new HsqlCoordinates(
-						"jdbc:hsqldb:mem:foo;shutdown=true"));
+				.createDataSource(new HsqlCoordinates("jdbc:hsqldb:mem:foo;shutdown=true"));
 		Assert.assertTrue(dataSource instanceof JDBCDataSource);
 	}
 
@@ -61,8 +59,7 @@ public final class DataSourceConnectorsManagerTest {
 						Arrays.asList(new HsqlConnector())));
 
 		Map<String, Object> jpaProperties = connectorsManager
-				.convertToJpaProperties(new HsqlCoordinates(
-						"jdbc:hsqldb:mem:foo;shutdown=true"));
+				.convertToJpaProperties(new HsqlCoordinates("jdbc:hsqldb:mem:foo;shutdown=true"));
 		Assert.assertNotNull(jpaProperties);
 	}
 }

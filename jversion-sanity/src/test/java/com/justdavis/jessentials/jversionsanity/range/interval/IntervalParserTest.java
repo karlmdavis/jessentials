@@ -27,12 +27,10 @@ public final class IntervalParserTest {
 		IntervalParser parser = new IntervalParser();
 		Interval<String> interval = parser.parseVersionRange("1.2");
 		Assert.assertNotNull(interval);
-		Assert.assertEquals(IntervalBoundaryType.OMITTED,
-				interval.getTypeLower());
+		Assert.assertEquals(IntervalBoundaryType.OMITTED, interval.getTypeLower());
 		Assert.assertEquals("1.2", interval.getVersionLower());
 		Assert.assertNull(interval.getVersionUpper());
-		Assert.assertEquals(IntervalBoundaryType.OMITTED,
-				interval.getTypeUpper());
+		Assert.assertEquals(IntervalBoundaryType.OMITTED, interval.getTypeUpper());
 	}
 
 	/**
@@ -44,12 +42,10 @@ public final class IntervalParserTest {
 		IntervalParser parser = new IntervalParser();
 		Interval<String> interval = parser.parseVersionRange("[1.2)");
 		Assert.assertNotNull(interval);
-		Assert.assertEquals(IntervalBoundaryType.INCLUSIVE,
-				interval.getTypeLower());
+		Assert.assertEquals(IntervalBoundaryType.INCLUSIVE, interval.getTypeLower());
 		Assert.assertEquals("1.2", interval.getVersionLower());
 		Assert.assertEquals("1.2", interval.getVersionUpper());
-		Assert.assertEquals(IntervalBoundaryType.EXCLUSIVE,
-				interval.getTypeUpper());
+		Assert.assertEquals(IntervalBoundaryType.EXCLUSIVE, interval.getTypeUpper());
 	}
 
 	/**
@@ -61,12 +57,10 @@ public final class IntervalParserTest {
 		IntervalParser parser = new IntervalParser();
 		Interval<String> interval = parser.parseVersionRange("(1.2,]");
 		Assert.assertNotNull(interval);
-		Assert.assertEquals(IntervalBoundaryType.EXCLUSIVE,
-				interval.getTypeLower());
+		Assert.assertEquals(IntervalBoundaryType.EXCLUSIVE, interval.getTypeLower());
 		Assert.assertEquals("1.2", interval.getVersionLower());
 		Assert.assertNull(interval.getVersionUpper());
-		Assert.assertEquals(IntervalBoundaryType.INCLUSIVE,
-				interval.getTypeUpper());
+		Assert.assertEquals(IntervalBoundaryType.INCLUSIVE, interval.getTypeUpper());
 	}
 
 	/**
@@ -78,12 +72,10 @@ public final class IntervalParserTest {
 		IntervalParser parser = new IntervalParser();
 		Interval<String> interval = parser.parseVersionRange("(1.2,3.4]");
 		Assert.assertNotNull(interval);
-		Assert.assertEquals(IntervalBoundaryType.EXCLUSIVE,
-				interval.getTypeLower());
+		Assert.assertEquals(IntervalBoundaryType.EXCLUSIVE, interval.getTypeLower());
 		Assert.assertEquals("1.2", interval.getVersionLower());
 		Assert.assertEquals("3.4", interval.getVersionUpper());
-		Assert.assertEquals(IntervalBoundaryType.INCLUSIVE,
-				interval.getTypeUpper());
+		Assert.assertEquals(IntervalBoundaryType.INCLUSIVE, interval.getTypeUpper());
 	}
 
 	/**
@@ -94,15 +86,12 @@ public final class IntervalParserTest {
 	@Test
 	public void parseRange_versionsAndOutsideWhitespace() {
 		IntervalParser parser = new IntervalParser();
-		Interval<String> interval = parser
-				.parseVersionRange("  (  1.2  ,  3.4  ]  ");
+		Interval<String> interval = parser.parseVersionRange("  (  1.2  ,  3.4  ]  ");
 		Assert.assertNotNull(interval);
-		Assert.assertEquals(IntervalBoundaryType.EXCLUSIVE,
-				interval.getTypeLower());
+		Assert.assertEquals(IntervalBoundaryType.EXCLUSIVE, interval.getTypeLower());
 		Assert.assertEquals("1.2", interval.getVersionLower());
 		Assert.assertEquals("3.4", interval.getVersionUpper());
-		Assert.assertEquals(IntervalBoundaryType.INCLUSIVE,
-				interval.getTypeUpper());
+		Assert.assertEquals(IntervalBoundaryType.INCLUSIVE, interval.getTypeUpper());
 	}
 
 	/**
@@ -113,15 +102,12 @@ public final class IntervalParserTest {
 	@Test
 	public void parseRange_versionsWithInternalWhitespace() {
 		IntervalParser parser = new IntervalParser();
-		Interval<String> interval = parser
-				.parseVersionRange("  (  1  .  2  ,  3  .  4  ]  ");
+		Interval<String> interval = parser.parseVersionRange("  (  1  .  2  ,  3  .  4  ]  ");
 		Assert.assertNotNull(interval);
-		Assert.assertEquals(IntervalBoundaryType.EXCLUSIVE,
-				interval.getTypeLower());
+		Assert.assertEquals(IntervalBoundaryType.EXCLUSIVE, interval.getTypeLower());
 		Assert.assertEquals("1  .  2", interval.getVersionLower());
 		Assert.assertEquals("3  .  4", interval.getVersionUpper());
-		Assert.assertEquals(IntervalBoundaryType.INCLUSIVE,
-				interval.getTypeUpper());
+		Assert.assertEquals(IntervalBoundaryType.INCLUSIVE, interval.getTypeUpper());
 	}
 
 	/**
@@ -132,15 +118,12 @@ public final class IntervalParserTest {
 	@Test
 	public void parseRange_versionsWithAlphasAndSuch() {
 		IntervalParser parser = new IntervalParser();
-		Interval<String> interval = parser
-				.parseVersionRange("(1a.e2-be, 3*@.Gk4e]");
+		Interval<String> interval = parser.parseVersionRange("(1a.e2-be, 3*@.Gk4e]");
 		Assert.assertNotNull(interval);
-		Assert.assertEquals(IntervalBoundaryType.EXCLUSIVE,
-				interval.getTypeLower());
+		Assert.assertEquals(IntervalBoundaryType.EXCLUSIVE, interval.getTypeLower());
 		Assert.assertEquals("1a.e2-be", interval.getVersionLower());
 		Assert.assertEquals("3*@.Gk4e", interval.getVersionUpper());
-		Assert.assertEquals(IntervalBoundaryType.INCLUSIVE,
-				interval.getTypeUpper());
+		Assert.assertEquals(IntervalBoundaryType.INCLUSIVE, interval.getTypeUpper());
 	}
 
 	/**

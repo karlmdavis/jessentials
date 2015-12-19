@@ -33,11 +33,9 @@ public final class HsqlProvisioningTargetTest {
 	 *             (shouldn't be thrown if things are working)
 	 */
 	@Test
-	public void jaxbMarshalling() throws JAXBException,
-			XPathExpressionException {
+	public void jaxbMarshalling() throws JAXBException, XPathExpressionException {
 		// Create the Marshaller needed.
-		JAXBContext jaxbContext = JAXBContext
-				.newInstance(HsqlProvisioningTarget.class);
+		JAXBContext jaxbContext = JAXBContext.newInstance(HsqlProvisioningTarget.class);
 		Marshaller marshaller = jaxbContext.createMarshaller();
 
 		// Create the instance to be converted to XML.
@@ -50,10 +48,9 @@ public final class HsqlProvisioningTargetTest {
 		// Verify the results.
 		XPathFactory xpathFactory = XPathFactory.newInstance();
 		XPath xpath = xpathFactory.newXPath();
-		xpath.setNamespaceContext(new SimpleNamespaceContext("jed",
-				XmlNamespace.JE_DATASOURCES));
-		Node targetNode = (Node) xpath.evaluate("/jed:hsqlProvisioningTarget",
-				domResult.getNode(), XPathConstants.NODE);
+		xpath.setNamespaceContext(new SimpleNamespaceContext("jed", XmlNamespace.JE_DATASOURCES));
+		Node targetNode = (Node) xpath.evaluate("/jed:hsqlProvisioningTarget", domResult.getNode(),
+				XPathConstants.NODE);
 		Assert.assertNotNull(targetNode);
 	}
 
@@ -67,11 +64,9 @@ public final class HsqlProvisioningTargetTest {
 	 *             (shouldn't be thrown if things are working)
 	 */
 	@Test
-	public void jaxbUnmarshalling() throws JAXBException,
-			XPathExpressionException {
+	public void jaxbUnmarshalling() throws JAXBException, XPathExpressionException {
 		// Create the Unmarshaller needed.
-		JAXBContext jaxbContext = JAXBContext
-				.newInstance(HsqlProvisioningTarget.class);
+		JAXBContext jaxbContext = JAXBContext.newInstance(HsqlProvisioningTarget.class);
 		Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
 
 		// Get the XML to be converted.
@@ -79,8 +74,7 @@ public final class HsqlProvisioningTargetTest {
 				.getResource("sample-xml/provisioningTarget-hsql-1.xml");
 
 		// Parse the XML to an object.
-		HsqlProvisioningTarget parsedTarget = (HsqlProvisioningTarget) unmarshaller
-				.unmarshal(sourceXmlUrl);
+		HsqlProvisioningTarget parsedTarget = (HsqlProvisioningTarget) unmarshaller.unmarshal(sourceXmlUrl);
 
 		// Verify the results.
 		Assert.assertNotNull(parsedTarget);

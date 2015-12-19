@@ -1,5 +1,12 @@
 package com.justdavis.karl.misc.datasources.schema;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.justdavis.karl.misc.datasources.DataSourceConnectorsManager;
+import com.justdavis.karl.misc.datasources.IDataSourceCoordinates;
+import com.justdavis.karl.misc.exceptions.unchecked.UncheckedLiquibaseException;
+
 import liquibase.Contexts;
 import liquibase.Liquibase;
 import liquibase.database.Database;
@@ -10,21 +17,13 @@ import liquibase.resource.CompositeResourceAccessor;
 import liquibase.resource.FileSystemResourceAccessor;
 import liquibase.resource.ResourceAccessor;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import com.justdavis.karl.misc.datasources.DataSourceConnectorsManager;
-import com.justdavis.karl.misc.datasources.IDataSourceCoordinates;
-import com.justdavis.karl.misc.exceptions.unchecked.UncheckedLiquibaseException;
-
 /**
  * The default {@link IDataSourceSchemaManager} implementation. Uses the open
  * source <a href="http://www.liquibase.org/">Liquibase</a> library to do the
  * heavy lifting.
  */
 public final class LiquibaseSchemaManager implements IDataSourceSchemaManager {
-	private static final Logger LOGGER = LoggerFactory
-			.getLogger(LiquibaseSchemaManager.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(LiquibaseSchemaManager.class);
 
 	private final DataSourceConnectorsManager connectorsManager;
 	private final String liquibaseChangeLogPath;
@@ -39,9 +38,7 @@ public final class LiquibaseSchemaManager implements IDataSourceSchemaManager {
 	 *            a classpath entry or filesystem path (both will be tried, in
 	 *            that order)
 	 */
-	public LiquibaseSchemaManager(
-			DataSourceConnectorsManager connectorsManager,
-			String liquibaseChangeLogPath) {
+	public LiquibaseSchemaManager(DataSourceConnectorsManager connectorsManager, String liquibaseChangeLogPath) {
 		this.connectorsManager = connectorsManager;
 		this.liquibaseChangeLogPath = liquibaseChangeLogPath;
 	}
@@ -53,15 +50,12 @@ public final class LiquibaseSchemaManager implements IDataSourceSchemaManager {
 	public void createOrUpgradeSchema(IDataSourceCoordinates coords) {
 		LOGGER.info("Liquibase schema create/upgrade: running...");
 		ResourceAccessor resourceAccessor = new CompositeResourceAccessor(
-				new ClassLoaderResourceAccessor(Thread.currentThread()
-						.getContextClassLoader()),
+				new ClassLoaderResourceAccessor(Thread.currentThread().getContextClassLoader()),
 				new FileSystemResourceAccessor("."));
 
-		Database database = connectorsManager
-				.convertToLiquibaseConnection(coords);
+		Database database = connectorsManager.convertToLiquibaseConnection(coords);
 		try {
-			Liquibase liquibase = new Liquibase(liquibaseChangeLogPath,
-					resourceAccessor, database);
+			Liquibase liquibase = new Liquibase(liquibaseChangeLogPath, resourceAccessor, database);
 			liquibase.update(new Contexts());
 		} catch (LiquibaseException e) {
 			throw new UncheckedLiquibaseException(e);
@@ -89,15 +83,12 @@ public final class LiquibaseSchemaManager implements IDataSourceSchemaManager {
 	public void wipeSchema(IDataSourceCoordinates coords) {
 		LOGGER.info("Liquibase schema wipe: running...");
 		ResourceAccessor resourceAccessor = new CompositeResourceAccessor(
-				new ClassLoaderResourceAccessor(Thread.currentThread()
-						.getContextClassLoader()),
+				new ClassLoaderResourceAccessor(Thread.currentThread().getContextClassLoader()),
 				new FileSystemResourceAccessor("."));
 
-		Database database = connectorsManager
-				.convertToLiquibaseConnection(coords);
+		Database database = connectorsManager.convertToLiquibaseConnection(coords);
 		try {
-			Liquibase liquibase = new Liquibase(liquibaseChangeLogPath,
-					resourceAccessor, database);
+			Liquibase liquibase = new Liquibase(liquibaseChangeLogPath, resourceAccessor, database);
 			liquibase.dropAll();
 		} catch (LiquibaseException e) {
 			throw new UncheckedLiquibaseException(e);

@@ -45,8 +45,7 @@ public final class BadCodeMonkeyExceptionTest {
 	@Test
 	public void construct_messageAndCause() {
 		IllegalArgumentException cause = new IllegalArgumentException();
-		BadCodeMonkeyException exception = new BadCodeMonkeyException("bob",
-				cause);
+		BadCodeMonkeyException exception = new BadCodeMonkeyException("bob", cause);
 		Assert.assertEquals("bob", exception.getMessage());
 		Assert.assertSame(cause, exception.getCause());
 	}

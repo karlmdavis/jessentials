@@ -21,12 +21,10 @@ public class VersionParseException extends RuntimeException {
 	 *            attempt, or <code>null</code> if there was no such other
 	 *            exception
 	 */
-	public VersionParseException(String versionString,
-			Class<? extends Version> versionImplementation, Throwable cause) {
-		super(
-				String.format("The version string '%s' could not be parsed"
-						+ " into a %s instance.", versionString,
-						versionImplementation), cause);
+	public VersionParseException(String versionString, Class<? extends Version> versionImplementation,
+			Throwable cause) {
+		super(String.format("The version string '%s' could not be parsed" + " into a %s instance.", versionString,
+				versionImplementation), cause);
 	}
 
 	/**
@@ -39,8 +37,7 @@ public class VersionParseException extends RuntimeException {
 	 *            the {@link Version} implementation class that parsing was
 	 *            attempted for/with.
 	 */
-	public VersionParseException(String versionString,
-			Class<? extends Version> versionImplementation) {
+	public VersionParseException(String versionString, Class<? extends Version> versionImplementation) {
 		this(versionString, versionImplementation, null);
 	}
 }

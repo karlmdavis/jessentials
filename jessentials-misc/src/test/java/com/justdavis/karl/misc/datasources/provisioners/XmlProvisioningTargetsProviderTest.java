@@ -21,18 +21,14 @@ public class XmlProvisioningTargetsProviderTest {
 	public void findTarget() {
 		// Create the XmlProvisioningTargetsProvider instance to test.
 		@SuppressWarnings("unchecked")
-		DataSourceProvisionersManager provisionersManager = new DataSourceProvisionersManager(
-				new HsqlProvisioner());
-		URL targetsDocUrl = Thread
-				.currentThread()
-				.getContextClassLoader()
+		DataSourceProvisionersManager provisionersManager = new DataSourceProvisionersManager(new HsqlProvisioner());
+		URL targetsDocUrl = Thread.currentThread().getContextClassLoader()
 				.getResource("sample-xml/datasource-provisioning-targets-1.xml");
-		XmlProvisioningTargetsProvider targetsProvider = new XmlProvisioningTargetsProvider(
-				provisionersManager, targetsDocUrl);
+		XmlProvisioningTargetsProvider targetsProvider = new XmlProvisioningTargetsProvider(provisionersManager,
+				targetsDocUrl);
 
 		// Verify that it works as expected.
-		HsqlProvisioningTarget target = targetsProvider
-				.findTarget(HsqlProvisioningTarget.class);
+		HsqlProvisioningTarget target = targetsProvider.findTarget(HsqlProvisioningTarget.class);
 		Assert.assertNotNull(target);
 	}
 
@@ -47,16 +43,13 @@ public class XmlProvisioningTargetsProviderTest {
 		@SuppressWarnings("unchecked")
 		DataSourceProvisionersManager provisionersManager = new DataSourceProvisionersManager(
 				new PostgreSqlProvisioner());
-		URL targetsDocUrl = Thread
-				.currentThread()
-				.getContextClassLoader()
+		URL targetsDocUrl = Thread.currentThread().getContextClassLoader()
 				.getResource("sample-xml/datasource-provisioning-targets-2.xml");
-		XmlProvisioningTargetsProvider targetsProvider = new XmlProvisioningTargetsProvider(
-				provisionersManager, targetsDocUrl);
+		XmlProvisioningTargetsProvider targetsProvider = new XmlProvisioningTargetsProvider(provisionersManager,
+				targetsDocUrl);
 
 		// Verify that it works as expected.
-		PostgreSqlProvisioningTarget target = targetsProvider
-				.findTarget(PostgreSqlProvisioningTarget.class);
+		PostgreSqlProvisioningTarget target = targetsProvider.findTarget(PostgreSqlProvisioningTarget.class);
 		Assert.assertNotNull(target);
 		Assert.assertNotNull(target.getServerCoords().getUrl());
 		Assert.assertNull(target.getServerCoords().getUser());

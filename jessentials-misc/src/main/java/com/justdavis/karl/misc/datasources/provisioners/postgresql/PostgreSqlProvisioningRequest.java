@@ -10,14 +10,13 @@ import com.justdavis.karl.misc.datasources.provisioners.IProvisioningRequest;
  * {@link PostgreSqlProvisioner}.
  * </p>
  * <p>
- * The options here are basically those available via PostgreSQL's <a href=
- * "http://www.postgresql.org/docs/9.1/static/sql-createdatabase.html">CREATE
- * DATABASE</a> command. However, not all of the options there are (yet)
+ * The options here are basically those available via PostgreSQL's
+ * <a href= "http://www.postgresql.org/docs/9.1/static/sql-createdatabase.html">
+ * CREATE DATABASE</a> command. However, not all of the options there are (yet)
  * supported here.
  * </p>
  */
-public final class PostgreSqlProvisioningRequest implements
-		IProvisioningRequest {
+public final class PostgreSqlProvisioningRequest implements IProvisioningRequest {
 	private final String databaseName;
 
 	/**
@@ -42,16 +41,14 @@ public final class PostgreSqlProvisioningRequest implements
 	 * @param databaseNamePrefix
 	 *            the prefix value to use for {@link #getDatabaseName()}
 	 */
-	public static PostgreSqlProvisioningRequest requestForRandomDatabase(
-			String databaseNamePrefix) {
+	public static PostgreSqlProvisioningRequest requestForRandomDatabase(String databaseNamePrefix) {
 		if (databaseNamePrefix == null)
 			throw new IllegalArgumentException();
 		if (databaseNamePrefix.isEmpty())
 			throw new IllegalArgumentException();
 
 		int randomSuffix = new Random().nextInt(1000000);
-		return new PostgreSqlProvisioningRequest(databaseNamePrefix + "_"
-				+ randomSuffix);
+		return new PostgreSqlProvisioningRequest(databaseNamePrefix + "_" + randomSuffix);
 	}
 
 	/**
@@ -66,7 +63,6 @@ public final class PostgreSqlProvisioningRequest implements
 	 */
 	@Override
 	public String toString() {
-		return "PostgreSqlProvisioningRequest [databaseName=" + databaseName
-				+ "]";
+		return "PostgreSqlProvisioningRequest [databaseName=" + databaseName + "]";
 	}
 }

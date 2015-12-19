@@ -3,10 +3,10 @@ package com.justdavis.jessentials.jversionsanity.range.interval;
 import com.justdavis.jessentials.jversionsanity.Version;
 
 /**
- * Models the components of a <a href=
- * "http://en.wikipedia.org/wiki/Interval_%28mathematics%29" >mathematical
- * interval</a>, which is used by some components of this library to express
- * version ranges.
+ * Models the components of a
+ * <a href= "http://en.wikipedia.org/wiki/Interval_%28mathematics%29" >
+ * mathematical interval</a>, which is used by some components of this library
+ * to express version ranges.
  * 
  * @param <V>
  *            the type of {@link Object} being used to represent the version,
@@ -32,8 +32,7 @@ final class Interval<V extends Object> {
 	 * @param typeUpper
 	 *            the value to use for {@link #getTypeUpper()}
 	 */
-	public Interval(IntervalBoundaryType typeLower, V versionLower,
-			V versionUpper, IntervalBoundaryType typeUpper) {
+	public Interval(IntervalBoundaryType typeLower, V versionLower, V versionUpper, IntervalBoundaryType typeUpper) {
 		// Sanity check: nulls
 		if (typeLower == null)
 			throw new IllegalArgumentException();
@@ -42,20 +41,16 @@ final class Interval<V extends Object> {
 
 		// Sanity check: unbalanced boundary types
 		if ((typeLower == IntervalBoundaryType.OMITTED) != (typeUpper == IntervalBoundaryType.OMITTED))
-			throw new IllegalArgumentException(
-					"Only zero or both boundary types may be omitted.");
+			throw new IllegalArgumentException("Only zero or both boundary types may be omitted.");
 
 		// Sanity check: at least one version boundary
 		if (versionLower == null && versionUpper == null)
-			throw new IllegalArgumentException(
-					"At least the lower or upper version must be specified.");
+			throw new IllegalArgumentException("At least the lower or upper version must be specified.");
 
 		// Sanity check: if boundary types omitted, upper version must be
 		// also
-		if ((typeLower == IntervalBoundaryType.OMITTED)
-				&& (versionUpper != null))
-			throw new IllegalArgumentException(
-					"Upper version may not be provided if boundary types are omitted.");
+		if ((typeLower == IntervalBoundaryType.OMITTED) && (versionUpper != null))
+			throw new IllegalArgumentException("Upper version may not be provided if boundary types are omitted.");
 
 		this.typeLower = typeLower;
 		this.versionLower = versionLower;
@@ -74,8 +69,7 @@ final class Interval<V extends Object> {
 	 * @param typeUpper
 	 *            the value to use for {@link #getTypeUpper()}
 	 */
-	public Interval(IntervalBoundaryType typeLower, V version,
-			IntervalBoundaryType typeUpper) {
+	public Interval(IntervalBoundaryType typeLower, V version, IntervalBoundaryType typeUpper) {
 		this(typeLower, version, version, typeUpper);
 	}
 
@@ -121,14 +115,10 @@ final class Interval<V extends Object> {
 
 		final int prime = 31;
 		int result = 1;
-		result = prime * result
-				+ ((typeLower == null) ? 0 : typeLower.hashCode());
-		result = prime * result
-				+ ((typeUpper == null) ? 0 : typeUpper.hashCode());
-		result = prime * result
-				+ ((versionLower == null) ? 0 : versionLower.hashCode());
-		result = prime * result
-				+ ((versionUpper == null) ? 0 : versionUpper.hashCode());
+		result = prime * result + ((typeLower == null) ? 0 : typeLower.hashCode());
+		result = prime * result + ((typeUpper == null) ? 0 : typeUpper.hashCode());
+		result = prime * result + ((versionLower == null) ? 0 : versionLower.hashCode());
+		result = prime * result + ((versionUpper == null) ? 0 : versionUpper.hashCode());
 		return result;
 	}
 

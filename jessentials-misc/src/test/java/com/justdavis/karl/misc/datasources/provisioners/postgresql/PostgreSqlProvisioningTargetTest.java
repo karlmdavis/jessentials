@@ -34,18 +34,15 @@ public final class PostgreSqlProvisioningTargetTest {
 	 *             (shouldn't be thrown if things are working)
 	 */
 	@Test
-	public void jaxbMarshalling() throws JAXBException,
-			XPathExpressionException {
+	public void jaxbMarshalling() throws JAXBException, XPathExpressionException {
 		// Create the Marshaller needed.
-		JAXBContext jaxbContext = JAXBContext
-				.newInstance(PostgreSqlProvisioningTarget.class);
+		JAXBContext jaxbContext = JAXBContext.newInstance(PostgreSqlProvisioningTarget.class);
 		Marshaller marshaller = jaxbContext.createMarshaller();
 
 		// Create the instance to be converted to XML.
 		PostgreSqlCoordinates coords = new PostgreSqlCoordinates(
 				"jdbc:postgresql://localhost/test?user=fred&password=secret&ssl=true");
-		PostgreSqlProvisioningTarget target = new PostgreSqlProvisioningTarget(
-				coords);
+		PostgreSqlProvisioningTarget target = new PostgreSqlProvisioningTarget(coords);
 
 		// Convert it to XML.
 		DOMResult domResult = new DOMResult();
@@ -54,14 +51,11 @@ public final class PostgreSqlProvisioningTargetTest {
 		// Verify the results.
 		XPathFactory xpathFactory = XPathFactory.newInstance();
 		XPath xpath = xpathFactory.newXPath();
-		xpath.setNamespaceContext(new SimpleNamespaceContext("jed",
-				XmlNamespace.JE_DATASOURCES));
-		Node targetNode = (Node) xpath.evaluate(
-				"/jed:postgreSqlProvisioningTarget/jed:serverCoords/jed:url",
+		xpath.setNamespaceContext(new SimpleNamespaceContext("jed", XmlNamespace.JE_DATASOURCES));
+		Node targetNode = (Node) xpath.evaluate("/jed:postgreSqlProvisioningTarget/jed:serverCoords/jed:url",
 				domResult.getNode(), XPathConstants.NODE);
 		Assert.assertNotNull(targetNode);
-		Assert.assertEquals(
-				"jdbc:postgresql://localhost/test?user=fred&password=secret&ssl=true",
+		Assert.assertEquals("jdbc:postgresql://localhost/test?user=fred&password=secret&ssl=true",
 				targetNode.getTextContent());
 	}
 
@@ -75,11 +69,9 @@ public final class PostgreSqlProvisioningTargetTest {
 	 *             (shouldn't be thrown if things are working)
 	 */
 	@Test
-	public void jaxbUnmarshalling() throws JAXBException,
-			XPathExpressionException {
+	public void jaxbUnmarshalling() throws JAXBException, XPathExpressionException {
 		// Create the Unmarshaller needed.
-		JAXBContext jaxbContext = JAXBContext
-				.newInstance(PostgreSqlProvisioningTarget.class);
+		JAXBContext jaxbContext = JAXBContext.newInstance(PostgreSqlProvisioningTarget.class);
 		Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
 
 		// Get the XML to be converted.
@@ -87,13 +79,11 @@ public final class PostgreSqlProvisioningTargetTest {
 				.getResource("sample-xml/provisioningTarget-postgreSql-1.xml");
 
 		// Parse the XML to an object.
-		PostgreSqlProvisioningTarget parsedTarget = (PostgreSqlProvisioningTarget) unmarshaller
-				.unmarshal(sourceXmlUrl);
+		PostgreSqlProvisioningTarget parsedTarget = (PostgreSqlProvisioningTarget) unmarshaller.unmarshal(sourceXmlUrl);
 
 		// Verify the results.
 		Assert.assertNotNull(parsedTarget);
-		Assert.assertEquals(
-				"jdbc:postgresql://localhost/test?user=fred&password=secret&ssl=true",
+		Assert.assertEquals("jdbc:postgresql://localhost/test?user=fred&password=secret&ssl=true",
 				parsedTarget.getServerCoords().getUrl());
 	}
 }

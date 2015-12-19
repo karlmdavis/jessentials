@@ -17,8 +17,7 @@ import com.justdavis.karl.misc.exceptions.unchecked.UncheckedJaxbException;
  * This {@link IProvisioningTargetsProvider} implementation reads in the
  * available {@link IProvisioningTarget}s from an XML file.
  */
-public final class XmlProvisioningTargetsProvider implements
-		IProvisioningTargetsProvider {
+public final class XmlProvisioningTargetsProvider implements IProvisioningTargetsProvider {
 	private final DataSourceProvisionersManager provisionersManager;
 	private final ProvisioningTargets targets;
 
@@ -31,8 +30,7 @@ public final class XmlProvisioningTargetsProvider implements
 	 *            a {@link URL} to an XML document containing a JAX-B-marshalled
 	 *            {@link ProvisioningTargets} instance
 	 */
-	public XmlProvisioningTargetsProvider(
-			DataSourceProvisionersManager provisionersManager, URL targetsDocUrl) {
+	public XmlProvisioningTargetsProvider(DataSourceProvisionersManager provisionersManager, URL targetsDocUrl) {
 		this.provisionersManager = provisionersManager;
 		this.targets = parseTargetsDoc(targetsDocUrl);
 	}
@@ -55,13 +53,11 @@ public final class XmlProvisioningTargetsProvider implements
 				jaxbClasses.add(provisioner.getTargetType());
 
 			// Create the Unmarshaller needed.
-			JAXBContext jaxbContext = JAXBContext.newInstance(jaxbClasses
-					.toArray(new Class<?>[jaxbClasses.size()]));
+			JAXBContext jaxbContext = JAXBContext.newInstance(jaxbClasses.toArray(new Class<?>[jaxbClasses.size()]));
 			Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
 
 			// Try to unmarshall the config file.
-			ProvisioningTargets parsedTargets = (ProvisioningTargets) unmarshaller
-					.unmarshal(targetsDocUrl);
+			ProvisioningTargets parsedTargets = (ProvisioningTargets) unmarshaller.unmarshal(targetsDocUrl);
 
 			return parsedTargets;
 		} catch (JAXBException e) {

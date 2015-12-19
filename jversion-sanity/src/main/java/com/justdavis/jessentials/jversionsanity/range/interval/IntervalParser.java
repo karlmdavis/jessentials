@@ -12,8 +12,8 @@ import com.justdavis.jessentials.jversionsanity.range.VersionRangeParseException
 
 /**
  * <p>
- * A utility class that is used to parse {@link Interval}s represented in <a
- * href=
+ * A utility class that is used to parse {@link Interval}s represented in
+ * <a href=
  * "http://en.wikipedia.org/wiki/Interval_%28mathematics%29#Notations_for_intervals"
  * >interval notation</a>.
  * </p>
@@ -25,7 +25,8 @@ import com.justdavis.jessentials.jversionsanity.range.VersionRangeParseException
  * "<code>3.1 4</code>" will be maintained in the parse results; it's up to the
  * caller to decide what to do with it.</li>
  * <li>Version numbers can contain any characters other than: '<code>[</code>',
- * '<code>(</code>', '<code>]</code>', '<code>)</code>', and '<code>,</code>'.</li>
+ * '<code>(</code>', '<code>]</code>', '<code>)</code>', and '<code>,</code>'.
+ * </li>
  * <li></li>
  * </ul>
  * 
@@ -53,10 +54,9 @@ final class IntervalParser {
 	 * <li>5: the right-side ']' or ')' character</li>
 	 * </ul>
 	 */
-	private static final Pattern INTERVAL_REGEX = Pattern.compile(WHITESPACE
-			+ BOUNDARY_LEFT + WHITESPACE + VERSION_STRING + WHITESPACE + COMMA
-			+ WHITESPACE + VERSION_STRING + WHITESPACE + BOUNDARY_RIGHT
-			+ WHITESPACE);
+	private static final Pattern INTERVAL_REGEX = Pattern
+			.compile(WHITESPACE + BOUNDARY_LEFT + WHITESPACE + VERSION_STRING + WHITESPACE + COMMA + WHITESPACE
+					+ VERSION_STRING + WHITESPACE + BOUNDARY_RIGHT + WHITESPACE);
 
 	/**
 	 * Parses the specified version range {@link String} into an
@@ -71,16 +71,14 @@ final class IntervalParser {
 	 *             An {@link IllegalArgumentException} will be thrown if the
 	 *             version range {@link String} could not be properly parsed.
 	 */
-	public Interval<String> parseVersionRange(String versionRangeString)
-			throws VersionRangeParseException {
+	public Interval<String> parseVersionRange(String versionRangeString) throws VersionRangeParseException {
 		Matcher rangeMatcher = INTERVAL_REGEX.matcher(versionRangeString);
 		if (!rangeMatcher.matches())
 			throw new VersionRangeParseException("Invalid range format.");
 
 		// Pull apart the regular expression match
 		String boundaryLeftString = rangeMatcher.group(1);
-		IntervalBoundaryType boundaryLeft = IntervalBoundaryType
-				.determineBoundaryType(boundaryLeftString);
+		IntervalBoundaryType boundaryLeft = IntervalBoundaryType.determineBoundaryType(boundaryLeftString);
 		String versionLowerString = rangeMatcher.group(2);
 		if (versionLowerString != null)
 			versionLowerString = versionLowerString.trim();
@@ -89,8 +87,7 @@ final class IntervalParser {
 		if (versionUpperString != null)
 			versionUpperString = versionUpperString.trim();
 		String boundaryRightString = rangeMatcher.group(5);
-		IntervalBoundaryType boundaryRight = IntervalBoundaryType
-				.determineBoundaryType(boundaryRightString);
+		IntervalBoundaryType boundaryRight = IntervalBoundaryType.determineBoundaryType(boundaryRightString);
 
 		// Sanity check: either 0 or 2 boundary symbols must be present
 		if ((boundaryLeft != IntervalBoundaryType.OMITTED) != (boundaryRight != IntervalBoundaryType.OMITTED))
@@ -104,13 +101,10 @@ final class IntervalParser {
 		// Construct the interval, being sure to use the single-valued or
 		// non-single-valued constructor, as appropriate.
 		try {
-			if (commaString != null
-					|| boundaryLeft == IntervalBoundaryType.OMITTED)
-				return new Interval<String>(boundaryLeft, versionLowerString,
-						versionUpperString, boundaryRight);
+			if (commaString != null || boundaryLeft == IntervalBoundaryType.OMITTED)
+				return new Interval<String>(boundaryLeft, versionLowerString, versionUpperString, boundaryRight);
 			else
-				return new Interval<String>(boundaryLeft, versionLowerString,
-						boundaryRight);
+				return new Interval<String>(boundaryLeft, versionLowerString, boundaryRight);
 		} catch (IllegalArgumentException e) {
 			throw new VersionRangeParseException("Invalid version range.", e);
 		}
@@ -137,8 +131,7 @@ final class IntervalParser {
 		 * it requires the use of Hamcrest (or some hand-written predicate logic
 		 * classes).
 		 */
-		return CoreMatchers.allOf(new LowerBoundMatcher<V>(range),
-				new UpperBoundMatcher<V>(range)).matches(version);
+		return CoreMatchers.allOf(new LowerBoundMatcher<V>(range), new UpperBoundMatcher<V>(range)).matches(version);
 	}
 
 	/**
@@ -148,8 +141,7 @@ final class IntervalParser {
 	 * @param <V>
 	 *            the {@link Version} implementation that will be checked
 	 */
-	private static final class LowerBoundMatcher<V extends Version> extends
-			BaseMatcher<V> {
+	private static final class LowerBoundMatcher<V extends Version> extends BaseMatcher<V> {
 		private final Interval<V> range;
 
 		/**
@@ -200,8 +192,7 @@ final class IntervalParser {
 				 * Library author error: this will only occur if a new boundary
 				 * type has been added
 				 */
-				throw new IllegalStateException(String.format(
-						"Unsupported %s constant: %s.",
+				throw new IllegalStateException(String.format("Unsupported %s constant: %s.",
 						IntervalBoundaryType.class, range.getTypeLower()));
 			}
 		}
@@ -222,8 +213,7 @@ final class IntervalParser {
 	 * @param <V>
 	 *            the {@link Version} implementation that will be checked
 	 */
-	private static final class UpperBoundMatcher<V extends Version> extends
-			BaseMatcher<V> {
+	private static final class UpperBoundMatcher<V extends Version> extends BaseMatcher<V> {
 		private final Interval<V> range;
 
 		/**
@@ -274,8 +264,7 @@ final class IntervalParser {
 				 * Library author error: this will only occur if a new boundary
 				 * type has been added
 				 */
-				throw new IllegalStateException(String.format(
-						"Unsupported %s constant: %s.",
+				throw new IllegalStateException(String.format("Unsupported %s constant: %s.",
 						IntervalBoundaryType.class, range.getTypeLower()));
 			}
 		}

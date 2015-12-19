@@ -40,11 +40,9 @@ public final class HsqlConnectorTest {
 	 *             (shouldn't be thrown if things are working)
 	 */
 	@Test
-	public void jaxbMarshalling() throws JAXBException,
-			XPathExpressionException {
+	public void jaxbMarshalling() throws JAXBException, XPathExpressionException {
 		// Create the Marshaller needed.
-		JAXBContext jaxbContext = JAXBContext
-				.newInstance(HsqlCoordinates.class);
+		JAXBContext jaxbContext = JAXBContext.newInstance(HsqlCoordinates.class);
 		Marshaller marshaller = jaxbContext.createMarshaller();
 
 		// Create the instance to be converted to XML.
@@ -57,10 +55,9 @@ public final class HsqlConnectorTest {
 		// Verify the results.
 		XPathFactory xpathFactory = XPathFactory.newInstance();
 		XPath xpath = xpathFactory.newXPath();
-		xpath.setNamespaceContext(new SimpleNamespaceContext("jed",
-				XmlNamespace.JE_DATASOURCES));
-		Node coordsNode = (Node) xpath.evaluate("/jed:hsqlCoordinates/jed:url",
-				domResult.getNode(), XPathConstants.NODE);
+		xpath.setNamespaceContext(new SimpleNamespaceContext("jed", XmlNamespace.JE_DATASOURCES));
+		Node coordsNode = (Node) xpath.evaluate("/jed:hsqlCoordinates/jed:url", domResult.getNode(),
+				XPathConstants.NODE);
 		Assert.assertNotNull(coordsNode);
 		Assert.assertEquals(coords.getUrl(), coordsNode.getTextContent());
 	}
@@ -74,20 +71,16 @@ public final class HsqlConnectorTest {
 	 *             (shouldn't be thrown if things are working)
 	 */
 	@Test
-	public void jaxbUnmarshalling() throws JAXBException,
-			XPathExpressionException {
+	public void jaxbUnmarshalling() throws JAXBException, XPathExpressionException {
 		// Create the Unmarshaller needed.
-		JAXBContext jaxbContext = JAXBContext
-				.newInstance(HsqlCoordinates.class);
+		JAXBContext jaxbContext = JAXBContext.newInstance(HsqlCoordinates.class);
 		Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
 
 		// Get the XML to be converted.
-		URL sourceXmlUrl = Thread.currentThread().getContextClassLoader()
-				.getResource("sample-xml/coords-hsql-1.xml");
+		URL sourceXmlUrl = Thread.currentThread().getContextClassLoader().getResource("sample-xml/coords-hsql-1.xml");
 
 		// Parse the XML to an object.
-		HsqlCoordinates parsedCoords = (HsqlCoordinates) unmarshaller
-				.unmarshal(sourceXmlUrl);
+		HsqlCoordinates parsedCoords = (HsqlCoordinates) unmarshaller.unmarshal(sourceXmlUrl);
 
 		// Verify the results.
 		Assert.assertNotNull(parsedCoords);
@@ -105,8 +98,7 @@ public final class HsqlConnectorTest {
 		Connection hsqlConnection = null;
 
 		try {
-			HsqlCoordinates coords = new HsqlCoordinates(
-					"jdbc:hsqldb:mem:foo;shutdown=true");
+			HsqlCoordinates coords = new HsqlCoordinates("jdbc:hsqldb:mem:foo;shutdown=true");
 
 			// Create a DataSource
 			HsqlConnector connector = new HsqlConnector();
@@ -135,16 +127,12 @@ public final class HsqlConnectorTest {
 	 */
 	@Test
 	public void convertToJpaProperties() {
-		HsqlCoordinates coords = new HsqlCoordinates(
-				"jdbc:hsqldb:mem:foo;shutdown=true");
+		HsqlCoordinates coords = new HsqlCoordinates("jdbc:hsqldb:mem:foo;shutdown=true");
 
-		Map<String, Object> jpaCoords = new HsqlConnector()
-				.convertToJpaProperties(coords);
+		Map<String, Object> jpaCoords = new HsqlConnector().convertToJpaProperties(coords);
 		Assert.assertNotNull(jpaCoords);
 		Assert.assertEquals(2, jpaCoords.size());
-		Assert.assertEquals(JDBCDriver.class.getName(),
-				jpaCoords.get(IDataSourceConnector.JPA_JDBC_DRIVER));
-		Assert.assertEquals(coords.getUrl(),
-				jpaCoords.get(IDataSourceConnector.JPA_JDBC_URL));
+		Assert.assertEquals(JDBCDriver.class.getName(), jpaCoords.get(IDataSourceConnector.JPA_JDBC_DRIVER));
+		Assert.assertEquals(coords.getUrl(), jpaCoords.get(IDataSourceConnector.JPA_JDBC_URL));
 	}
 }

@@ -21,7 +21,8 @@ import com.justdavis.jessentials.jversionsanity.bareint.IntegerVersion;
  * <li>Implement {@link Comparable#compareTo(Object)} such that versions of its
  * own type can be compared.</li>
  * <li>Implement {@link Comparable#compareTo(Object)} such that trying to
- * compare a version of a different type throws a {@link ClassCastException}.</li>
+ * compare a version of a different type throws a {@link ClassCastException}.
+ * </li>
  * <li>Use of {@link #equals(Object)} such that {@link Version}s of the same
  * type/implementation can be compared for equivalency.</li>
  * </ul>

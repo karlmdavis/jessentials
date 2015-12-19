@@ -105,8 +105,7 @@ public final class EmbeddedServer {
 	 */
 	private static final String CERT_PASSWORD = "foo";
 
-	private static final Logger LOGGER = LoggerFactory
-			.getLogger(EmbeddedServer.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(EmbeddedServer.class);
 
 	private final int port;
 	private final boolean enableSsl;
@@ -120,16 +119,15 @@ public final class EmbeddedServer {
 	 * @param port
 	 *            the port to host Jetty on (specifying <code>0</code> will
 	 *            cause Jetty to assign a random port when started)
-	 * @param <code>true</code> to serve HTTPS (with a randomly generated
-	 *        self-signed cert), <code>false</code> to serve HTTP (just one or
-	 *        the other)
+	 * @param <code>true</code>
+	 *            to serve HTTPS (with a randomly generated self-signed cert),
+	 *            <code>false</code> to serve HTTP (just one or the other)
 	 * @param webAppAttributes
 	 *            the attributes to supply to the server's
 	 *            {@link ContextHandler#setAttribute(String, Object)} property,
 	 *            or <code>null</code> if no attributes are being supplied
 	 */
-	public EmbeddedServer(int port, boolean enableSsl,
-			Map<String, Object> webAppAttributes) {
+	public EmbeddedServer(int port, boolean enableSsl, Map<String, Object> webAppAttributes) {
 		this.port = port;
 		this.enableSsl = enableSsl;
 		this.webAppAttributes = webAppAttributes;
@@ -162,8 +160,7 @@ public final class EmbeddedServer {
 		webapp.setContextPath("/");
 		webapp.setWar("src/main/webapp");
 		if (this.webAppAttributes != null) {
-			for (Entry<String, Object> attribute : this.webAppAttributes
-					.entrySet())
+			for (Entry<String, Object> attribute : this.webAppAttributes.entrySet())
 				webapp.setAttribute(attribute.getKey(), attribute.getValue());
 		}
 		configureForMavenWarProject(webapp, new File("."));
@@ -198,11 +195,8 @@ public final class EmbeddedServer {
 	 * @param projectPath
 	 *            the path to the root of the Maven WAR project
 	 */
-	private static void configureForMavenWarProject(WebAppContext webapp,
-			File projectPath) {
-		webapp.setAttribute(
-				"org.eclipse.jetty.server.webapp.ContainerIncludeJarPattern",
-				".*/classes/.*");
+	private static void configureForMavenWarProject(WebAppContext webapp, File projectPath) {
+		webapp.setAttribute("org.eclipse.jetty.server.webapp.ContainerIncludeJarPattern", ".*/classes/.*");
 
 		/*
 		 * This setup should more-or-less mirror one produced by m2e-wtp, in a
@@ -210,8 +204,7 @@ public final class EmbeddedServer {
 		 */
 		List<File> resourcePaths = new ArrayList<>();
 		resourcePaths.add(new File(projectPath, "target/classes"));
-		resourcePaths
-				.add(new File(projectPath, "target/m2e-wtp/web-resources"));
+		resourcePaths.add(new File(projectPath, "target/m2e-wtp/web-resources"));
 		resourcePaths.add(new File(projectPath, "src/main/webapp"));
 
 		List<Resource> jettyResources = new ArrayList<Resource>();
@@ -221,8 +214,7 @@ public final class EmbeddedServer {
 			 * will go boom if we try to use a directory that doesn't exist.
 			 */
 			if (resourcePath.isDirectory())
-				jettyResources.add(Resource
-						.newResource(buildJettyResourcePath(resourcePath)));
+				jettyResources.add(Resource.newResource(buildJettyResourcePath(resourcePath)));
 		}
 
 		ResourceCollection resources = new ResourceCollection(
@@ -265,8 +257,7 @@ public final class EmbeddedServer {
 	 *            the {@link WebAppContext} to configure
 	 */
 	private static void enableAnnotationConfigs(WebAppContext webapp) {
-		webapp.setConfigurations(new Configuration[] {
-				new AnnotationConfiguration(), new WebInfConfiguration() });
+		webapp.setConfigurations(new Configuration[] { new AnnotationConfiguration(), new WebInfConfiguration() });
 	}
 
 	/**
@@ -289,8 +280,7 @@ public final class EmbeddedServer {
 
 		// Apply the config.
 		ServerConnector serverConnector = new ServerConnector(this.server,
-				new SslConnectionFactory(sslContextFactory,
-						HttpVersion.HTTP_1_1.toString()),
+				new SslConnectionFactory(sslContextFactory, HttpVersion.HTTP_1_1.toString()),
 				new HttpConnectionFactory(httpsConfig));
 		serverConnector.setPort(this.port);
 		this.server.setConnectors(new Connector[] { serverConnector });
@@ -305,28 +295,21 @@ public final class EmbeddedServer {
 			KeyPairGenerator keyGen = KeyPairGenerator.getInstance("RSA");
 			keyGen.initialize(1024, new SecureRandom());
 			KeyPair pair = keyGen.generateKeyPair();
-			SubjectPublicKeyInfo publicKeyInfo = SubjectPublicKeyInfo
-					.getInstance(pair.getPublic().getEncoded());
+			SubjectPublicKeyInfo publicKeyInfo = SubjectPublicKeyInfo.getInstance(pair.getPublic().getEncoded());
 
 			// Create a new self-signed cert.
-			X509v3CertificateBuilder certBuilder = new X509v3CertificateBuilder(
-					new X500Name("c=foo"), BigInteger.valueOf(new Random()
-							.nextInt(1000000)), new Date(
-							System.currentTimeMillis()), new Date(
-							System.currentTimeMillis()
-									+ (1000L * 60 * 60 * 24 * 365 * 100)),
-					new X500Name("c=foo"), publicKeyInfo);
-			ContentSigner signer = new JcaContentSignerBuilder("Sha256withRSA")
-					.build(pair.getPrivate());
+			X509v3CertificateBuilder certBuilder = new X509v3CertificateBuilder(new X500Name("c=foo"),
+					BigInteger.valueOf(new Random().nextInt(1000000)), new Date(System.currentTimeMillis()),
+					new Date(System.currentTimeMillis() + (1000L * 60 * 60 * 24 * 365 * 100)), new X500Name("c=foo"),
+					publicKeyInfo);
+			ContentSigner signer = new JcaContentSignerBuilder("Sha256withRSA").build(pair.getPrivate());
 			X509CertificateHolder certHolder = certBuilder.build(signer);
-			X509Certificate cert = (new JcaX509CertificateConverter())
-					.getCertificate(certHolder);
+			X509Certificate cert = (new JcaX509CertificateConverter()).getCertificate(certHolder);
 
 			// Create a KeyStore and shove the cert in there.
 			KeyStore keyStore = KeyStore.getInstance(KeyStore.getDefaultType());
 			keyStore.load(null, null);
-			keyStore.setKeyEntry(CERT_ALIAS, pair.getPrivate(),
-					CERT_PASSWORD.toCharArray(),
+			keyStore.setKeyEntry(CERT_ALIAS, pair.getPrivate(), CERT_PASSWORD.toCharArray(),
 					new java.security.cert.Certificate[] { cert });
 			return keyStore;
 		} catch (KeyStoreException e) {
@@ -350,8 +333,7 @@ public final class EmbeddedServer {
 	 *            the {@link WebAppContext} to add the servlet to
 	 */
 	private static void enableDefaultServlet(WebAppContext webAppContext) {
-		ServletHolder servletHolderForDefault = new ServletHolder("default",
-				DefaultServlet.class);
+		ServletHolder servletHolderForDefault = new ServletHolder("default", DefaultServlet.class);
 		servletHolderForDefault.setInitParameter("dirAllowed", "true");
 		webAppContext.addServlet(servletHolderForDefault, "/default");
 
@@ -385,15 +367,13 @@ public final class EmbeddedServer {
 		 */
 		Class<Servlet> jspServletClass = null;
 		try {
-			jspServletClass = (Class<Servlet>) Class
-					.forName("org.apache.jasper.servlet.JspServlet");
+			jspServletClass = (Class<Servlet>) Class.forName("org.apache.jasper.servlet.JspServlet");
 		} catch (ClassNotFoundException e) {
 			LOGGER.warn("JSP library not available; JSP request will not be handled.");
 			return;
 		}
 
-		ServletHolder servletHolderForJsp = new ServletHolder("jsp",
-				jspServletClass);
+		ServletHolder servletHolderForJsp = new ServletHolder("jsp", jspServletClass);
 		servletHolderForJsp.setInitOrder(0);
 		// holderJsp.setInitParameter("logVerbosityLevel", "DEBUG");
 		// holderJsp.setInitParameter("fork", "false");
@@ -421,8 +401,7 @@ public final class EmbeddedServer {
 	 * @return the port that Jetty is serving from
 	 */
 	public int getServerPort() {
-		AbstractNetworkConnector connector = (AbstractNetworkConnector) server
-				.getConnectors()[0];
+		AbstractNetworkConnector connector = (AbstractNetworkConnector) server.getConnectors()[0];
 		return connector.getLocalPort();
 	}
 
@@ -433,8 +412,7 @@ public final class EmbeddedServer {
 	public URI getServerBaseAddress() {
 		try {
 			String protocol = enableSsl ? "https" : "http";
-			URI baseAddress = new URI(String.format("%s://localhost:%d/",
-					protocol, getServerPort()));
+			URI baseAddress = new URI(String.format("%s://localhost:%d/", protocol, getServerPort()));
 			return baseAddress;
 		} catch (URISyntaxException e) {
 			throw new BadCodeMonkeyException();

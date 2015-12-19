@@ -17,6 +17,5 @@ public interface IProvisioningTargetsProvider {
 	 *             thrown if a matching {@link IProvisioningTarget} instance
 	 *             could not be found.
 	 */
-	<T extends IProvisioningTarget> T findTarget(Class<T> targetType)
-			throws UnmatchedProvisioningTargetException;
+	<T extends IProvisioningTarget> T findTarget(Class<T> targetType) throws UnmatchedProvisioningTargetException;
 }

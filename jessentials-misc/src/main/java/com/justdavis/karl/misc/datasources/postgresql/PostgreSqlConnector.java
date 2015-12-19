@@ -7,10 +7,6 @@ import java.util.Map;
 
 import javax.sql.DataSource;
 
-import liquibase.database.Database;
-import liquibase.database.core.PostgresDatabase;
-import liquibase.database.jvm.JdbcConnection;
-
 import org.postgresql.Driver;
 import org.postgresql.ds.PGSimpleDataSource;
 import org.springframework.stereotype.Component;
@@ -18,16 +14,19 @@ import org.springframework.stereotype.Component;
 import com.justdavis.karl.misc.datasources.IDataSourceConnector;
 import com.justdavis.karl.misc.exceptions.unchecked.UncheckedSqlException;
 
+import liquibase.database.Database;
+import liquibase.database.core.PostgresDatabase;
+import liquibase.database.jvm.JdbcConnection;
+
 /**
  * This {@link IDataSourceConnector} implementation converts
- * {@link PostgreSqlCoordinates} instance into JDBC {@link DataSource}s, for <a
- * href="http://www.postgresql.org/">PostgreSQL</a> databases.
+ * {@link PostgreSqlCoordinates} instance into JDBC {@link DataSource}s, for
+ * <a href="http://www.postgresql.org/">PostgreSQL</a> databases.
  * 
  * @see PostgreSqlCoordinates
  */
 @Component
-public final class PostgreSqlConnector implements
-		IDataSourceConnector<PostgreSqlCoordinates> {
+public final class PostgreSqlConnector implements IDataSourceConnector<PostgreSqlCoordinates> {
 	/**
 	 * @see com.justdavis.karl.misc.datasources.IDataSourceConnector#getCoordinatesType()
 	 */
@@ -40,8 +39,7 @@ public final class PostgreSqlConnector implements
 	 * @see com.justdavis.karl.misc.datasources.IDataSourceConnector#createDataSource(com.justdavis.karl.misc.datasources.IDataSourceCoordinates)
 	 */
 	@Override
-	public DataSource createDataSource(PostgreSqlCoordinates coords)
-			throws UncheckedSqlException {
+	public DataSource createDataSource(PostgreSqlCoordinates coords) throws UncheckedSqlException {
 		PGSimpleDataSource dataSource = new PGSimpleDataSource();
 		try {
 			dataSource.setUrl(coords.getUrl());
@@ -60,8 +58,7 @@ public final class PostgreSqlConnector implements
 	 * @see com.justdavis.karl.misc.datasources.IDataSourceConnector#convertToJpaProperties(com.justdavis.karl.misc.datasources.IDataSourceCoordinates)
 	 */
 	@Override
-	public Map<String, Object> convertToJpaProperties(
-			PostgreSqlCoordinates coords) {
+	public Map<String, Object> convertToJpaProperties(PostgreSqlCoordinates coords) {
 		Map<String, Object> jpaCoords = new HashMap<String, Object>();
 		jpaCoords.put(JPA_JDBC_DRIVER, Driver.class.getName());
 		jpaCoords.put(JPA_JDBC_URL, coords.getUrl());

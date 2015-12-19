@@ -32,11 +32,9 @@ public final class PostgreSqlCoordinatesTest {
 	 *             (shouldn't be thrown if things are working)
 	 */
 	@Test
-	public void jaxbMarshalling() throws JAXBException,
-			XPathExpressionException {
+	public void jaxbMarshalling() throws JAXBException, XPathExpressionException {
 		// Create the Marshaller needed.
-		JAXBContext jaxbContext = JAXBContext
-				.newInstance(PostgreSqlCoordinates.class);
+		JAXBContext jaxbContext = JAXBContext.newInstance(PostgreSqlCoordinates.class);
 		Marshaller marshaller = jaxbContext.createMarshaller();
 
 		// Create the instance to be converted to XML.
@@ -50,10 +48,8 @@ public final class PostgreSqlCoordinatesTest {
 		// Verify the results.
 		XPathFactory xpathFactory = XPathFactory.newInstance();
 		XPath xpath = xpathFactory.newXPath();
-		xpath.setNamespaceContext(new SimpleNamespaceContext("jed",
-				XmlNamespace.JE_DATASOURCES));
-		Node coordsNode = (Node) xpath.evaluate(
-				"/jed:postgreSqlCoordinates/jed:url", domResult.getNode(),
+		xpath.setNamespaceContext(new SimpleNamespaceContext("jed", XmlNamespace.JE_DATASOURCES));
+		Node coordsNode = (Node) xpath.evaluate("/jed:postgreSqlCoordinates/jed:url", domResult.getNode(),
 				XPathConstants.NODE);
 		Assert.assertNotNull(coordsNode);
 		Assert.assertEquals(coords.getUrl(), coordsNode.getTextContent());
@@ -68,11 +64,9 @@ public final class PostgreSqlCoordinatesTest {
 	 *             (shouldn't be thrown if things are working)
 	 */
 	@Test
-	public void jaxbUnmarshalling() throws JAXBException,
-			XPathExpressionException {
+	public void jaxbUnmarshalling() throws JAXBException, XPathExpressionException {
 		// Create the Unmarshaller needed.
-		JAXBContext jaxbContext = JAXBContext
-				.newInstance(PostgreSqlCoordinates.class);
+		JAXBContext jaxbContext = JAXBContext.newInstance(PostgreSqlCoordinates.class);
 		Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
 
 		// Get the XML to be converted.
@@ -80,15 +74,13 @@ public final class PostgreSqlCoordinatesTest {
 				.getResource("sample-xml/coords-postgresql-1.xml");
 
 		// Parse the XML to an object.
-		PostgreSqlCoordinates parsedCoords = (PostgreSqlCoordinates) unmarshaller
-				.unmarshal(sourceXmlUrl);
+		PostgreSqlCoordinates parsedCoords = (PostgreSqlCoordinates) unmarshaller.unmarshal(sourceXmlUrl);
 
 		// Verify the results.
 		Assert.assertNotNull(parsedCoords);
 
 		// Ensure that the auth token is null (should never be included in XML).
-		Assert.assertEquals(
-				"jdbc:postgresql://localhost/test?user=fred&password=secret&ssl=true",
+		Assert.assertEquals("jdbc:postgresql://localhost/test?user=fred&password=secret&ssl=true",
 				parsedCoords.getUrl());
 	}
 
@@ -102,11 +94,9 @@ public final class PostgreSqlCoordinatesTest {
 	 *             (shouldn't be thrown if things are working)
 	 */
 	@Test
-	public void jaxbUnmarshallingWithUnfilteredProperties()
-			throws JAXBException, XPathExpressionException {
+	public void jaxbUnmarshallingWithUnfilteredProperties() throws JAXBException, XPathExpressionException {
 		// Create the Unmarshaller needed.
-		JAXBContext jaxbContext = JAXBContext
-				.newInstance(PostgreSqlCoordinates.class);
+		JAXBContext jaxbContext = JAXBContext.newInstance(PostgreSqlCoordinates.class);
 		Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
 
 		// Get the XML to be converted.
@@ -114,15 +104,13 @@ public final class PostgreSqlCoordinatesTest {
 				.getResource("sample-xml/coords-postgresql-2.xml");
 
 		// Parse the XML to an object.
-		PostgreSqlCoordinates parsedCoords = (PostgreSqlCoordinates) unmarshaller
-				.unmarshal(sourceXmlUrl);
+		PostgreSqlCoordinates parsedCoords = (PostgreSqlCoordinates) unmarshaller.unmarshal(sourceXmlUrl);
 
 		// Verify the results.
 		Assert.assertNotNull(parsedCoords);
 
 		// Ensure that the auth token is null (should never be included in XML).
-		Assert.assertEquals(
-				"jdbc:postgresql://localhost/test?user=fred&password=secret&ssl=true",
+		Assert.assertEquals("jdbc:postgresql://localhost/test?user=fred&password=secret&ssl=true",
 				parsedCoords.getUrl());
 		Assert.assertNull(parsedCoords.getUser());
 		Assert.assertNull(parsedCoords.getPassword());
@@ -135,28 +123,20 @@ public final class PostgreSqlCoordinatesTest {
 	 */
 	@Test
 	public void constructWithNewDatabaseName() {
-		PostgreSqlCoordinates coordsWithJustDb = new PostgreSqlCoordinates(
-				"jdbc:postgresql:foo");
-		Assert.assertEquals("jdbc:postgresql:bar", new PostgreSqlCoordinates(
-				coordsWithJustDb, "bar").getUrl());
+		PostgreSqlCoordinates coordsWithJustDb = new PostgreSqlCoordinates("jdbc:postgresql:foo");
+		Assert.assertEquals("jdbc:postgresql:bar", new PostgreSqlCoordinates(coordsWithJustDb, "bar").getUrl());
 
-		PostgreSqlCoordinates coordsWithHost = new PostgreSqlCoordinates(
-				"jdbc:postgresql://host/foo");
-		Assert.assertEquals("jdbc:postgresql://host/bar",
-				new PostgreSqlCoordinates(coordsWithHost, "bar").getUrl());
+		PostgreSqlCoordinates coordsWithHost = new PostgreSqlCoordinates("jdbc:postgresql://host/foo");
+		Assert.assertEquals("jdbc:postgresql://host/bar", new PostgreSqlCoordinates(coordsWithHost, "bar").getUrl());
 
-		PostgreSqlCoordinates coordsWithHostAndPort = new PostgreSqlCoordinates(
-				"jdbc:postgresql://host:port/foo");
+		PostgreSqlCoordinates coordsWithHostAndPort = new PostgreSqlCoordinates("jdbc:postgresql://host:port/foo");
 		Assert.assertEquals("jdbc:postgresql://host:port/bar",
-				new PostgreSqlCoordinates(coordsWithHostAndPort, "bar")
-						.getUrl());
+				new PostgreSqlCoordinates(coordsWithHostAndPort, "bar").getUrl());
 
 		PostgreSqlCoordinates coordsWithHostAndParams1 = new PostgreSqlCoordinates(
 				"jdbc:postgresql://localhost/foo?user=fred&password=secret&ssl=true");
-		Assert.assertEquals(
-				"jdbc:postgresql://localhost/bar?user=fred&password=secret&ssl=true",
-				new PostgreSqlCoordinates(coordsWithHostAndParams1, "bar")
-						.getUrl());
+		Assert.assertEquals("jdbc:postgresql://localhost/bar?user=fred&password=secret&ssl=true",
+				new PostgreSqlCoordinates(coordsWithHostAndParams1, "bar").getUrl());
 	}
 
 	/**
@@ -166,8 +146,7 @@ public final class PostgreSqlCoordinatesTest {
 	 */
 	@Test
 	public void toStringSecurity() {
-		PostgreSqlCoordinates coordsWithJustDb = new PostgreSqlCoordinates(
-				"jdbc:postgresql:foo", "fred", "secret");
+		PostgreSqlCoordinates coordsWithJustDb = new PostgreSqlCoordinates("jdbc:postgresql:foo", "fred", "secret");
 		Assert.assertFalse(coordsWithJustDb.toString().contains("secret"));
 	}
 }

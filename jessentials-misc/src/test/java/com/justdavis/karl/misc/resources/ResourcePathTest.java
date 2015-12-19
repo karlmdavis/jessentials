@@ -13,8 +13,7 @@ public final class ResourcePathTest {
 	@Test
 	public void simpleUsage() {
 		ResourcePath path = new ResourcePath(ResourcePathTest.class, "foo.txt");
-		Assert.assertEquals("com/justdavis/karl/misc/resources/foo.txt",
-				path.getPath());
+		Assert.assertEquals("com/justdavis/karl/misc/resources/foo.txt", path.getPath());
 	}
 
 	/**
@@ -23,10 +22,8 @@ public final class ResourcePathTest {
 	 */
 	@Test
 	public void deeperResource() {
-		ResourcePath path = new ResourcePath(ResourcePathTest.class,
-				"bar/foo.txt");
-		Assert.assertEquals("com/justdavis/karl/misc/resources/bar/foo.txt",
-				path.getPath());
+		ResourcePath path = new ResourcePath(ResourcePathTest.class, "bar/foo.txt");
+		Assert.assertEquals("com/justdavis/karl/misc/resources/bar/foo.txt", path.getPath());
 	}
 
 	/**
@@ -43,7 +40,6 @@ public final class ResourcePathTest {
 		};
 
 		ResourcePath path = new ResourcePath(runnable.getClass(), "foo.txt");
-		Assert.assertEquals("com/justdavis/karl/misc/resources/foo.txt",
-				path.getPath());
+		Assert.assertEquals("com/justdavis/karl/misc/resources/foo.txt", path.getPath());
 	}
 }

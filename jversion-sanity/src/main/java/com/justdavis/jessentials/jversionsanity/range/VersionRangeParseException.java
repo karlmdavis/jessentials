@@ -19,9 +19,7 @@ public class VersionRangeParseException extends RuntimeException {
 	 *            exception
 	 */
 	public VersionRangeParseException(String versionRangeString, Throwable cause) {
-		super(String.format(
-				"The version range string '%s' could not be parsed.",
-				versionRangeString), cause);
+		super(String.format("The version range string '%s' could not be parsed.", versionRangeString), cause);
 	}
 
 	/**

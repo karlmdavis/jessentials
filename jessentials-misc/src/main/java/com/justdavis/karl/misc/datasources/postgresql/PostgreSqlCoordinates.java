@@ -31,13 +31,12 @@ public final class PostgreSqlCoordinates extends IDataSourceCoordinates {
 
 	/**
 	 * A regular expression that can be used to parse PostgreSQL JDBC URLs, as
-	 * described in <a
-	 * href="http://jdbc.postgresql.org/documentation/head/connect.html"
-	 * >Connecting to the Database</a>. The second capture group should have the
+	 * described in
+	 * <a href="http://jdbc.postgresql.org/documentation/head/connect.html" >
+	 * Connecting to the Database</a>. The second capture group should have the
 	 * database name.
 	 */
-	private static final Pattern JDBC_URL_REGEX = Pattern
-			.compile("^jdbc:postgresql:(//.+/)?([^?]+)(\\?.*)?");
+	private static final Pattern JDBC_URL_REGEX = Pattern.compile("^jdbc:postgresql:(//.+/)?([^?]+)(\\?.*)?");
 
 	@XmlElement
 	private final String url;
@@ -102,8 +101,7 @@ public final class PostgreSqlCoordinates extends IDataSourceCoordinates {
 	 * @param databaseName
 	 *            the name of the new database name
 	 */
-	public PostgreSqlCoordinates(PostgreSqlCoordinates originalCoords,
-			String databaseName) {
+	public PostgreSqlCoordinates(PostgreSqlCoordinates originalCoords, String databaseName) {
 		String originalUrl = originalCoords.getUrl();
 
 		Matcher urlMatcher = JDBC_URL_REGEX.matcher(originalUrl);
@@ -154,8 +152,7 @@ public final class PostgreSqlCoordinates extends IDataSourceCoordinates {
 	 */
 	@Override
 	public String toString() {
-		return "PostgreSqlCoordinates [url=" + url + ", user=" + user
-				+ ", password=***]";
+		return "PostgreSqlCoordinates [url=" + url + ", user=" + user + ", password=***]";
 	}
 
 	/**
@@ -167,10 +164,8 @@ public final class PostgreSqlCoordinates extends IDataSourceCoordinates {
 	 * the value being read in will be replaced with <code>null</code> instead,
 	 * to prevent bogus data from being read in.
 	 */
-	private static final class FilterableStringAdapter extends
-			XmlAdapter<String, String> {
-		private static final Pattern MAVEN_PROP_VALUE_REGEX = Pattern
-				.compile("^\\$\\{.*\\}$");
+	private static final class FilterableStringAdapter extends XmlAdapter<String, String> {
+		private static final Pattern MAVEN_PROP_VALUE_REGEX = Pattern.compile("^\\$\\{.*\\}$");
 
 		/**
 		 * @see javax.xml.bind.annotation.adapters.XmlAdapter#unmarshal(java.lang.Object)

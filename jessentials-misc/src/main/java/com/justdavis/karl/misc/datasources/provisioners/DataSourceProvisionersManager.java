@@ -50,9 +50,8 @@ public final class DataSourceProvisionersManager {
 	 */
 	public DataSourceProvisionersManager(
 			IDataSourceProvisioner<? extends IDataSourceCoordinates, ? extends IProvisioningTarget, ? extends IProvisioningRequest>... provisioners) {
-		this(
-				new HashSet<IDataSourceProvisioner<? extends IDataSourceCoordinates, ? extends IProvisioningTarget, ? extends IProvisioningRequest>>(
-						Arrays.asList(provisioners)));
+		this(new HashSet<IDataSourceProvisioner<? extends IDataSourceCoordinates, ? extends IProvisioningTarget, ? extends IProvisioningRequest>>(
+				Arrays.asList(provisioners)));
 	}
 
 	/**
@@ -76,9 +75,7 @@ public final class DataSourceProvisionersManager {
 	 *         specified {@link IProvisioningRequest}
 	 */
 	@SuppressWarnings({ "unchecked", "rawtypes" })
-	public ProvisioningResult provision(
-			IProvisioningTargetsProvider targetsProvider,
-			IProvisioningRequest request) {
+	public ProvisioningResult provision(IProvisioningTargetsProvider targetsProvider, IProvisioningRequest request) {
 		// Find the provisioner that matches the request.
 		IDataSourceProvisioner matchingProvisioner = null;
 		for (IDataSourceProvisioner provisioner : provisioners) {
@@ -87,12 +84,10 @@ public final class DataSourceProvisionersManager {
 		}
 
 		// Find the available target that matches the provisioner.
-		IProvisioningTarget target = targetsProvider
-				.findTarget(matchingProvisioner.getTargetType());
+		IProvisioningTarget target = targetsProvider.findTarget(matchingProvisioner.getTargetType());
 
 		// Run the provisioning request and return the result.
-		IDataSourceCoordinates provisionedCoords = matchingProvisioner
-				.provision(target, request);
+		IDataSourceCoordinates provisionedCoords = matchingProvisioner.provision(target, request);
 		return new ProvisioningResult(target, request, provisionedCoords);
 	}
 
@@ -110,13 +105,11 @@ public final class DataSourceProvisionersManager {
 		// Find the provisioner that matches the request.
 		IDataSourceProvisioner matchingProvisioner = null;
 		for (IDataSourceProvisioner provisioner : provisioners) {
-			if (provisioner.getTargetType().equals(
-					provisioningResult.getTarget().getClass()))
+			if (provisioner.getTargetType().equals(provisioningResult.getTarget().getClass()))
 				matchingProvisioner = provisioner;
 		}
 
-		matchingProvisioner.delete(provisioningResult.getTarget(),
-				provisioningResult.getRequest());
+		matchingProvisioner.delete(provisioningResult.getTarget(), provisioningResult.getRequest());
 	}
 
 	/**
@@ -139,8 +132,8 @@ public final class DataSourceProvisionersManager {
 		 * @param coords
 		 *            the value to use for {@link #getCoords()}
 		 */
-		public ProvisioningResult(IProvisioningTarget target,
-				IProvisioningRequest request, IDataSourceCoordinates coords) {
+		public ProvisioningResult(IProvisioningTarget target, IProvisioningRequest request,
+				IDataSourceCoordinates coords) {
 			if (target == null)
 				throw new IllegalArgumentException();
 			if (request == null)

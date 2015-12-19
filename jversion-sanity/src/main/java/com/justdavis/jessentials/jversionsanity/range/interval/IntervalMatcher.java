@@ -36,8 +36,7 @@ final class IntervalMatcher<V extends Version> extends BaseMatcher<V> {
 			throw new IllegalArgumentException();
 		Version version = (Version) item;
 
-		return CoreMatchers.allOf(new LowerBoundMatcher<V>(range),
-				new UpperBoundMatcher<V>(range)).matches(version);
+		return CoreMatchers.allOf(new LowerBoundMatcher<V>(range), new UpperBoundMatcher<V>(range)).matches(version);
 	}
 
 	/**
@@ -55,8 +54,7 @@ final class IntervalMatcher<V extends Version> extends BaseMatcher<V> {
 	 * @param <V>
 	 *            the {@link Version} implementation that will be checked
 	 */
-	private static final class LowerBoundMatcher<V extends Version> extends
-			BaseMatcher<V> {
+	private static final class LowerBoundMatcher<V extends Version> extends BaseMatcher<V> {
 		private final Interval<V> range;
 
 		/**
@@ -91,8 +89,8 @@ final class IntervalMatcher<V extends Version> extends BaseMatcher<V> {
 				 * Note: An OMITTED bound is equivalent to an INCLUSIVE one.
 				 */
 
-				equalityMatcher = CoreMatchers.either(equalityMatcher).or(
-						new EqualToMatcher<V>(range.getVersionLower()));
+				equalityMatcher = CoreMatchers.either(equalityMatcher)
+						.or(new EqualToMatcher<V>(range.getVersionLower()));
 			}
 
 			return equalityMatcher.matches(item);
@@ -114,8 +112,7 @@ final class IntervalMatcher<V extends Version> extends BaseMatcher<V> {
 	 * @param <V>
 	 *            the {@link Version} implementation that will be checked
 	 */
-	private static final class UpperBoundMatcher<V extends Version> extends
-			BaseMatcher<V> {
+	private static final class UpperBoundMatcher<V extends Version> extends BaseMatcher<V> {
 		private final Interval<V> range;
 
 		/**
@@ -150,8 +147,8 @@ final class IntervalMatcher<V extends Version> extends BaseMatcher<V> {
 				 * Note: An OMITTED bound is equivalent to an INCLUSIVE one.
 				 */
 
-				equalityMatcher = CoreMatchers.either(equalityMatcher).or(
-						new EqualToMatcher<V>(range.getVersionUpper()));
+				equalityMatcher = CoreMatchers.either(equalityMatcher)
+						.or(new EqualToMatcher<V>(range.getVersionUpper()));
 			}
 
 			return equalityMatcher.matches(item);
@@ -173,8 +170,7 @@ final class IntervalMatcher<V extends Version> extends BaseMatcher<V> {
 	 * @param <V>
 	 *            the {@link Version} implementation that will be checked
 	 */
-	private static final class EqualToMatcher<V extends Version> extends
-			BaseMatcher<V> {
+	private static final class EqualToMatcher<V extends Version> extends BaseMatcher<V> {
 		private final V boundingVersion;
 
 		/**
@@ -220,8 +216,7 @@ final class IntervalMatcher<V extends Version> extends BaseMatcher<V> {
 	 * @param <V>
 	 *            the {@link Version} implementation that will be checked
 	 */
-	private static final class LessThanMatcher<V extends Version> extends
-			BaseMatcher<V> {
+	private static final class LessThanMatcher<V extends Version> extends BaseMatcher<V> {
 		private final V boundingVersion;
 
 		/**
@@ -267,8 +262,7 @@ final class IntervalMatcher<V extends Version> extends BaseMatcher<V> {
 	 * @param <V>
 	 *            the {@link Version} implementation that will be checked
 	 */
-	private static final class GreaterThanMatcher<V extends Version> extends
-			BaseMatcher<V> {
+	private static final class GreaterThanMatcher<V extends Version> extends BaseMatcher<V> {
 		private final V boundingVersion;
 
 		/**

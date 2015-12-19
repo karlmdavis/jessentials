@@ -26,11 +26,9 @@ import com.justdavis.karl.misc.exceptions.unchecked.UncheckedSqlException;
  * </p>
  */
 @Component
-public final class PostgreSqlProvisioner
-		implements
+public final class PostgreSqlProvisioner implements
 		IDataSourceProvisioner<PostgreSqlCoordinates, PostgreSqlProvisioningTarget, PostgreSqlProvisioningRequest> {
-	private static final Logger LOGGER = LoggerFactory
-			.getLogger(PostgreSqlProvisioner.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(PostgreSqlProvisioner.class);
 
 	/**
 	 * @see com.justdavis.karl.misc.datasources.provisioners.IDataSourceProvisioner#getTargetType()
@@ -53,8 +51,7 @@ public final class PostgreSqlProvisioner
 	 *      com.justdavis.karl.misc.datasources.provisioners.IProvisioningRequest)
 	 */
 	@Override
-	public PostgreSqlCoordinates provision(PostgreSqlProvisioningTarget target,
-			PostgreSqlProvisioningRequest request) {
+	public PostgreSqlCoordinates provision(PostgreSqlProvisioningTarget target, PostgreSqlProvisioningRequest request) {
 		if (target == null)
 			throw new IllegalArgumentException();
 		if (request == null)
@@ -65,13 +62,12 @@ public final class PostgreSqlProvisioner
 		 * DATABASE command there.
 		 */
 		PostgreSqlConnector connector = new PostgreSqlConnector();
-		DataSource dataSource = connector.createDataSource(target
-				.getServerCoords());
+		DataSource dataSource = connector.createDataSource(target.getServerCoords());
 		Connection connection = null;
 		try {
 			connection = dataSource.getConnection();
-			PreparedStatement statement = connection.prepareStatement(String
-					.format("CREATE DATABASE %s;", request.getDatabaseName()));
+			PreparedStatement statement = connection
+					.prepareStatement(String.format("CREATE DATABASE %s;", request.getDatabaseName()));
 			statement.execute();
 		} catch (SQLException e) {
 			throw new UncheckedSqlException(e);
@@ -85,8 +81,7 @@ public final class PostgreSqlProvisioner
 			}
 		}
 
-		PostgreSqlCoordinates coords = new PostgreSqlCoordinates(
-				target.getServerCoords(), request.getDatabaseName());
+		PostgreSqlCoordinates coords = new PostgreSqlCoordinates(target.getServerCoords(), request.getDatabaseName());
 		LOGGER.info("Provisioned PostgreSQL database: {}", coords);
 		return coords;
 	}
@@ -96,8 +91,7 @@ public final class PostgreSqlProvisioner
 	 *      com.justdavis.karl.misc.datasources.provisioners.IProvisioningRequest)
 	 */
 	@Override
-	public void delete(PostgreSqlProvisioningTarget target,
-			PostgreSqlProvisioningRequest request) {
+	public void delete(PostgreSqlProvisioningTarget target, PostgreSqlProvisioningRequest request) {
 		if (target == null)
 			throw new IllegalArgumentException();
 		if (request == null)
@@ -108,17 +102,15 @@ public final class PostgreSqlProvisioner
 		 * DATABASE command there.
 		 */
 		PostgreSqlConnector connector = new PostgreSqlConnector();
-		DataSource dataSource = connector.createDataSource(target
-				.getServerCoords());
+		DataSource dataSource = connector.createDataSource(target.getServerCoords());
 		Connection connection = null;
 		try {
 			connection = dataSource.getConnection();
-			PreparedStatement statement = connection.prepareStatement(String
-					.format("DROP DATABASE %s;", request.getDatabaseName()));
+			PreparedStatement statement = connection
+					.prepareStatement(String.format("DROP DATABASE %s;", request.getDatabaseName()));
 			statement.execute();
 
-			LOGGER.info("Deleted PostgreSQL database: {}",
-					request.getDatabaseName());
+			LOGGER.info("Deleted PostgreSQL database: {}", request.getDatabaseName());
 		} catch (SQLException e) {
 			throw new UncheckedSqlException(e);
 		} finally {

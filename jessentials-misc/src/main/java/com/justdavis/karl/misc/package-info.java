@@ -7,4 +7,3 @@
  * </p>
  */
 package com.justdavis.karl.misc;
-

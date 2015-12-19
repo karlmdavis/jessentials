@@ -8,9 +8,9 @@ import com.justdavis.jessentials.jversionsanity.range.VersionRangeParseException
 
 /**
  * <p>
- * Models a {@link VersionRange} as a <a href=
- * "http://en.wikipedia.org/wiki/Interval_%28mathematics%29" >mathematical
- * interval</a>.
+ * Models a {@link VersionRange} as a
+ * <a href= "http://en.wikipedia.org/wiki/Interval_%28mathematics%29" >
+ * mathematical interval</a>.
  * </p>
  * <p>
  * Each {@link IntervalVersionRange} can be represented as a {@link String} (via
@@ -41,12 +41,12 @@ import com.justdavis.jessentials.jversionsanity.range.VersionRangeParseException
  * <li><code>a</code>: equivalent to <code>[a,]</code></li>
  * </ul>
  */
-public final class IntervalVersionRange<V extends Version> implements
-		VersionRange<V> {
+public final class IntervalVersionRange<V extends Version> implements VersionRange<V> {
 	/*
 	 * TODO Consider implementing multi-sets and "1.0 as recommended" per
 	 * http://
-	 * docs.codehaus.org/display/MAVEN/Dependency+Mediation+and+Conflict+Resolution
+	 * docs.codehaus.org/display/MAVEN/Dependency+Mediation+and+Conflict+
+	 * Resolution
 	 * #DependencyMediationandConflictResolution-DependencyVersionRanges
 	 */
 
@@ -73,42 +73,34 @@ public final class IntervalVersionRange<V extends Version> implements
 	 *             A {@link VersionRangeParseException} will be thrown if the
 	 *             specified {@link String} cannot be parsed.
 	 */
-	public IntervalVersionRange(VersionParser<V> versionParser,
-			String rangeString) throws VersionRangeParseException {
+	public IntervalVersionRange(VersionParser<V> versionParser, String rangeString) throws VersionRangeParseException {
 		if (rangeString == null)
-			throw new IllegalArgumentException(
-					"Null range strings not supported.");
+			throw new IllegalArgumentException("Null range strings not supported.");
 
 		this.rangeString = rangeString;
 
 		IntervalParser intervalParser = new IntervalParser();
-		Interval<String> parsedStringInterval = intervalParser
-				.parseVersionRange(rangeString);
+		Interval<String> parsedStringInterval = intervalParser.parseVersionRange(rangeString);
 
 		try {
 			V versionLower;
 			if (parsedStringInterval.getVersionLower() != null)
-				versionLower = versionParser.parseVersion(parsedStringInterval
-						.getVersionLower());
+				versionLower = versionParser.parseVersion(parsedStringInterval.getVersionLower());
 			else
 				versionLower = null;
 
 			V versionUpper;
 			if (parsedStringInterval.getVersionUpper() != null)
-				versionUpper = versionParser.parseVersion(parsedStringInterval
-						.getVersionUpper());
+				versionUpper = versionParser.parseVersion(parsedStringInterval.getVersionUpper());
 			else
 				versionUpper = null;
 
 			// Sanity check: ensure that the versions aren't backwards
-			if (versionLower != null && versionUpper != null
-					&& versionLower.compareTo(versionUpper) > 0)
-				throw new IllegalArgumentException(
-						"The 'lower' version is actually greater than the 'upper' version.");
+			if (versionLower != null && versionUpper != null && versionLower.compareTo(versionUpper) > 0)
+				throw new IllegalArgumentException("The 'lower' version is actually greater than the 'upper' version.");
 
-			this.interval = new Interval<V>(
-					parsedStringInterval.getTypeLower(), versionLower,
-					versionUpper, parsedStringInterval.getTypeUpper());
+			this.interval = new Interval<V>(parsedStringInterval.getTypeLower(), versionLower, versionUpper,
+					parsedStringInterval.getTypeUpper());
 		} catch (VersionParseException e) {
 			throw new VersionRangeParseException(rangeString, e);
 		}
@@ -132,17 +124,14 @@ public final class IntervalVersionRange<V extends Version> implements
 	 *            the {@link IntervalBoundaryType} constant for the upper
 	 *            boundary of this {@link IntervalVersionRange}
 	 */
-	public IntervalVersionRange(IntervalBoundaryType boundaryLower,
-			V versionLower, V versionUpper, IntervalBoundaryType boundaryUpper) {
+	public IntervalVersionRange(IntervalBoundaryType boundaryLower, V versionLower, V versionUpper,
+			IntervalBoundaryType boundaryUpper) {
 		// Sanity check: ensure that the versions aren't backwards
-		if (versionLower != null && versionUpper != null
-				&& versionLower.compareTo(versionUpper) > 0)
-			throw new IllegalArgumentException(
-					"The 'lower' version is actually greater than the 'upper' version.");
+		if (versionLower != null && versionUpper != null && versionLower.compareTo(versionUpper) > 0)
+			throw new IllegalArgumentException("The 'lower' version is actually greater than the 'upper' version.");
 
 		this.rangeString = null;
-		this.interval = new Interval<V>(boundaryLower, versionLower,
-				versionUpper, boundaryUpper);
+		this.interval = new Interval<V>(boundaryLower, versionLower, versionUpper, boundaryUpper);
 	}
 
 	/**
@@ -168,8 +157,7 @@ public final class IntervalVersionRange<V extends Version> implements
 
 		final int prime = 31;
 		int result = 1;
-		result = prime * result
-				+ ((interval == null) ? 0 : interval.hashCode());
+		result = prime * result + ((interval == null) ? 0 : interval.hashCode());
 		return result;
 	}
 

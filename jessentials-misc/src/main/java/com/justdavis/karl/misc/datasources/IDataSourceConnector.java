@@ -6,9 +6,9 @@ import java.util.Map;
 
 import javax.sql.DataSource;
 
-import liquibase.database.Database;
-
 import com.justdavis.karl.misc.exceptions.unchecked.UncheckedSqlException;
+
+import liquibase.database.Database;
 
 /**
  * <p>

@@ -14,13 +14,10 @@ public final class HsqlProvisioningRequestTest {
 	 */
 	@Test
 	public void randomRequest() {
-		HsqlProvisioningRequest request1 = HsqlProvisioningRequest
-				.requestForRandomDatabase("foo");
-		HsqlProvisioningRequest request2 = HsqlProvisioningRequest
-				.requestForRandomDatabase("foo");
+		HsqlProvisioningRequest request1 = HsqlProvisioningRequest.requestForRandomDatabase("foo");
+		HsqlProvisioningRequest request2 = HsqlProvisioningRequest.requestForRandomDatabase("foo");
 
 		Assert.assertTrue(request1.getDatabaseName().startsWith("foo_"));
-		Assert.assertNotEquals(request1.getDatabaseName(),
-				request2.getDatabaseName());
+		Assert.assertNotEquals(request1.getDatabaseName(), request2.getDatabaseName());
 	}
 }

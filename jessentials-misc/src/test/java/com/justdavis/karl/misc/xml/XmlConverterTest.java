@@ -21,8 +21,7 @@ public final class XmlConverterTest {
 	 */
 	@Test
 	public void simpleUsage() throws ParserConfigurationException {
-		DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory
-				.newInstance();
+		DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder docBuilder = docBuilderFactory.newDocumentBuilder();
 
 		Document doc = docBuilder.newDocument();
@@ -32,8 +31,8 @@ public final class XmlConverterTest {
 		root.appendChild(foo);
 
 		String xmlAsString = new XmlConverter().convertToString(doc);
-		String expectedString = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?>\n"
-				+ "<root>\n" + "    <foo/>\n" + "</root>\n";
+		String expectedString = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?>\n" + "<root>\n"
+				+ "    <foo/>\n" + "</root>\n";
 		Assert.assertEquals(expectedString, xmlAsString);
 	}
 }

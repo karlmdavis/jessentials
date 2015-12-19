@@ -20,21 +20,17 @@ public final class DataSourceProvisionersManagerTest {
 	public void findTarget() {
 		// Create the DataSourceProvisionersManager instance to test.
 		@SuppressWarnings("unchecked")
-		DataSourceProvisionersManager provisionersManager = new DataSourceProvisionersManager(
-				new HsqlProvisioner());
-		URL targetsDocUrl = Thread
-				.currentThread()
-				.getContextClassLoader()
+		DataSourceProvisionersManager provisionersManager = new DataSourceProvisionersManager(new HsqlProvisioner());
+		URL targetsDocUrl = Thread.currentThread().getContextClassLoader()
 				.getResource("sample-xml/datasource-provisioning-targets-1.xml");
-		XmlProvisioningTargetsProvider targetsProvider = new XmlProvisioningTargetsProvider(
-				provisionersManager, targetsDocUrl);
+		XmlProvisioningTargetsProvider targetsProvider = new XmlProvisioningTargetsProvider(provisionersManager,
+				targetsDocUrl);
 
 		// Verify that it works as expected.
 		HsqlProvisioningRequest hsqlRequest = new HsqlProvisioningRequest("foo");
 		ProvisioningResult provisioningResult = null;
 		try {
-			provisioningResult = provisionersManager.provision(targetsProvider,
-					hsqlRequest);
+			provisioningResult = provisionersManager.provision(targetsProvider, hsqlRequest);
 			Assert.assertNotNull(provisioningResult);
 		} finally {
 			if (provisioningResult != null)

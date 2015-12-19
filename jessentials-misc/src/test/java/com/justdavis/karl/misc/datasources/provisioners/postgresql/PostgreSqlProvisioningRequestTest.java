@@ -14,13 +14,10 @@ public final class PostgreSqlProvisioningRequestTest {
 	 */
 	@Test
 	public void randomRequest() {
-		PostgreSqlProvisioningRequest request1 = PostgreSqlProvisioningRequest
-				.requestForRandomDatabase("foo");
-		PostgreSqlProvisioningRequest request2 = PostgreSqlProvisioningRequest
-				.requestForRandomDatabase("foo");
+		PostgreSqlProvisioningRequest request1 = PostgreSqlProvisioningRequest.requestForRandomDatabase("foo");
+		PostgreSqlProvisioningRequest request2 = PostgreSqlProvisioningRequest.requestForRandomDatabase("foo");
 
 		Assert.assertTrue(request1.getDatabaseName().startsWith("foo_"));
-		Assert.assertNotEquals(request1.getDatabaseName(),
-				request2.getDatabaseName());
+		Assert.assertNotEquals(request1.getDatabaseName(), request2.getDatabaseName());
 	}
 }

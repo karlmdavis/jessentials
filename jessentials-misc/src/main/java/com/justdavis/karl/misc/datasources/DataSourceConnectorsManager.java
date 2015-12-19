@@ -9,12 +9,12 @@ import java.util.Set;
 import javax.inject.Inject;
 import javax.sql.DataSource;
 
-import liquibase.database.Database;
-
 import org.springframework.stereotype.Component;
 
 import com.justdavis.karl.misc.exceptions.BadCodeMonkeyException;
 import com.justdavis.karl.misc.exceptions.unchecked.UncheckedSqlException;
+
+import liquibase.database.Database;
 
 /**
  * A helper class for working with an application's {@link IDataSourceConnector}
@@ -39,11 +39,10 @@ public final class DataSourceConnectorsManager {
 		 * registered, there's a problem.
 		 */
 		if (dataSourceConnectors == null || dataSourceConnectors.isEmpty())
-			throw new BadCodeMonkeyException(
-					String.format(
-							"No %s implementations were provided."
-									+ " This is likely a problem with the DI/Spring configuration.",
-							IDataSourceConnector.class.getSimpleName()));
+			throw new BadCodeMonkeyException(String.format(
+					"No %s implementations were provided."
+							+ " This is likely a problem with the DI/Spring configuration.",
+					IDataSourceConnector.class.getSimpleName()));
 
 		this.dataSourceConnectors = dataSourceConnectors;
 	}
@@ -55,11 +54,8 @@ public final class DataSourceConnectorsManager {
 	 *            the {@link IDataSourceConnector}s available to the application
 	 */
 	@SafeVarargs
-	public DataSourceConnectorsManager(
-			IDataSourceConnector<? extends IDataSourceCoordinates>... dataSourceConnectors) {
-		this(
-				new HashSet<IDataSourceConnector<? extends IDataSourceCoordinates>>(
-						Arrays.asList(dataSourceConnectors)));
+	public DataSourceConnectorsManager(IDataSourceConnector<? extends IDataSourceCoordinates>... dataSourceConnectors) {
+		this(new HashSet<IDataSourceConnector<? extends IDataSourceCoordinates>>(Arrays.asList(dataSourceConnectors)));
 	}
 
 	/**
@@ -126,8 +122,7 @@ public final class DataSourceConnectorsManager {
 	 *      Map)
 	 */
 	@SuppressWarnings("unchecked")
-	public Map<String, Object> convertToJpaProperties(
-			IDataSourceCoordinates coords) throws IllegalArgumentException {
+	public Map<String, Object> convertToJpaProperties(IDataSourceCoordinates coords) throws IllegalArgumentException {
 		@SuppressWarnings("rawtypes")
 		IDataSourceConnector matchingConnector = findMatchingConnector(coords);
 		return matchingConnector.convertToJpaProperties(coords);
@@ -165,8 +160,7 @@ public final class DataSourceConnectorsManager {
 	 *             specified {@link IDataSourceCoordinates}.
 	 */
 	@SuppressWarnings("rawtypes")
-	private IDataSourceConnector findMatchingConnector(
-			IDataSourceCoordinates coords) throws IllegalArgumentException {
+	private IDataSourceConnector findMatchingConnector(IDataSourceCoordinates coords) throws IllegalArgumentException {
 		// Sanity check: null coords?
 		if (coords == null)
 			throw new IllegalArgumentException();
@@ -174,16 +168,13 @@ public final class DataSourceConnectorsManager {
 		// Find the IDataSourceConnector that supports the coords.
 		IDataSourceConnector matchingConnector = null;
 		for (IDataSourceConnector<? extends IDataSourceCoordinates> connector : dataSourceConnectors)
-			if (connector.getCoordinatesType().isAssignableFrom(
-					coords.getClass()))
+			if (connector.getCoordinatesType().isAssignableFrom(coords.getClass()))
 				matchingConnector = connector;
 
 		// Did we find a match?
 		if (matchingConnector == null)
-			throw new IllegalArgumentException(String.format(
-					"No matching %s found for the coordinates of type '%s'.",
-					IDataSourceConnector.class.getSimpleName(),
-					coords.getClass()));
+			throw new IllegalArgumentException(String.format("No matching %s found for the coordinates of type '%s'.",
+					IDataSourceConnector.class.getSimpleName(), coords.getClass()));
 		return matchingConnector;
 	}
 }

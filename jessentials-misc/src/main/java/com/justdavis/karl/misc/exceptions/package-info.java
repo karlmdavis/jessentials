@@ -1,6 +1,6 @@
 /**
  * <p>
- * This package contains common exception subtypes that might be useful to most 
+ * This package contains common exception subtypes that might be useful to most
  * applications.
  * </p>
  */

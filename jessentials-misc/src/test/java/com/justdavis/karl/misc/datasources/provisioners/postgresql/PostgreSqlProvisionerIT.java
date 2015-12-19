@@ -35,27 +35,22 @@ public final class PostgreSqlProvisionerIT {
 		@SuppressWarnings("unchecked")
 		DataSourceProvisionersManager provisionersManager = new DataSourceProvisionersManager(
 				new PostgreSqlProvisioner());
-		URL availableTargetsUrl = Thread.currentThread()
-				.getContextClassLoader()
+		URL availableTargetsUrl = Thread.currentThread().getContextClassLoader()
 				.getResource("datasource-provisioning-targets.xml");
-		IProvisioningTargetsProvider targetsProvider = new XmlProvisioningTargetsProvider(
-				provisionersManager, availableTargetsUrl);
-		PostgreSqlProvisioningTarget target = targetsProvider
-				.findTarget(PostgreSqlProvisioningTarget.class);
+		IProvisioningTargetsProvider targetsProvider = new XmlProvisioningTargetsProvider(provisionersManager,
+				availableTargetsUrl);
+		PostgreSqlProvisioningTarget target = targetsProvider.findTarget(PostgreSqlProvisioningTarget.class);
 
 		// Create and run a provisioning request.
 		PostgreSqlProvisioner provisioner = new PostgreSqlProvisioner();
-		PostgreSqlProvisioningRequest request = new PostgreSqlProvisioningRequest(
-				"integrationtest");
+		PostgreSqlProvisioningRequest request = new PostgreSqlProvisioningRequest("integrationtest");
 		try {
-			PostgreSqlCoordinates provisionedCoords = provisioner.provision(
-					target, request);
+			PostgreSqlCoordinates provisionedCoords = provisioner.provision(target, request);
 			Assert.assertNotNull(provisionedCoords);
 
 			// Create a DataSource
 			PostgreSqlConnector connector = new PostgreSqlConnector();
-			DataSource postgreSqlDataSource = connector
-					.createDataSource(provisionedCoords);
+			DataSource postgreSqlDataSource = connector.createDataSource(provisionedCoords);
 			Assert.assertNotNull(postgreSqlDataSource);
 
 			/*
@@ -66,8 +61,7 @@ public final class PostgreSqlProvisionerIT {
 			try {
 				hsqlConnection = postgreSqlDataSource.getConnection();
 				Assert.assertNotNull(hsqlConnection);
-				PreparedStatement statement = hsqlConnection
-						.prepareStatement("SELECT 1");
+				PreparedStatement statement = hsqlConnection.prepareStatement("SELECT 1");
 				ResultSet resultSet = statement.executeQuery();
 				Assert.assertTrue(resultSet.next());
 				Assert.assertEquals(1, resultSet.getInt(1));
@@ -94,18 +88,15 @@ public final class PostgreSqlProvisionerIT {
 		@SuppressWarnings("unchecked")
 		DataSourceProvisionersManager provisionersManager = new DataSourceProvisionersManager(
 				new PostgreSqlProvisioner());
-		URL availableTargetsUrl = Thread.currentThread()
-				.getContextClassLoader()
+		URL availableTargetsUrl = Thread.currentThread().getContextClassLoader()
 				.getResource("datasource-provisioning-targets.xml");
-		IProvisioningTargetsProvider targetsProvider = new XmlProvisioningTargetsProvider(
-				provisionersManager, availableTargetsUrl);
-		PostgreSqlProvisioningTarget target = targetsProvider
-				.findTarget(PostgreSqlProvisioningTarget.class);
+		IProvisioningTargetsProvider targetsProvider = new XmlProvisioningTargetsProvider(provisionersManager,
+				availableTargetsUrl);
+		PostgreSqlProvisioningTarget target = targetsProvider.findTarget(PostgreSqlProvisioningTarget.class);
 
 		// Create and run a provisioning request.
 		PostgreSqlProvisioner provisioner = new PostgreSqlProvisioner();
-		PostgreSqlProvisioningRequest request = new PostgreSqlProvisioningRequest(
-				"IntegrationTest");
+		PostgreSqlProvisioningRequest request = new PostgreSqlProvisioningRequest("IntegrationTest");
 		provisioner.provision(target, request);
 
 		// Delete the provisioned database.
@@ -115,15 +106,13 @@ public final class PostgreSqlProvisionerIT {
 		 * Run a query on the server to see if the database still exists.
 		 */
 		PostgreSqlConnector connector = new PostgreSqlConnector();
-		DataSource postgreSqlDataSource = connector.createDataSource(target
-				.getServerCoords());
+		DataSource postgreSqlDataSource = connector.createDataSource(target.getServerCoords());
 		Connection postgreSqlConnection = null;
 		try {
 			postgreSqlConnection = postgreSqlDataSource.getConnection();
 			Assert.assertNotNull(postgreSqlConnection);
 			PreparedStatement statement = postgreSqlConnection
-					.prepareStatement("SELECT datname" + " FROM pg_database"
-							+ " WHERE datname = 'IntegrationTest';");
+					.prepareStatement("SELECT datname" + " FROM pg_database" + " WHERE datname = 'IntegrationTest';");
 			ResultSet dbsResult = statement.executeQuery();
 			Assert.assertFalse(dbsResult.next());
 		} finally {

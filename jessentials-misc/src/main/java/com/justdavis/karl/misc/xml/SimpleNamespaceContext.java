@@ -33,17 +33,14 @@ public final class SimpleNamespaceContext implements NamespaceContext {
 			bindingsList.add(binding);
 
 		// Add in the default mappings defined in the interface.
-		bindingsList.add(new NamespaceBinding(XMLConstants.XML_NS_PREFIX,
-				XMLConstants.XML_NS_URI));
-		bindingsList.add(new NamespaceBinding(XMLConstants.XMLNS_ATTRIBUTE,
-				XMLConstants.XMLNS_ATTRIBUTE_NS_URI));
+		bindingsList.add(new NamespaceBinding(XMLConstants.XML_NS_PREFIX, XMLConstants.XML_NS_URI));
+		bindingsList.add(new NamespaceBinding(XMLConstants.XMLNS_ATTRIBUTE, XMLConstants.XMLNS_ATTRIBUTE_NS_URI));
 
 		// Sanity check: same prefix bound twice.
 		Set<String> prefixes = new HashSet<String>();
 		for (NamespaceBinding binding : bindingsList) {
 			if (prefixes.contains(binding.getPrefix()))
-				throw new BadCodeMonkeyException("Prefix bound twice: "
-						+ binding.getPrefix());
+				throw new BadCodeMonkeyException("Prefix bound twice: " + binding.getPrefix());
 			prefixes.add(binding.getPrefix());
 		}
 
@@ -121,8 +118,7 @@ public final class SimpleNamespaceContext implements NamespaceContext {
 		// Is the specified prefix bound?
 		for (NamespaceBinding binding : bindings)
 			if (binding.getNamespace().equals(namespaceURI))
-				return Collections.unmodifiableList(
-						Arrays.asList(binding.getPrefix())).iterator();
+				return Collections.unmodifiableList(Arrays.asList(binding.getPrefix())).iterator();
 
 		/*
 		 * If the prefix isn't bound, the interface mandates that we return the

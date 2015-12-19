@@ -7,8 +7,7 @@ package com.justdavis.karl.misc.datasources.provisioners;
  * 
  * @see IProvisioningTargetsProvider
  */
-public final class UnmatchedProvisioningTargetException extends
-		RuntimeException {
+public final class UnmatchedProvisioningTargetException extends RuntimeException {
 	private static final long serialVersionUID = 3957673788388685256L;
 
 	/**
@@ -18,9 +17,7 @@ public final class UnmatchedProvisioningTargetException extends
 	 *            the {@link IProvisioningTarget} implementation type that an
 	 *            instance of could not be found
 	 */
-	public UnmatchedProvisioningTargetException(
-			Class<? extends IProvisioningTarget> targetType) {
-		super(String.format("Unable to find %s of type '%s'.",
-				IProvisioningTarget.class.getSimpleName(), targetType));
+	public UnmatchedProvisioningTargetException(Class<? extends IProvisioningTarget> targetType) {
+		super(String.format("Unable to find %s of type '%s'.", IProvisioningTarget.class.getSimpleName(), targetType));
 	}
 }

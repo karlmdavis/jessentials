@@ -104,10 +104,8 @@ public final class HsqlProvisionerTest {
 		try {
 			hsqlConnection = hsqlDataSource.getConnection();
 			Assert.assertNotNull(hsqlConnection);
-			PreparedStatement statement = hsqlConnection
-					.prepareStatement("SELECT TABLE_NAME"
-							+ " FROM INFORMATION_SCHEMA.TABLES"
-							+ " WHERE TABLE_NAME = 'foo';");
+			PreparedStatement statement = hsqlConnection.prepareStatement(
+					"SELECT TABLE_NAME" + " FROM INFORMATION_SCHEMA.TABLES" + " WHERE TABLE_NAME = 'foo';");
 			ResultSet tablesResult = statement.executeQuery();
 			Assert.assertFalse(tablesResult.next());
 		} finally {

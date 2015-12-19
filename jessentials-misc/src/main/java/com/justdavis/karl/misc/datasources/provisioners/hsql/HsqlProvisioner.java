@@ -28,10 +28,8 @@ import com.justdavis.karl.misc.exceptions.unchecked.UncheckedSqlException;
  */
 @Component
 public final class HsqlProvisioner
-		implements
-		IDataSourceProvisioner<HsqlCoordinates, HsqlProvisioningTarget, HsqlProvisioningRequest> {
-	private static final Logger LOGGER = LoggerFactory
-			.getLogger(HsqlProvisioner.class);
+		implements IDataSourceProvisioner<HsqlCoordinates, HsqlProvisioningTarget, HsqlProvisioningRequest> {
+	private static final Logger LOGGER = LoggerFactory.getLogger(HsqlProvisioner.class);
 
 	/**
 	 * @see com.justdavis.karl.misc.datasources.provisioners.IDataSourceProvisioner#getTargetType()
@@ -54,8 +52,7 @@ public final class HsqlProvisioner
 	 *      com.justdavis.karl.misc.datasources.provisioners.IProvisioningRequest)
 	 */
 	@Override
-	public HsqlCoordinates provision(HsqlProvisioningTarget target,
-			HsqlProvisioningRequest request) {
+	public HsqlCoordinates provision(HsqlProvisioningTarget target, HsqlProvisioningRequest request) {
 		if (request == null)
 			throw new IllegalArgumentException();
 
@@ -63,8 +60,7 @@ public final class HsqlProvisioner
 		 * All we have to do here is create a DataSource for the desired DB and
 		 * connect to it once (to verify it's working).
 		 */
-		HsqlCoordinates coords = new HsqlCoordinates(String.format(
-				"jdbc:hsqldb:mem:%s", request.getDatabaseName()));
+		HsqlCoordinates coords = new HsqlCoordinates(String.format("jdbc:hsqldb:mem:%s", request.getDatabaseName()));
 
 		HsqlConnector connector = new HsqlConnector();
 		DataSource dataSource = connector.createDataSource(coords);
@@ -76,14 +72,12 @@ public final class HsqlProvisioner
 		Connection connection = null;
 		try {
 			connection = dataSource.getConnection();
-			PreparedStatement statement = connection
-					.prepareStatement("SELECT 1 FROM INFORMATION_SCHEMA.SYSTEM_USERS");
+			PreparedStatement statement = connection.prepareStatement("SELECT 1 FROM INFORMATION_SCHEMA.SYSTEM_USERS");
 			ResultSet resultSet = statement.executeQuery();
 			resultSet.next();
 			int returnedInt = resultSet.getInt(1);
 			if (returnedInt != 1)
-				throw new IllegalStateException(
-						"Database connection not working correctly.");
+				throw new IllegalStateException("Database connection not working correctly.");
 		} catch (SQLException e) {
 			throw new UncheckedSqlException(e);
 		} finally {
@@ -105,13 +99,11 @@ public final class HsqlProvisioner
 	 *      com.justdavis.karl.misc.datasources.provisioners.IProvisioningRequest)
 	 */
 	@Override
-	public void delete(HsqlProvisioningTarget target,
-			HsqlProvisioningRequest request) {
+	public void delete(HsqlProvisioningTarget target, HsqlProvisioningRequest request) {
 		if (request == null)
 			throw new IllegalArgumentException();
 
-		HsqlCoordinates coords = new HsqlCoordinates("jdbc:hsqldb:mem:"
-				+ request.getDatabaseName());
+		HsqlCoordinates coords = new HsqlCoordinates("jdbc:hsqldb:mem:" + request.getDatabaseName());
 		HsqlConnector connector = new HsqlConnector();
 		DataSource dataSource = connector.createDataSource(coords);
 
@@ -121,8 +113,7 @@ public final class HsqlProvisioner
 		Connection connection = null;
 		try {
 			connection = dataSource.getConnection();
-			PreparedStatement statement = connection
-					.prepareStatement("SHUTDOWN");
+			PreparedStatement statement = connection.prepareStatement("SHUTDOWN");
 			statement.execute();
 
 			LOGGER.info("Deleted HSQL database: {}", coords);

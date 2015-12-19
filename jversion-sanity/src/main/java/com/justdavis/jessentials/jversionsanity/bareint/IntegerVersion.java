@@ -45,8 +45,7 @@ public final class IntegerVersion implements Version {
 	 */
 	public IntegerVersion(String versionString) {
 		if (versionString == null)
-			throw new IllegalArgumentException(
-					"Null version strings not supported.");
+			throw new IllegalArgumentException("Null version strings not supported.");
 
 		this.versionString = versionString;
 
@@ -68,11 +67,9 @@ public final class IntegerVersion implements Version {
 	 */
 	public IntegerVersion(Integer versionValue) {
 		if (versionValue == null)
-			throw new IllegalArgumentException(
-					"Null version strings not supported.");
+			throw new IllegalArgumentException("Null version strings not supported.");
 		if (versionValue < 0)
-			throw new IllegalArgumentException(
-					"Negative versions not supported.");
+			throw new IllegalArgumentException("Negative versions not supported.");
 
 		this.versionString = null;
 		this.versionValue = versionValue;
@@ -97,10 +94,9 @@ public final class IntegerVersion implements Version {
 		if (otherVersion == null)
 			throw new IllegalArgumentException();
 		if (!(otherVersion instanceof IntegerVersion))
-			throw new ClassCastException(String.format("The version '%s'"
-					+ " of type '%s' does not match this Version"
-					+ " implementation type of '%s'.", otherVersion,
-					otherVersion.getClass(), this.getClass()));
+			throw new ClassCastException(String.format(
+					"The version '%s'" + " of type '%s' does not match this Version" + " implementation type of '%s'.",
+					otherVersion, otherVersion.getClass(), this.getClass()));
 
 		IntegerVersion otherIntegerVersion = (IntegerVersion) otherVersion;
 		return versionValue.compareTo(otherIntegerVersion.versionValue);
@@ -118,8 +114,7 @@ public final class IntegerVersion implements Version {
 
 		final int prime = 31;
 		int result = 1;
-		result = prime * result
-				+ ((versionValue == null) ? 0 : versionValue.hashCode());
+		result = prime * result + ((versionValue == null) ? 0 : versionValue.hashCode());
 		return result;
 	}
 

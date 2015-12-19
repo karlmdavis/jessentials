@@ -79,8 +79,7 @@ public abstract class AbstractVersionTest<V extends Version> {
 	 *             (should not be thrown)
 	 */
 	@Test
-	public final void hasParseConstructor() throws SecurityException,
-			NoSuchMethodException {
+	public final void hasParseConstructor() throws SecurityException, NoSuchMethodException {
 		// This will throw an exception if the constructor is missing.
 		getVersionImplementation().getConstructor(String.class);
 	}

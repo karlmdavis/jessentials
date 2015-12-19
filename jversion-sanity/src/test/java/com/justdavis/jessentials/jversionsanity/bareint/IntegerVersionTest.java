@@ -9,8 +9,7 @@ import com.justdavis.jessentials.jversionsanity.VersionParser;
 /**
  * Unit tests for {@link IntegerVersion}.
  */
-public final class IntegerVersionTest extends
-		AbstractVersionTest<IntegerVersion> {
+public final class IntegerVersionTest extends AbstractVersionTest<IntegerVersion> {
 	/**
 	 * @see com.justdavis.jessentials.jversionsanity.AbstractVersionTest#getParser()
 	 */

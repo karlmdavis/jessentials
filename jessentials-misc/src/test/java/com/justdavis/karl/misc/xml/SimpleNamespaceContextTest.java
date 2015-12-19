@@ -20,10 +20,8 @@ public final class SimpleNamespaceContextTest {
 	 */
 	@Test
 	public void simpleUsage() throws ParserConfigurationException {
-		SimpleNamespaceContext contextWithDefault = new SimpleNamespaceContext(
-				"bob");
-		Assert.assertEquals("bob", contextWithDefault
-				.getNamespaceURI(XMLConstants.DEFAULT_NS_PREFIX));
+		SimpleNamespaceContext contextWithDefault = new SimpleNamespaceContext("bob");
+		Assert.assertEquals("bob", contextWithDefault.getNamespaceURI(XMLConstants.DEFAULT_NS_PREFIX));
 		Iterator<?> prefixes = contextWithDefault.getPrefixes("bob");
 		Assert.assertEquals(XMLConstants.DEFAULT_NS_PREFIX, prefixes.next());
 		Assert.assertFalse(XMLConstants.DEFAULT_NS_PREFIX, prefixes.hasNext());

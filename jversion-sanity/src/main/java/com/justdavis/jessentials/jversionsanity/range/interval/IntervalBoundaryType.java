@@ -39,8 +39,7 @@ public enum IntervalBoundaryType {
 	 * @param upperBoundarySymbol
 	 *            the value to use for {@link #getSymbolForUpperBoundary()}
 	 */
-	private IntervalBoundaryType(Character lowerBoundarySymbol,
-			Character upperBoundarySymbol) {
+	private IntervalBoundaryType(Character lowerBoundarySymbol, Character upperBoundarySymbol) {
 		this.lowerBoundarySymbol = lowerBoundarySymbol;
 		this.upperBoundarySymbol = upperBoundarySymbol;
 	}
@@ -78,13 +77,11 @@ public enum IntervalBoundaryType {
 	 *             specified string does not match any of the known boundary
 	 *             types.
 	 */
-	public static IntervalBoundaryType determineBoundaryType(
-			String boundaryString) throws IllegalArgumentException {
+	public static IntervalBoundaryType determineBoundaryType(String boundaryString) throws IllegalArgumentException {
 		if (boundaryString == null || boundaryString.isEmpty())
 			return OMITTED;
 		else if (boundaryString.length() != 1)
-			throw new IllegalArgumentException(
-					"Boundary symbol not of length 0 or 1: '%s%'.");
+			throw new IllegalArgumentException("Boundary symbol not of length 0 or 1: '%s%'.");
 		else if (boundaryString.charAt(0) == INCLUSIVE.lowerBoundarySymbol
 				|| boundaryString.charAt(0) == INCLUSIVE.upperBoundarySymbol)
 			return INCLUSIVE;
