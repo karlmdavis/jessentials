@@ -37,7 +37,7 @@ import com.justdavis.karl.misc.exceptions.unchecked.UncheckedMalformedUrlExcepti
  * {@link Tomcat7xInstalledLocalContainer}s.
  */
 public final class LocallyInstalledTomcatServer implements ITomcatServer {
-	private static final String TOMCAT_INSTALLER_URL = "http://www.us.apache.org/dist/tomcat/tomcat-7/v7.0.65/bin/apache-tomcat-7.0.65.tar.gz";
+	private static final String TOMCAT_INSTALLER_URL = "http://archive.apache.org/dist/tomcat/tomcat-7/v7.0.65/bin/apache-tomcat-7.0.65.tar.gz";
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(LocallyInstalledTomcatServer.class);
 
