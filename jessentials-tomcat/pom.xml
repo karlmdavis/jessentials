@@ -86,7 +86,22 @@
 			<groupId>org.codehaus.cargo</groupId>
 			<artifactId>cargo-core-container-tomcat</artifactId>
 			<version>1.4.16</version>
+			<exclusions>
+				<exclusion>
+					<!-- SLF4J is being used instead of commons-logging. -->
+					<artifactId>commons-logging</artifactId>
+					<groupId>commons-logging</groupId>
+				</exclusion>
+			</exclusions>
 		</dependency>
+		<dependency>
+			<!-- This dependency is included rather than commons-logging itself. It 
+				implements enough of that library's APIs to route usage of it to whatever 
+				back-end is configured for slf4j. -->
+			<groupId>org.slf4j</groupId>
+			<artifactId>jcl-over-slf4j</artifactId>
+		</dependency>
+
 
 		<dependency>
 			<!-- Needed to run Tomcat in embedded mode. -->
