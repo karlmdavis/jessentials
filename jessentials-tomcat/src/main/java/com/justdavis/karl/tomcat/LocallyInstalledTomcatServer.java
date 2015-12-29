@@ -110,9 +110,10 @@ public final class LocallyInstalledTomcatServer implements ITomcatServer {
 	}
 
 	/**
-	 * @return the HTTP port that Tomcat is running on
+	 * @see com.justdavis.karl.tomcat.ITomcatServer#getHttpPort()
 	 */
-	private int getHttpPort() {
+	@Override
+	public int getHttpPort() {
 		return Integer.parseInt(this.container.getConfiguration().getPropertyValue(ServletPropertySet.PORT));
 	}
 

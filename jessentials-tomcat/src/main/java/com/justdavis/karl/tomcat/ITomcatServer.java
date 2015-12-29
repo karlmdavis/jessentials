@@ -43,6 +43,11 @@ public interface ITomcatServer {
 	 * @return this {@link ITomcatServer} instance, for call-chaining purposes
 	 */
 	ITomcatServer start();
+	
+	/**
+	 * @return the port that the server is serving HTTP requests on
+	 */
+	int getHttpPort();
 
 	/**
 	 * @param path
