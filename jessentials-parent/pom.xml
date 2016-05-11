@@ -64,26 +64,6 @@
 
 	<repositories>
 		<repository>
-			<id>justdavis.com-nexus-opensource-releases</id>
-			<url>https://justdavis.com/nexus/content/repositories/opensource-releases/</url>
-			<releases>
-				<enabled>true</enabled>
-			</releases>
-			<snapshots>
-				<enabled>false</enabled>
-			</snapshots>
-		</repository>
-		<repository>
-			<id>justdavis.com-nexus-opensource-snapshots</id>
-			<url>https://justdavis.com/nexus/content/repositories/opensource-snapshots/</url>
-			<releases>
-				<enabled>false</enabled>
-			</releases>
-			<snapshots>
-				<enabled>true</enabled>
-			</snapshots>
-		</repository>
-		<repository>
 			<id>justdavis.com-nexus-opensource-thirdparty-releases</id>
 			<url>https://justdavis.com/nexus/content/repositories/opensource-thirdparty-releases/</url>
 			<releases>
