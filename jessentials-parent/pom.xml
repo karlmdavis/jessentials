@@ -25,6 +25,15 @@
 			<url>http://spdx.org/licenses/Apache-2.0</url>
 		</license>
 	</licenses>
+	
+	<developers>
+		<developer>
+			<id>karlmdavis</id>
+			<name>Karl M. Davis</name>
+			<email>karl@justdavis.com</email>
+			<url>https://justdavis.com/karl</url>
+		</developer>
+	</developers>
 
 	<issueManagement>
 		<!-- There doesn't seem to be any tooling support for this yet, but it 
