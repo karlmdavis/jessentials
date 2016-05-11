@@ -74,6 +74,16 @@
 
 	<repositories>
 		<repository>
+			<id>ossrh-snapshots</id>
+			<url>https://oss.sonatype.org/content/repositories/snapshots/</url>
+			<releases>
+				<enabled>false</enabled>
+			</releases>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</repository>
+		<repository>
 			<id>justdavis.com-nexus-opensource-thirdparty-releases</id>
 			<url>https://justdavis.com/nexus/content/repositories/opensource-thirdparty-releases/</url>
 			<releases>
