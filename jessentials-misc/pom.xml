@@ -1,5 +1,4 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
@@ -11,7 +10,7 @@
 	</parent>
 
 	<artifactId>jessentials-misc</artifactId>
-	<version>3.1.1-SNAPSHOT</version>
+	<version>3.2.0</version>
 	<packaging>jar</packaging>
 
 	<name>jEssentials Miscellanany</name>
@@ -25,7 +24,7 @@
 		<connection>scm:git:git@github.com:karlmdavis/jessentials.git</connection>
 		<developerConnection>scm:git:git@github.com:karlmdavis/jessentials.git</developerConnection>
 		<url>https://github.com/karlmdavis/jessentials</url>
-		<tag>HEAD</tag>
+		<tag>jessentials-misc-3.2.0</tag>
 	</scm>
 
 	<repositories>
