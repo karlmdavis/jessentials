@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>com.justdavis.karl.jessentials</groupId>
 		<artifactId>jessentials-parent</artifactId>
-		<version>4.1.1</version>
+		<version>5.0.0</version>
 		<!-- Disabling filesystem resolution, per http://maven.apache.org/ref/3.0.3/maven-model/maven.html#class_parent. -->
 		<relativePath />
 	</parent>
@@ -32,38 +32,8 @@
 		<!-- Because we're using a flat, non-standard module layout the repositories 
 			have to be included here as well. -->
 		<repository>
-			<id>justdavis.com-nexus-opensource-releases</id>
-			<url>https://justdavis.com/nexus/content/repositories/opensource-releases/</url>
-			<releases>
-				<enabled>true</enabled>
-			</releases>
-			<snapshots>
-				<enabled>false</enabled>
-			</snapshots>
-		</repository>
-		<repository>
-			<id>justdavis.com-nexus-opensource-snapshots</id>
-			<url>https://justdavis.com/nexus/content/repositories/opensource-snapshots/</url>
-			<releases>
-				<enabled>false</enabled>
-			</releases>
-			<snapshots>
-				<enabled>true</enabled>
-			</snapshots>
-		</repository>
-		<repository>
-			<id>justdavis.com-nexus-opensource-thirdparty-releases</id>
-			<url>https://justdavis.com/nexus/content/repositories/opensource-thirdparty-releases/</url>
-			<releases>
-				<enabled>true</enabled>
-			</releases>
-			<snapshots>
-				<enabled>false</enabled>
-			</snapshots>
-		</repository>
-		<repository>
-			<id>justdavis.com-nexus-opensource-thirdparty-snapshots</id>
-			<url>https://justdavis.com/nexus/content/repositories/opensource-thirdparty-snapshots/</url>
+			<id>ossrh-snapshots</id>
+			<url>https://oss.sonatype.org/content/repositories/snapshots/</url>
 			<releases>
 				<enabled>false</enabled>
 			</releases>

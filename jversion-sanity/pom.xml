@@ -9,7 +9,7 @@
 	<parent>
 		<groupId>com.justdavis.karl.jessentials</groupId>
 		<artifactId>jessentials-parent</artifactId>
-		<version>4.0.0</version>
+		<version>5.0.0</version>
 		<!-- Disabling filesystem resolution, per http://maven.apache.org/ref/3.0.3/maven-model/maven.html#class_parent. -->
 		<relativePath></relativePath>
 	</parent>
@@ -35,18 +35,8 @@
 		<!-- Because we're using a flat, non-standard module layout the repositories 
 			have to be included here as well. -->
 		<repository>
-			<id>justdavis.com-nexus-opensource-releases</id>
-			<url>https://justdavis.com/nexus/content/repositories/releases-opensource/</url>
-			<releases>
-				<enabled>true</enabled>
-			</releases>
-			<snapshots>
-				<enabled>false</enabled>
-			</snapshots>
-		</repository>
-		<repository>
-			<id>justdavis.com-nexus-opensource-snapshots</id>
-			<url>https://justdavis.com/nexus/content/repositories/snapshots-opensource/</url>
+			<id>ossrh-snapshots</id>
+			<url>https://oss.sonatype.org/content/repositories/snapshots/</url>
 			<releases>
 				<enabled>false</enabled>
 			</releases>
