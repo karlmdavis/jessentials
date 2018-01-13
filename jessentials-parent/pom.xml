@@ -90,10 +90,10 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>${project.build.sourceEncoding}</project.reporting.outputEncoding>
 
-		<!-- The version of Java that we'll use for everything. Please note that 
-			this may be a problem with Android, as only the latest release has even partial 
-			support for Java 7. -->
-		<javaSourceVersion>1.7</javaSourceVersion>
+		<!-- The version of Java that we'll use for everything. Please note that
+			this may be a problem with Android, as it only has partial support
+			for Java 8. -->
+		<javaSourceVersion>1.8</javaSourceVersion>
 
 		<!-- Configure Sonar such that projects evaluated by it against it will 
 			use JaCoCo to compute the code coverage of any unit and integration tests. -->
