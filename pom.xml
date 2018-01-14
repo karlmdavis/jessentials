@@ -40,14 +40,17 @@
 	</ciManagement>
 
 	<distributionManagement>
-		<repository>
-			<id>justdavis.com-nexus</id>
-			<url>https://justdavis.com/nexus/content/repositories/opensource-releases/</url>
-		</repository>
+		<!-- Deploy these open source projects to the public OSSRH repositories, 
+			per http://central.sonatype.org/pages/apache-maven.html. This helps ensure 
+			that the releases land in the Maven Central repos. -->
 		<snapshotRepository>
-			<id>justdavis.com-nexus</id>
-			<url>https://justdavis.com/nexus/content/repositories/opensource-snapshots/</url>
+			<id>ossrh</id>
+			<url>https://oss.sonatype.org/content/repositories/snapshots/</url>
 		</snapshotRepository>
+		<repository>
+			<id>ossrh</id>
+			<url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+		</repository>
 	</distributionManagement>
 
 	<scm>
