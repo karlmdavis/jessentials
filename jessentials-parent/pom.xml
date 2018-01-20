@@ -218,6 +218,12 @@
 						<!-- Set the Java source version used by the compiler. -->
 						<source>${javaSourceVersion}</source>
 						<target>${javaSourceVersion}</target>
+
+						<compilerArgs>
+							<!-- Workaround incremental compilation problem:
+								https://issues.apache.org/jira/browse/MCOMPILER-205 -->
+							<arg>-Xpkginfo:always</arg>
+						</compilerArgs>
 					</configuration>
 				</plugin>
 				<plugin>
