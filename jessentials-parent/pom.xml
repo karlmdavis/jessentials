@@ -103,6 +103,7 @@
 		<dependency.junit.vintage.version>4.12.2</dependency.junit.vintage.version>
 
 		<!-- Configure SonarQube to analyze both unit and integration test results. -->
+		<sonar.verbose>true</sonar.verbose>
 		<sonar.junit.reportPaths>target/surefire-reports,target/failsafe-reports</sonar.junit.reportPaths>
 	</properties>
 
