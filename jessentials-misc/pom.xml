@@ -186,6 +186,13 @@
 							<goal>prepare-agent-integration</goal>
 						</goals>
 					</execution>
+					<execution>
+						<id>post-integration-test</id>
+						<phase>verify</phase>
+						<goals>
+							<goal>report-aggregate</goal>
+						</goals>
+					</execution>
 				</executions>
 			</plugin>
 			<plugin>
