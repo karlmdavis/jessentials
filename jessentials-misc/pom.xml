@@ -59,14 +59,6 @@
 			<groupId>org.slf4j</groupId>
 			<artifactId>jul-to-slf4j</artifactId>
 		</dependency>
-		<dependency>
-			<!-- A backport of Java 8's JSR-310 date & time library. https://github.com/ThreeTen/threetenbp. 
-				This was added here as it's so useful/basic, that it really ought to be used 
-				in every project (that isn't already on Java 8). -->
-			<groupId>org.threeten</groupId>
-			<artifactId>threetenbp</artifactId>
-			<version>1.0</version>
-		</dependency>
 
 		<dependency>
 			<!-- Provides annotations that specify dependency injection points. -->
@@ -79,7 +71,7 @@
 				use Spring. It's set as an optional dependency. -->
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-context</artifactId>
-			<version>4.0.0.RELEASE</version>
+			<version>${dependency.springframework.version}</version>
 			<optional>true</optional>
 		</dependency>
 
@@ -90,17 +82,17 @@
 				API is being used. -->
 			<groupId>org.hsqldb</groupId>
 			<artifactId>hsqldb</artifactId>
-			<version>2.3.1</version>
+			<version>2.4.0</version>
 			<optional>true</optional>
 		</dependency>
 		<dependency>
 			<!-- JDBC drivers for the PostgreSQL open source RDBMS. This version supports 
-				Java 6 and above (the '-jdbc41' version supports Java 7 and above). -->
+				Java 8 and above and PostgreSQL 8.2 and above. -->
 			<!-- This dependency is marked optional. It's only needed if the com.justdavis.karl.misc.datasources.postgresql 
 				API is being used. -->
 			<groupId>org.postgresql</groupId>
 			<artifactId>postgresql</artifactId>
-			<version>9.3-1100-jdbc4</version>
+			<version>42.1.4</version>
 			<optional>true</optional>
 		</dependency>
 
@@ -109,14 +101,14 @@
 				com.justdavis.karl.misc.datasources.schema package. -->
 			<groupId>org.liquibase</groupId>
 			<artifactId>liquibase-core</artifactId>
-			<version>3.3.2</version>
+			<version>3.5.3</version>
 		</dependency>
 		<dependency>
 			<!-- Liquibase uses it's own pluggable logging framework. This dependency 
 				re-routes the logging events in it to SLF4J. -->
 			<groupId>com.mattbertolini</groupId>
 			<artifactId>liquibase-slf4j</artifactId>
-			<version>1.2.1</version>
+			<version>2.0.0</version>
 		</dependency>
 
 		<dependency>
@@ -133,7 +125,7 @@
 				all logging events will be sent to it. -->
 			<groupId>ch.qos.logback</groupId>
 			<artifactId>logback-classic</artifactId>
-			<version>1.0.13</version>
+			<version>1.2.3</version>
 			<scope>test</scope>
 		</dependency>
 
@@ -192,6 +184,13 @@
 						<id>default-prepare-agent-integration</id>
 						<goals>
 							<goal>prepare-agent-integration</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>post-integration-test</id>
+						<phase>verify</phase>
+						<goals>
+							<goal>report-aggregate</goal>
 						</goals>
 					</execution>
 				</executions>

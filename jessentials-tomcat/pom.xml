@@ -42,6 +42,12 @@
 			</snapshots>
 		</repository>
 	</repositories>
+	
+	<properties>
+		<!-- The version of Tomcat libraries to use. This is the version available 
+			by default in Ubuntu 16.04. -->
+		<dependency.tomcat.version>8.0.32</dependency.tomcat.version>
+	</properties>
 
 	<dependencies>
 		<dependency>
@@ -55,7 +61,7 @@
 			<!-- Provides the API used to install and manage Tomcat. -->
 			<groupId>org.codehaus.cargo</groupId>
 			<artifactId>cargo-core-container-tomcat</artifactId>
-			<version>1.4.16</version>
+			<version>1.6.6</version>
 			<exclusions>
 				<exclusion>
 					<!-- SLF4J is being used instead of commons-logging. -->
@@ -72,18 +78,17 @@
 			<artifactId>jcl-over-slf4j</artifactId>
 		</dependency>
 
-
 		<dependency>
 			<!-- Needed to run Tomcat in embedded mode. -->
 			<groupId>org.apache.tomcat.embed</groupId>
 			<artifactId>tomcat-embed-core</artifactId>
-			<version>7.0.65</version>
+			<version>${dependency.tomcat.version}</version>
 		</dependency>
 		<dependency>
 			<!-- Needed to run Tomcat in embedded mode. -->
 			<groupId>org.apache.tomcat</groupId>
 			<artifactId>tomcat-util</artifactId>
-			<version>7.0.65</version>
+			<version>${dependency.tomcat.version}</version>
 		</dependency>
 
 		<dependency>
@@ -96,7 +101,7 @@
 				all logging events will be sent to it. -->
 			<groupId>ch.qos.logback</groupId>
 			<artifactId>logback-classic</artifactId>
-			<version>1.0.13</version>
+			<version>1.2.3</version>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
@@ -127,6 +132,13 @@
 						<id>default-prepare-agent-integration</id>
 						<goals>
 							<goal>prepare-agent-integration</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>post-integration-test</id>
+						<phase>verify</phase>
+						<goals>
+							<goal>report-aggregate</goal>
 						</goals>
 					</execution>
 				</executions>

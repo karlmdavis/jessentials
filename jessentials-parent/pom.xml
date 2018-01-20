@@ -1,10 +1,6 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<prerequisites>
-		<maven>3.0</maven>
-	</prerequisites>
-
 	<groupId>com.justdavis.karl.jessentials</groupId>
 	<artifactId>jessentials-parent</artifactId>
 	<version>5.0.1-SNAPSHOT</version>
@@ -95,18 +91,19 @@
 			for Java 8. -->
 		<javaSourceVersion>1.8</javaSourceVersion>
 
-		<!-- Configure Sonar such that projects evaluated by it against it will 
-			use JaCoCo to compute the code coverage of any unit and integration tests. -->
-		<sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
-		<sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
-		<sonar.jacoco.reportPath>target/jacoco.exec</sonar.jacoco.reportPath>
-		<sonar.jacoco.itReportPath>target/jacoco-it.exec</sonar.jacoco.itReportPath>
-
 		<!-- The version of the slf4j libraries to be used. -->
-		<dependency.slf4j.version>1.7.5</dependency.slf4j.version>
+		<dependency.slf4j.version>1.7.25</dependency.slf4j.version>
 
 		<!-- The version of the Spring Framework libraries to be used. -->
-		<dependency.springframework.version>3.2.3.RELEASE</dependency.springframework.version>
+		<dependency.springframework.version>5.0.2.RELEASE</dependency.springframework.version>
+
+		<!-- The versions of the JUnit 5 libraries to be used. -->
+		<dependency.junit.jupiter.version>5.0.2</dependency.junit.jupiter.version>
+		<dependency.junit.platform.version>1.0.2</dependency.junit.platform.version>
+		<dependency.junit.vintage.version>4.12.2</dependency.junit.vintage.version>
+
+		<!-- Configure SonarQube to analyze both unit and integration test results. -->
+		<sonar.junit.reportPaths>target/surefire-reports,target/failsafe-reports</sonar.junit.reportPaths>
 	</properties>
 
 	<dependencyManagement>
@@ -153,9 +150,17 @@
 			</dependency>
 
 			<dependency>
+				<!-- The test API for JUnit 5. -->
+				<groupId>org.junit.jupiter</groupId>
+				<artifactId>junit-jupiter-api</artifactId>
+				<version>${dependency.junit.jupiter.version}</version>
+				<scope>test</scope>
+			</dependency>
+			<dependency>
+				<!-- The test API for JUnit 4, which can be used alongside JUnit 5. -->
 				<groupId>junit</groupId>
 				<artifactId>junit</artifactId>
-				<version>4.11</version>
+				<version>4.12</version>
 				<scope>test</scope>
 			</dependency>
 		</dependencies>
@@ -189,49 +194,101 @@
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-enforcer-plugin</artifactId>
-					<version>1.2</version>
+					<version>1.4.1</version>
 				</plugin>
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-clean-plugin</artifactId>
-					<version>2.5</version>
+					<version>3.0.0</version>
 				</plugin>
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-resources-plugin</artifactId>
-					<version>2.6</version>
+					<version>3.0.2</version>
 				</plugin>
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-compiler-plugin</artifactId>
-					<version>3.0</version>
+					<version>3.7.0</version>
 					<configuration>
 						<!-- Set the Java source version used by the compiler. -->
 						<source>${javaSourceVersion}</source>
 						<target>${javaSourceVersion}</target>
+
+						<compilerArgs>
+							<!-- Workaround incremental compilation problem:
+								https://issues.apache.org/jira/browse/MCOMPILER-205 -->
+							<arg>-Xpkginfo:always</arg>
+						</compilerArgs>
 					</configuration>
 				</plugin>
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-surefire-plugin</artifactId>
-					<version>2.16</version>
+					<version>2.19.1</version>
+					<dependencies>
+						<dependency>
+							<!-- Allows JUnit 5 tests to be run. -->
+							<groupId>org.junit.platform</groupId>
+							<artifactId>junit-platform-surefire-provider</artifactId>
+							<version>${dependency.junit.platform.version}</version>
+						</dependency>
+						<dependency>
+							<!-- In newer IDEs, this only needs to be a dependency of Surefire. In older 
+								ones without JUnit 5 support, this needs to be on the project's 'test' classpath. -->
+							<groupId>org.junit.jupiter</groupId>
+							<artifactId>junit-jupiter-engine</artifactId>
+							<version>${dependency.junit.jupiter.version}</version>
+						</dependency>
+						<dependency>
+							<!-- In newer IDEs, this only needs to be a dependency of Surefire. In older 
+								ones without JUnit 5 support, this needs to be on the project's 'test' classpath.
+								Regardless, it's only required to run JUnit 4 tests. -->
+							<groupId>org.junit.vintage</groupId>
+							<artifactId>junit-vintage-engine</artifactId>
+							<version>${dependency.junit.vintage.version}</version>
+						</dependency>
+					</dependencies>
 				</plugin>
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-failsafe-plugin</artifactId>
-					<version>2.16</version>
+					<version>2.19.1</version>
+					<dependencies>
+						<dependency>
+							<!-- Allows JUnit 5 tests to be run. -->
+							<groupId>org.junit.platform</groupId>
+							<artifactId>junit-platform-surefire-provider</artifactId>
+							<version>${dependency.junit.platform.version}</version>
+						</dependency>
+						<dependency>
+							<!-- In newer IDEs, this only needs to be a dependency of Surefire. In older 
+								ones without JUnit 5 support, this needs to be on the project's 'test' classpath. -->
+							<groupId>org.junit.jupiter</groupId>
+							<artifactId>junit-jupiter-engine</artifactId>
+							<version>${dependency.junit.jupiter.version}</version>
+						</dependency>
+						<dependency>
+							<!-- In newer IDEs, this only needs to be a dependency of Surefire. In older 
+								ones without JUnit 5 support, this needs to be on the project's 'test' classpath.
+								Regardless, it's only required to run JUnit 4 tests. -->
+							<groupId>org.junit.vintage</groupId>
+							<artifactId>junit-vintage-engine</artifactId>
+							<version>${dependency.junit.vintage.version}</version>
+						</dependency>
+					</dependencies>
 				</plugin>
 				<plugin>
 					<!-- A test code coverage plugin that can operate as a Java agent (and 
 						thus doesn't require class file instrumentation). -->
 					<groupId>org.jacoco</groupId>
 					<artifactId>jacoco-maven-plugin</artifactId>
-					<version>0.7.5.201505241946</version>
+					<version>0.8.0</version>
 				</plugin>
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-jar-plugin</artifactId>
-					<version>2.4</version>
+					<version>3.0.2</version>
 					<configuration>
 						<!-- Add some extra information to the JAR manifests. Helpful for folks 
 							looking at a JAR, trying to figure out what it is. -->
@@ -246,27 +303,27 @@
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-war-plugin</artifactId>
-					<version>2.4</version>
+					<version>3.2.0</version>
 				</plugin>
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-jarsigner-plugin</artifactId>
-					<version>1.2</version>
+					<version>1.4</version>
 				</plugin>
 				<plugin>
 					<groupId>org.codehaus.mojo</groupId>
 					<artifactId>build-helper-maven-plugin</artifactId>
-					<version>1.8</version>
+					<version>3.0.0</version>
 				</plugin>
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-javadoc-plugin</artifactId>
-					<version>2.9</version>
+					<version>3.0.0</version>
 				</plugin>
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-source-plugin</artifactId>
-					<version>2.2.1</version>
+					<version>3.0.1</version>
 				</plugin>
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
@@ -276,7 +333,7 @@
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-gpg-plugin</artifactId>
-					<version>1.5</version>
+					<version>1.6</version>
 				</plugin>
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
@@ -286,7 +343,7 @@
 				<plugin>
 					<groupId>org.sonatype.plugins</groupId>
 					<artifactId>nexus-staging-maven-plugin</artifactId>
-					<version>1.6.7</version>
+					<version>1.6.8</version>
 					<configuration>
 						<serverId>ossrh</serverId>
 						<nexusUrl>https://oss.sonatype.org/</nexusUrl>
@@ -296,13 +353,13 @@
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-site-plugin</artifactId>
-					<version>3.2</version>
+					<version>3.7</version>
 				</plugin>
 				<plugin>
 					<!-- Necessary to ensure that release:perform works correctly, per http://stackoverflow.com/questions/5558785/maven-release-plugin-git-and-the-poms-not-at-the-top. -->
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-release-plugin</artifactId>
-					<version>2.5.2</version>
+					<version>2.5.3</version>
 					<executions>
 						<execution>
 							<id>default</id>
