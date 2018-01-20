@@ -21,7 +21,20 @@ node {
 	}
 	
 	stage('Build') {
-		mvn "--update-snapshots clean deploy"
+		mvn "--update-snapshots -Dmaven.test.failure.ignore=true clean deploy"
+
+		// TODO run sonar
+	}
+
+	stage('Archive') {
+		/*
+		 * Fingerprint the output artifacts and archive the test results.
+		 * (Archiving the artifacts here would waste space, as the build
+		 * deploys them to the local Maven repository.)
+		 */
+		fingerprint '**/target/*.jar'
+		junit testResults: '**/target/*-reports/TEST-*.xml', keepLongStdio: true
+		archiveArtifacts artifacts: '**/target/*-reports/*.txt', allowEmptyArchive: true
 	}
 }
 
