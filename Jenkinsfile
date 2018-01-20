@@ -45,8 +45,7 @@ node {
 		 * for details.
 		 */
 		withSonarQubeEnv('justdavis-sonarqube') {
-			// requires SonarQube Scanner for Maven 3.2+
-			mvn "org.sonarsource.scanner.maven:sonar-maven-plugin:3.2:sonar"
+			mvn "org.sonarsource.scanner.maven:sonar-maven-plugin:3.4.0.905:sonar"
 		}
 	}
 }
