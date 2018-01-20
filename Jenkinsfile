@@ -36,6 +36,19 @@ node {
 		junit testResults: '**/target/*-reports/TEST-*.xml', keepLongStdio: true
 		archiveArtifacts artifacts: '**/target/*-reports/*.txt', allowEmptyArchive: true
 	}
+
+	stage('Quality Analysis') {
+		/*
+		 * The 'justdavis-sonarqube' SonarQube server will be sent the analysis
+		 * results. See
+		 * https://docs.sonarqube.org/display/SCAN/Analyzing+with+SonarQube+Scanner+for+Jenkins
+		 * for details.
+		 */
+		withSonarQubeEnv('justdavis-sonarqube') {
+			// requires SonarQube Scanner for Maven 3.2+
+			sh 'mvn org.sonarsource.scanner.maven:sonar-maven-plugin:3.2:sonar'
+		}
+	}
 }
 
 /**
