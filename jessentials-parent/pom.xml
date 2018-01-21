@@ -163,6 +163,13 @@
 				<version>4.12</version>
 				<scope>test</scope>
 			</dependency>
+			<dependency>
+				<!-- Provides 'org.sonar.java.jacoco.JUnitListener',
+					as used by maven-surefire-plugin and maven-failsafe-plugin. -->
+				<groupId>org.sonarsource.java</groupId>
+				<artifactId>sonar-jacoco-listeners</artifactId>
+				<version>5.0.1.12818</version>
+			</dependency>
 		</dependencies>
 	</dependencyManagement>
 
@@ -230,7 +237,9 @@
 						<properties>
 							<property>
 								<!-- Collect data for SonarQube/JaCoCo on which test is
-									hitting which lines of code. -->
+									hitting which lines of code. Requires a test-scoped
+									dependency on org.sonarsource.java:sonar-jacoco-listeners
+									for any projects that wish to collect this data.-->
 								<name>listener</name>
 								<value>org.sonar.java.jacoco.JUnitListener</value>
 							</property>
@@ -257,12 +266,6 @@
 							<groupId>org.junit.vintage</groupId>
 							<artifactId>junit-vintage-engine</artifactId>
 							<version>${dependency.junit.vintage.version}</version>
-						</dependency>
-						<dependency>
-							<!-- Provides 'org.sonar.java.jacoco.JUnitListener', as used above. -->
-							<groupId>org.sonarsource.java</groupId>
-							<artifactId>sonar-jacoco-listeners</artifactId>
-							<version>5.0.1.12818</version>
 						</dependency>
 					</dependencies>
 				</plugin>
@@ -274,7 +277,9 @@
 						<properties>
 							<property>
 								<!-- Collect data for SonarQube/JaCoCo on which test is
-									hitting which lines of code. -->
+									hitting which lines of code. Requires a test-scoped
+									dependency on org.sonarsource.java:sonar-jacoco-listeners
+									for any projects that wish to collect this data.-->
 								<name>listener</name>
 								<value>org.sonar.java.jacoco.JUnitListener</value>
 							</property>
@@ -301,12 +306,6 @@
 							<groupId>org.junit.vintage</groupId>
 							<artifactId>junit-vintage-engine</artifactId>
 							<version>${dependency.junit.vintage.version}</version>
-						</dependency>
-						<dependency>
-							<!-- Provides 'org.sonar.java.jacoco.JUnitListener', as used above. -->
-							<groupId>org.sonarsource.java</groupId>
-							<artifactId>sonar-jacoco-listeners</artifactId>
-							<version>5.0.1.12818</version>
 						</dependency>
 					</dependencies>
 				</plugin>

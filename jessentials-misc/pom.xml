@@ -121,6 +121,13 @@
 			<optional>true</optional>
 		</dependency>
 		<dependency>
+			<!-- Provides 'org.sonar.java.jacoco.JUnitListener',
+				as used by maven-surefire-plugin and maven-failsafe-plugin. -->
+			<groupId>org.sonarsource.java</groupId>
+			<artifactId>sonar-jacoco-listeners</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
 			<!-- Logback is used as the logging target/backend for SLF4J in tests: 
 				all logging events will be sent to it. -->
 			<groupId>ch.qos.logback</groupId>
