@@ -284,6 +284,13 @@
 					<groupId>org.jacoco</groupId>
 					<artifactId>jacoco-maven-plugin</artifactId>
 					<version>0.8.0</version>
+					<configuration>
+						<!-- Configure JaCoCo to write unit and integration test coverage data to 
+							the same file. There's no reason to separate them, really, since SonarQube 
+							doesn't make a distinction between the phases. -->
+						<append>true</append>
+						<destFile>${project.build.directory}/jacoco.exec</destFile>
+					</configuration>
 				</plugin>
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
