@@ -27,7 +27,7 @@ node {
 		}
 		
 		// Them, build everything.
-		mvn "--update-snapshots -Dmaven.test.failure.ignore=true -DskipITs=true clean deploy"
+		mvn "--update-snapshots -Dmaven.test.failure.ignore=true clean deploy"
 	}
 
 	stage('Archive') {
