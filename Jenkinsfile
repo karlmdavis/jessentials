@@ -21,6 +21,10 @@ node {
 	}
 	
 	stage('Build') {
+		// First, install the parent POM, as the other modules depend on it.
+		mvn "--update-snapshots --projects jessentials-parent clean install"
+		
+		// Them, build everything.
 		mvn "--update-snapshots -Dmaven.test.failure.ignore=true clean deploy"
 	}
 
