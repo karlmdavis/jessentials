@@ -22,8 +22,6 @@ node {
 	
 	stage('Build') {
 		mvn "--update-snapshots -Dmaven.test.failure.ignore=true clean deploy"
-
-		// TODO run sonar
 	}
 
 	stage('Archive') {
