@@ -26,7 +26,7 @@ node {
 			mvn "--update-snapshots clean install"
 		}
 		
-		// Them, build everything.
+		// Then, build everything.
 		mvn "--update-snapshots -Dmaven.test.failure.ignore=true clean deploy"
 	}
 
