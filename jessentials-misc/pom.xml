@@ -10,7 +10,7 @@
 	</parent>
 
 	<artifactId>jessentials-misc</artifactId>
-	<version>3.2.1-SNAPSHOT</version>
+	<version>4.0.1</version>
 	<packaging>jar</packaging>
 
 	<name>jEssentials Miscellanany</name>
@@ -24,7 +24,7 @@
 		<connection>scm:git:git@github.com:karlmdavis/jessentials.git</connection>
 		<developerConnection>scm:git:git@github.com:karlmdavis/jessentials.git</developerConnection>
 		<url>https://github.com/karlmdavis/jessentials</url>
-		<tag>HEAD</tag>
+		<tag>jessentials-misc-4.0.1</tag>
 	</scm>
 
 	<repositories>
