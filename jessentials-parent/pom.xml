@@ -3,7 +3,7 @@
 
 	<groupId>com.justdavis.karl.jessentials</groupId>
 	<artifactId>jessentials-parent</artifactId>
-	<version>5.0.1-SNAPSHOT</version>
+	<version>6.0.0</version>
 	<packaging>pom</packaging>
 
 	<name>jessentials-parent</name>
@@ -64,7 +64,7 @@
 		<connection>scm:git:git@github.com:karlmdavis/jessentials.git</connection>
 		<developerConnection>scm:git:git@github.com:karlmdavis/jessentials.git</developerConnection>
 		<url>https://github.com/karlmdavis/jessentials</url>
-		<tag>HEAD</tag>
+		<tag>jessentials-parent-6.0.0</tag>
 	</scm>
 
 	<repositories>
