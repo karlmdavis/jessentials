@@ -13,10 +13,10 @@ import com.justdavis.karl.misc.datasources.IDataSourceCoordinates;
 /**
  * This class is a user friendly front-end to the various
  * {@link IDataSourceProvisioner} implementations. The
- * {@link #provision(IProvisioningRequest)} method will select the correct
- * {@link IDataSourceProvisioner} implementation to meet the specified request
- * and will find a usable {@link IProvisioningTarget} from those provided by the
- * specified {@link IProvisioningTargetsProvider}.
+ * {@link #provision(IProvisioningTargetsProvider, IProvisioningRequest)} method
+ * will select the correct {@link IDataSourceProvisioner} implementation to meet
+ * the specified request and will find a usable {@link IProvisioningTarget} from
+ * those provided by the specified {@link IProvisioningTargetsProvider}.
  * 
  * @see IProvisioningTargetsProvider
  * @see XmlProvisioningTargetsProvider

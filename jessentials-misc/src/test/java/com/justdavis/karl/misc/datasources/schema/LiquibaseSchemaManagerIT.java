@@ -60,6 +60,7 @@ public final class LiquibaseSchemaManagerIT {
 	 * {@link #createTestParameters()} method.
 	 * 
 	 * @param provisioningRequest
+	 *            the {@link IProvisioningRequest} parameter for the test run
 	 */
 	public LiquibaseSchemaManagerIT(IProvisioningRequest provisioningRequest) {
 		this.provisioningRequest = provisioningRequest;

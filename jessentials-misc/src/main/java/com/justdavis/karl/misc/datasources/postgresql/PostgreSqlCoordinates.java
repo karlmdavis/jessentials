@@ -123,9 +123,8 @@ public final class PostgreSqlCoordinates extends IDataSourceCoordinates {
 
 	/**
 	 * @return the value that will be passed to
-	 *         {@link PGSimpleDataSource#setUrl(String)}, e.g. "
-	 *         <code>jdbc:postgresql://localhost/test?user=fred&password=secret&ssl=true</code>
-	 *         "
+	 *         {@link PGSimpleDataSource#setUrl(String)}, e.g.
+	 *         "<code>jdbc:postgresql://localhost/test?user=fred&amp;password=secret&amp;ssl=true</code>"
 	 */
 	public String getUrl() {
 		return url;

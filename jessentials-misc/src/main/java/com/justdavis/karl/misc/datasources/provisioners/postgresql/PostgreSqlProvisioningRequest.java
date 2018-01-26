@@ -40,6 +40,7 @@ public final class PostgreSqlProvisioningRequest implements IProvisioningRequest
 	 * 
 	 * @param databaseNamePrefix
 	 *            the prefix value to use for {@link #getDatabaseName()}
+	 * @return the new {@link PostgreSqlProvisioningRequest}
 	 */
 	public static PostgreSqlProvisioningRequest requestForRandomDatabase(String databaseNamePrefix) {
 		if (databaseNamePrefix == null)

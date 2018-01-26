@@ -1,7 +1,7 @@
 package com.justdavis.karl.misc.datasources;
 
 /**
- * Just contains the {@link #RPSTOURNEY} constant.
+ * Just contains the {@link #JE_DATASOURCES} constant.
  */
 public final class XmlNamespace {
 	/**

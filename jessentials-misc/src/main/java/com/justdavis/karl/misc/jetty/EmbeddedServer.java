@@ -119,9 +119,10 @@ public final class EmbeddedServer {
 	 * @param port
 	 *            the port to host Jetty on (specifying <code>0</code> will
 	 *            cause Jetty to assign a random port when started)
-	 * @param <code>true</code>
-	 *            to serve HTTPS (with a randomly generated self-signed cert),
-	 *            <code>false</code> to serve HTTP (just one or the other)
+	 * @param enableSsl
+	 *            <code>true</code> to serve HTTPS (with a randomly generated
+	 *            self-signed cert), <code>false</code> to serve HTTP (just one
+	 *            or the other)
 	 * @param webAppAttributes
 	 *            the attributes to supply to the server's
 	 *            {@link ContextHandler#setAttribute(String, Object)} property,

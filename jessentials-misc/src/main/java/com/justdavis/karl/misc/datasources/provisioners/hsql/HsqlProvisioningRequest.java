@@ -33,6 +33,7 @@ public final class HsqlProvisioningRequest implements IProvisioningRequest {
 	 * 
 	 * @param databaseNamePrefix
 	 *            the prefix value to use for {@link #getDatabaseName()}
+	 * @return the new {@link HsqlProvisioningRequest}
 	 */
 	public static HsqlProvisioningRequest requestForRandomDatabase(String databaseNamePrefix) {
 		if (databaseNamePrefix == null)

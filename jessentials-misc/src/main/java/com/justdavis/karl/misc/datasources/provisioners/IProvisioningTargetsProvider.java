@@ -11,6 +11,9 @@ public interface IProvisioningTargetsProvider {
 	 * @param targetType
 	 *            the {@link IProvisioningTarget} implementation type to find an
 	 *            instance of
+	 * @param <T>
+	 *            the {@link IProvisioningTarget} implementation (as specified
+	 *            by <code>targetType</code>)
 	 * @return returns an {@link IProvisioningTarget} of the specified type
 	 * @throws UnmatchedProvisioningTargetException
 	 *             An {@link UnmatchedProvisioningTargetException} will be

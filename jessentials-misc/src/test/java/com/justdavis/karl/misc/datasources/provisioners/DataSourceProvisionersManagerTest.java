@@ -14,10 +14,10 @@ import com.justdavis.karl.misc.datasources.provisioners.hsql.HsqlProvisioningReq
  */
 public final class DataSourceProvisionersManagerTest {
 	/**
-	 * Tests {@link DataSourceProvisionersManager#}.
+	 * Tests {@link DataSourceProvisionersManager}.
 	 */
 	@Test
-	public void findTarget() {
+	public void normalUsage() {
 		// Create the DataSourceProvisionersManager instance to test.
 		@SuppressWarnings("unchecked")
 		DataSourceProvisionersManager provisionersManager = new DataSourceProvisionersManager(new HsqlProvisioner());

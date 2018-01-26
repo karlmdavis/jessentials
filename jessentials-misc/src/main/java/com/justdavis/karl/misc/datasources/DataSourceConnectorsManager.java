@@ -112,14 +112,12 @@ public final class DataSourceConnectorsManager {
 	 *            data/settings needed to create the JPA properties
 	 * @return a {@link Map} of the database-specific properties that can be
 	 *         passed to JPA when creating
-	 *         {@link javax.persistence.EntityManagerFactory}s (or other related
-	 *         operations)
+	 *         <code>javax.persistence.EntityManagerFactory</code>s (or other
+	 *         related operations)
 	 * @throws IllegalArgumentException
 	 *             An {@link IllegalArgumentException} will be thrown if no
 	 *             matching {@link IDataSourceConnector} can be found for the
 	 *             specified {@link IDataSourceCoordinates}.
-	 * @see javax.persistence.Persistence#createEntityManagerFactory(String,
-	 *      Map)
 	 */
 	@SuppressWarnings("unchecked")
 	public Map<String, Object> convertToJpaProperties(IDataSourceCoordinates coords) throws IllegalArgumentException {
@@ -135,6 +133,8 @@ public final class DataSourceConnectorsManager {
 	 * {@link IDataSourceConnector#convertToLiquibaseConnection(IDataSourceCoordinates)}
 	 * for it.
 	 * 
+	 * @param coords
+	 *            the {@link IDataSourceCoordinates} to convert
 	 * @return a (Liquibase-specific) {@link Database} instance
 	 * @throws IllegalArgumentException
 	 *             An {@link IllegalArgumentException} will be thrown if no

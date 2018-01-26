@@ -88,10 +88,8 @@ public interface IDataSourceConnector<C extends IDataSourceCoordinates> {
 	 *            data/settings needed to identify a database that JPA can use
 	 * @return a {@link Map} of the database-specific properties that can be
 	 *         passed to JPA when creating
-	 *         {@link javax.persistence.EntityManagerFactory}s (or other related
-	 *         operations)
-	 * @see javax.persistence.Persistence#createEntityManagerFactory(String,
-	 *      Map)
+	 *         <code>javax.persistence.EntityManagerFactory</code>s (or other
+	 *         related operations)
 	 */
 	Map<String, Object> convertToJpaProperties(C coords);
 
