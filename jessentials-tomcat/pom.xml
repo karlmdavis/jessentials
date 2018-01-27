@@ -54,7 +54,7 @@
 			<!-- Provides basic utilties and dependencies used here. -->
 			<groupId>com.justdavis.karl.jessentials</groupId>
 			<artifactId>jessentials-misc</artifactId>
-			<version>3.2.1-SNAPSHOT</version>
+			<version>[4.0.1-SNAPSHOT,]</version>
 		</dependency>
 
 		<dependency>
