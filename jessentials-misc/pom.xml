@@ -135,7 +135,7 @@
 				class is being used. -->
 			<groupId>org.eclipse.jetty</groupId>
 			<artifactId>jetty-webapp</artifactId>
-			<version>9.2.11.v20150529</version>
+			<version>9.2.24.v20180105</version>
 			<optional>true</optional>
 		</dependency>
 		<dependency>
@@ -144,7 +144,7 @@
 				class is being used. -->
 			<groupId>org.eclipse.jetty</groupId>
 			<artifactId>jetty-annotations</artifactId>
-			<version>9.2.11.v20150529</version>
+			<version>9.2.24.v20180105</version>
 			<optional>true</optional>
 		</dependency>
 		<dependency>
