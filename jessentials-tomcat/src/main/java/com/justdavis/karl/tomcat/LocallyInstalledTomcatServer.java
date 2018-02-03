@@ -22,8 +22,8 @@ import org.codehaus.cargo.container.deployable.WAR;
 import org.codehaus.cargo.container.installer.Installer;
 import org.codehaus.cargo.container.installer.ZipURLInstaller;
 import org.codehaus.cargo.container.property.ServletPropertySet;
-import org.codehaus.cargo.container.tomcat.Tomcat7xInstalledLocalContainer;
-import org.codehaus.cargo.container.tomcat.Tomcat7xStandaloneLocalConfiguration;
+import org.codehaus.cargo.container.tomcat.Tomcat8xInstalledLocalContainer;
+import org.codehaus.cargo.container.tomcat.Tomcat8xStandaloneLocalConfiguration;
 import org.codehaus.cargo.generic.DefaultContainerFactory;
 import org.codehaus.cargo.generic.configuration.DefaultConfigurationFactory;
 import org.slf4j.Logger;
@@ -34,15 +34,15 @@ import com.justdavis.karl.misc.exceptions.unchecked.UncheckedMalformedUrlExcepti
 
 /**
  * An {@link ITomcatServer} implementation for
- * {@link Tomcat7xInstalledLocalContainer}s.
+ * {@link Tomcat8xInstalledLocalContainer}s.
  */
 public final class LocallyInstalledTomcatServer implements ITomcatServer {
-	private static final String TOMCAT_INSTALLER_URL = "http://archive.apache.org/dist/tomcat/tomcat-7/v7.0.65/bin/apache-tomcat-7.0.65.tar.gz";
+	private static final String TOMCAT_INSTALLER_URL = "https://archive.apache.org/dist/tomcat/tomcat-8/v8.0.32/bin/apache-tomcat-8.0.32.tar.gz";
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(LocallyInstalledTomcatServer.class);
 
 	private final Path installPath;
-	private final Tomcat7xInstalledLocalContainer container;
+	private final Tomcat8xInstalledLocalContainer container;
 
 	/**
 	 * Constructs a new {@link LocallyInstalledTomcatServer} instance.
@@ -54,11 +54,11 @@ public final class LocallyInstalledTomcatServer implements ITomcatServer {
 	public LocallyInstalledTomcatServer(Path installPathBase) {
 		this.installPath = install(installPathBase);
 
-		Tomcat7xStandaloneLocalConfiguration configuration = (Tomcat7xStandaloneLocalConfiguration) new DefaultConfigurationFactory()
-				.createConfiguration("tomcat7x", ContainerType.INSTALLED, ConfigurationType.STANDALONE);
+		Tomcat8xStandaloneLocalConfiguration configuration = (Tomcat8xStandaloneLocalConfiguration) new DefaultConfigurationFactory()
+				.createConfiguration("tomcat8x", ContainerType.INSTALLED, ConfigurationType.STANDALONE);
 		configuration.setProperty(ServletPropertySet.PORT, "" + selectAvailablePort());
-		Tomcat7xInstalledLocalContainer container = (Tomcat7xInstalledLocalContainer) new DefaultContainerFactory()
-				.createContainer("tomcat7x", ContainerType.INSTALLED, configuration);
+		Tomcat8xInstalledLocalContainer container = (Tomcat8xInstalledLocalContainer) new DefaultContainerFactory()
+				.createContainer("tomcat8x", ContainerType.INSTALLED, configuration);
 		container.setHome(installPath.toAbsolutePath().toString());
 		this.container = container;
 	}
