@@ -42,7 +42,6 @@ public final class PostgreSqlConnector implements IDataSourceConnector<PostgreSq
 	public DataSource createDataSource(PostgreSqlCoordinates coords) throws UncheckedSqlException {
 		PGSimpleDataSource dataSource = new PGSimpleDataSource();
 		dataSource.setUrl(coords.getUrl());
-		dataSource.setServerName(null);
 		if (coords.getUser() != null)
 			dataSource.setUser(coords.getUser());
 		if (coords.getPassword() != null)
