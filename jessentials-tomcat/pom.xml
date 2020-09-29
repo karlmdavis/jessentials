@@ -45,7 +45,7 @@
 	<properties>
 		<!-- The version of Tomcat libraries to use. This is the version available 
 			by default in Ubuntu 16.04. -->
-		<dependency.tomcat.version>8.0.32</dependency.tomcat.version>
+		<dependency.tomcat.version>9.0.38</dependency.tomcat.version>
 	</properties>
 
 	<dependencies>
