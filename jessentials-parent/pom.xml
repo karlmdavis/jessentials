@@ -160,7 +160,7 @@
 				<!-- The test API for JUnit 4, which can be used alongside JUnit 5. -->
 				<groupId>junit</groupId>
 				<artifactId>junit</artifactId>
-				<version>4.12</version>
+				<version>4.13.1</version>
 				<scope>test</scope>
 			</dependency>
 		</dependencies>
