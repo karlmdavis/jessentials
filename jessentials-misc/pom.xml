@@ -135,7 +135,7 @@
 				class is being used. -->
 			<groupId>org.eclipse.jetty</groupId>
 			<artifactId>jetty-webapp</artifactId>
-			<version>9.2.24.v20180105</version>
+			<version>9.4.34.v20201102</version>
 			<optional>true</optional>
 		</dependency>
 		<dependency>
