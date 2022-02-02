@@ -92,7 +92,7 @@
 				API is being used. -->
 			<groupId>org.postgresql</groupId>
 			<artifactId>postgresql</artifactId>
-			<version>42.1.4</version>
+			<version>42.2.25</version>
 			<optional>true</optional>
 		</dependency>
 
