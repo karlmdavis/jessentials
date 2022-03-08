@@ -101,7 +101,7 @@
 				com.justdavis.karl.misc.datasources.schema package. -->
 			<groupId>org.liquibase</groupId>
 			<artifactId>liquibase-core</artifactId>
-			<version>3.5.3</version>
+			<version>4.8.0</version>
 		</dependency>
 		<dependency>
 			<!-- Liquibase uses it's own pluggable logging framework. This dependency 
